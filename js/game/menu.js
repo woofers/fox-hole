@@ -33,9 +33,11 @@ MainMenu.prototype = {
         //Menu
         this.load.spritesheet('menuScreen', 'assets/images/ui/menu.png', 1920, 1080, 3);
         this.load.spritesheet('saveScreen', 'assets/images/ui/save.png', 1920, 1080, 3);
+        this.load.spritesheet('settingsScreen', 'assets/images/ui/settings.png', 1920, 1080, 3);
+        game.load.image('aboutScreen', 'assets/images/ui/about.png');
 
-        //Pause
-        this.load.image('loadingScreen', 'assets/images/ui/loading.png');
+        //Loading Screen
+        game.load.image('loadingScreen', 'assets/images/ui/loading.png');
 
         //Controls
         cursors = this.input.keyboard.createCursorKeys();
@@ -45,6 +47,17 @@ MainMenu.prototype = {
     },
 
     create : function(){
+
+        //Draw Settings Menu            
+        this.add.sprite(0, 0, 'aboutScreen');
+
+        //Draw Settings Menu            
+        settingsMenu = this.add.sprite(0, 0, 'settingsScreen');
+
+        //Addd different selectors
+        settingsMenu.animations.add('settingsResolution', [0], 8, true);
+        settingsMenu.animations.add('settingsFullscreen', [1], 8, true);
+        settingsMenu.animations.add('settingsSound', [2], 8, true);
 
         //Draw Save Menu            
         saveMenu = this.add.sprite(0, 0, 'saveScreen');
@@ -82,25 +95,47 @@ MainMenu.prototype = {
             {
                 menu.animations.play('menuPlay');
             
-                //Enter
-                if (select.isDown && keyDebouncing.enterPressed === false)
-                {
-                    keyDebouncing.enterPressed = true;
-                    menu.visible =! menu.visible;
-                    currentScreen = 2;
-                }
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        menuSelect = 1;
+                        menu.visible =! menu.visible;
+                        currentScreen = 2;
+                    }
             }
 
             //Settings
             if (menuSelect == 2)
             {
                 menu.animations.play('menuSetting');
+
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        menuSelect = 1;
+                        menu.visible =! menu.visible;
+                        saveMenu.visible =! saveMenu.visible;
+                        currentScreen = 3;
+                    }
             }
 
             //About
             if (menuSelect == 3)
             {
                 menu.animations.play('menuAbout');
+
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        menuSelect = 1;
+                        menu.visible =! menu.visible;
+                        saveMenu.visible =! saveMenu.visible;
+                        settingsMenu.visible =! settingsMenu.visible;
+                        currentScreen = 4;
+                    }
             }
         }
 
@@ -140,7 +175,52 @@ MainMenu.prototype = {
                 menu.visible =! menu.visible;
             }
         }
+        
+        //Settings
+        if (currentScreen == 3)
+        {
+            //Slot 1
+            if (menuSelect == 1)
+            {
+                settingsMenu.animations.play('settingsResolution');
+            }
 
+            //Slot 2
+            if (menuSelect == 2)
+            {
+                settingsMenu.animations.play('settingsFullscreen');
+            }
+
+            //Slot 3
+            if (menuSelect == 3)
+            {
+                settingsMenu.animations.play('settingsSound');
+            }
+
+            //Go Back
+            if (backSelect.isDown)
+            {
+                currentScreen = 1;
+                menuSelect = 2;
+                menu.visible =! menu.visible;
+                saveMenu.visible =! saveMenu.visible;
+            }
+        }
+
+        //About
+        if (currentScreen == 4)
+        {
+            //Go Back
+            if (backSelect.isDown)
+            {
+                currentScreen = 1;
+                menuSelect = 3;
+                menu.visible =! menu.visible;
+                saveMenu.visible =! saveMenu.visible;
+                settingsMenu.visible =! settingsMenu.visible;
+            }
+        }
+        
         //Up
         if (cursors.up.isDown && keyDebouncing.upPressed === false)
         {

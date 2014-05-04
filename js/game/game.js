@@ -40,18 +40,18 @@ MainGame.prototype = {
         game.add.sprite(0, 0, 'loadingScreen');
 
         //Background and UI
-        game.load.image('bg', 'assets/images/backgrounds/level1/level.png');
+        game.load.image('bg', 'assets/levels/level1/level.png');
         game.load.spritesheet('pauseScreen', 'assets/images/ui/pause.png', 1920, 1080, 3);
 
         //Map
-        game.load.tilemap('map', 'assets/images/map/level1/map.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('tunnel1', 'assets/images/map/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('tunnel2', 'assets/images/map/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('top', 'assets/images/map/level1/tunnel3.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/images/map/level1/grass.png');
+        game.load.tilemap('map', 'assets/levels/level1/bottom.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('top', 'assets/levels/level1/top.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('tiles', 'assets/levels/level1/grass.png');
 
         //Player
-        game.load.atlasXML('playerSprite', 'assets/images/fox.png', 'assets/images/fox.xml');
+        game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
 
 	},
 
@@ -576,8 +576,7 @@ MainGame.prototype = {
             game.debug.text('Speed: ' + player.body.velocity.x, 32, 226);
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
             game.debug.spriteInfo(player, 32, 290);
-        }
-        
+        }      
     },
 
     exit : function(){
