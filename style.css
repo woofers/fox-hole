@@ -1,0 +1,101 @@
+/*Jaxson Van Doorn, 2014*/
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600);
+
+* {
+margin: 0; 
+padding: 0; 
+}
+
+html, body {
+margin: 0; 
+height: 100%
+}
+
+body {
+background-color:#FFAC59;
+overflow:hidden;
+}
+
+ul#nav {
+background: #3b4746; 
+display:block;
+list-style-type: none; 
+margin:0;
+padding:0;
+}
+
+ul#nav li {
+display:inline-block;
+}
+
+ul#nav li a {
+color: #FFFFFF; 
+display:inline-block;
+padding:10px 20px 10px 20px;
+}
+
+ul#nav li a:hover { 
+background: #FFAC59; 
+}			
+
+h1,h2,h3,h4,p,a,li,ul {
+font-family: 'Open Sans', sans-serif;
+text-decoration: none; 
+}
+
+#canvasdiv { 
+max-height: 768px;
+max-width: 1368px;
+border:5px solid #eeeded;
+}
+
+section#container {
+margin: 20px auto 0 auto;
+min-height:100%;
+position:relative;
+width:968px;
+}
+
+p.paragraph {	
+color:#eeeded;
+font-size:30px;
+margin-top:5px;
+text-align:center;
+}
+
+h2.game {	
+color:#eeeded;
+font-size:40px;
+font-weight:bold;
+margin-top:5px;
+text-align:center;
+text-transform:uppercase;
+}
+
+p.footertext {	
+color:#eeeded;
+font-size:20px;
+font-style:italic;
+margin-top:5px;
+text-align:right;
+}
+
+hr.line {
+background: #eeeded;
+border:none;
+height:5px;
+}
+
+section#footer{
+padding: 10px;
+}
+
+img{
+opacity: 0.7;
+border-style: none;
+border: none;
+position: fixed;
+}
+
+/*Jaxson Van Doorn, 2014*/
