@@ -273,8 +273,6 @@ MainMenu.prototype = {
             game.scale.maxHeight = 1080;
             game.scale.setScreenSize();
         }
-
-        console.log(loadedLoadingScreen);
     },
 
     render : function(){

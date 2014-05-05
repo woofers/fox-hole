@@ -53,9 +53,15 @@ MainGame.prototype = {
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
 
+        game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
+
 	},
 
 	create : function(){
+
+        //Play Music
+        //music = game.add.audio('music', 1, true);
+        //music.play('', 0, 1, true);
 
         //Set Varible Values
         player.movingRight = true;
@@ -78,7 +84,7 @@ MainGame.prototype = {
         tunnel1.addTilesetImage('block', 'tiles');
         tunnel2.addTilesetImage('block', 'tiles');
         topMap.addTilesetImage('block', 'tiles');
-        
+
         //Draws map to screen        
         layerMaster = map.createLayer('collisionLayer');
         layerTunnel1 = tunnel1.createLayer('collisionLayer');
@@ -173,9 +179,9 @@ MainGame.prototype = {
     
         //Colide
         game.physics.arcade.collide(player, layerTunnel1);
-        game.physics.arcade.collide(player, layerTunnel2);
+        game.physics.arcade.collide(player, layerTunnel2, MainGame.prototype.tunnel1);
         game.physics.arcade.collide(player, layerTop);
-        game.physics.arcade.collide(player, layerMaster);
+        game.physics.arcade.collide(player, layerMaster, MainGame.prototype.tunnel2);
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -351,7 +357,7 @@ MainGame.prototype = {
         //Delay Camera Move Until Animation is Done
         if (currentTime - timeChecker > 1600)
         {
-            //Tunel 1
+            //Tunnel 1
             if(player.y == 1024  && player.isDigging === true)
             {
                 player.isDigging = false;
@@ -360,7 +366,7 @@ MainGame.prototype = {
                 camera = game.world.setBounds(0.5, 0, 7600, 1380);
             }
 
-            //Tunel 2
+            //Tunnel 2
             if(player.y == 1280 && player.isDigging === true)
             {
                 player.isDigging = false;
@@ -445,7 +451,7 @@ MainGame.prototype = {
         //************Dig End************//
 
         //Pause
-        if (pauseButton.isDown && keyDebouncing.enterPressed === false)
+        if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down)
         {
             keyDebouncing.enterPressed = true;
 
@@ -564,6 +570,18 @@ MainGame.prototype = {
         return false; 
     },
 
+    tunnel1 : function(){
+
+        tunnel1.fill(1, layerTunnel1.getTileX(player.x), layerTunnel1.getTileY(player.y - 128), 1, 1);
+        return false;
+    },
+
+    tunnel2 : function(){
+
+        tunnel2.fill(1, layerTunnel2.getTileX(player.x), layerTunnel2.getTileY(player.y - 128), 1, 1);
+        return false;
+    },
+
     render : function(){
 
         //Debug Info
@@ -592,6 +610,7 @@ MainGame.prototype = {
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
+        music.stop();
 
         //Start Menu
         game.state.start('Menu');
