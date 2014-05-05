@@ -17,7 +17,8 @@ var player = {
                 movingLeft: false,
                 dobuleJump: false,
                 dig: false,
-                isDigging: false
+                isDigging: false,
+                directX: 0
             };
 
 //Toggle Debug Screen
@@ -30,7 +31,6 @@ var pauseTime;
 
 //Menu and UI
 var menuSelect;
-var pauseGame;
 
 MainGame.prototype = {
 	
@@ -59,14 +59,10 @@ MainGame.prototype = {
 
 	create : function(){
 
-        //Play Music
-        //music = game.add.audio('music', 1, true);
-        //music.play('', 0, 1, true);
-
         //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
-        debugShow = false;
+        debugShow = true;
 
         //Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -74,6 +70,34 @@ MainGame.prototype = {
         //Draw Background
         bg = game.add.sprite(0, 0, 'bg');
 
+        //Load Functions
+        MainGame.prototype.loadMap();
+        MainGame.prototype.loadPlayer();
+        MainGame.prototype.loadPauseImage();
+        MainGame.prototype.playMusic();
+        MainGame.prototype.unPause();
+
+        //Set camera boundaries
+        camera = game.world.setBounds(0.5, 0, 7600, 1208);
+
+        //Camera follow player
+        cameraFollow = game.camera.follow(player);
+
+        //Controlls
+        cursors = game.input.keyboard.createCursorKeys();
+        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+        //Fullscreen on click
+        this.input.onDown.add(MainGame.prototype.gofull, game);
+
+        //Name
+        console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
+
+	},
+
+    loadMap : function(){
+        
         //Loads title map
         map = game.add.tilemap('map');
         tunnel1 = game.add.tilemap('tunnel1');
@@ -89,14 +113,6 @@ MainGame.prototype = {
         layerMaster = map.createLayer('collisionLayer');
         layerTunnel1 = tunnel1.createLayer('collisionLayer');
         layerTunnel2 = tunnel2.createLayer('collisionLayer');
-
-        //Draw Player
-        player = game.add.sprite(400, 400, 'playerSprite');
-        player.anchor.setTo(0.7, 1);
-        player.scale.setTo(4, 4);
-        player.smoothed = false;
-
-        //Draw Map on top of player
         layerTop = topMap.createLayer('collisionLayer');
 
         //Map collision
@@ -105,16 +121,23 @@ MainGame.prototype = {
         tunnel2.setCollisionBetween(0, 6);
         topMap.setCollisionBetween(0, 6);
 
-        //Set camera boundaries
-        camera = game.world.setBounds(0.5, 0, 7600, 1208);
-
-        //Add Physics
-        game.physics.arcade.enable(player);
         game.physics.arcade.enable(layerMaster);
         game.physics.arcade.enable(layerTunnel1);
         game.physics.arcade.enable(layerTunnel2);
         game.physics.arcade.enable(layerTop);
+    },
 
+    loadPlayer : function(){
+
+        //Draw Player
+        player = game.add.sprite(400, 400, 'playerSprite');
+        player.anchor.setTo(0.7, 1);
+        player.scale.setTo(4, 4);
+        player.smoothed = false;
+
+        //Add Physics
+        game.physics.arcade.enable(player);
+        
         //Physics Properties
         player.body.bounce.y = 0;
         player.body.gravity.y = 700;
@@ -145,7 +168,17 @@ MainGame.prototype = {
             //Diging
             player.animations.add('digLeft', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
             player.animations.add('digRight', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
+    },
 
+    playMusic : function(){
+        
+        //Play Music
+        music = game.add.audio('music', 1, true);
+        music.play('', 0, 1, true);
+    },
+
+    loadPauseImage : function(){
+        
         //Add Pause Image
         pauseImage = game.add.sprite(0, 0, 'pauseScreen');
         pauseImage.fixedToCamera = true;
@@ -155,25 +188,7 @@ MainGame.prototype = {
         pauseImage.animations.add('pausePlay', [0], 8, true);
         pauseImage.animations.add('pauseSetting', [1], 8, true);
         pauseImage.animations.add('pauseMenu', [2], 8, true);
-
-        //Controlls
-        cursors = game.input.keyboard.createCursorKeys();
-        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
-        //Camera follow player
-        cameraFollow = game.camera.follow(player);
-
-        //Fullscreen on click
-        this.input.onDown.add(MainGame.prototype.gofull, game);
-
-        //Calls unpause function to start looping
-        MainGame.prototype.unPause();
-
-        //Name
-        console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
-
-	},
+    },
 
 	update : function(){
     
@@ -200,6 +215,7 @@ MainGame.prototype = {
                 {
                     player.movingRight = false;
                     player.movingLeft = true;
+                    player.directX = 80;
                     player.body.velocity.x = -550;
 
                         //Walk Left Animation
@@ -220,6 +236,7 @@ MainGame.prototype = {
                 {
                     player.movingRight = false;
                     player.movingLeft = true;
+                    player.directX = 80;
                     player.body.velocity.x = -350;
                         
                         //Crawl Left Animation
@@ -241,6 +258,7 @@ MainGame.prototype = {
                 {
                     player.movingLeft = false;
                     player.movingRight = true;
+                    player.directX = 190;
                     player.body.velocity.x = 550;
                     
                         //Walk Right Animation
@@ -261,6 +279,7 @@ MainGame.prototype = {
                 {
                     player.movingLeft = false;
                     player.movingRight = true;
+                    player.directX = 190;
                     player.body.velocity.x = 350;
                     
                         //Crawl Right Animation
@@ -572,13 +591,13 @@ MainGame.prototype = {
 
     tunnel1 : function(){
 
-        tunnel1.fill(1, layerTunnel1.getTileX(player.x), layerTunnel1.getTileY(player.y - 128), 1, 1);
+        tunnel1.fill(1, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
         return false;
     },
 
     tunnel2 : function(){
 
-        tunnel2.fill(1, layerTunnel2.getTileX(player.x), layerTunnel2.getTileY(player.y - 128), 1, 1);
+        tunnel2.fill(1, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
         return false;
     },
 

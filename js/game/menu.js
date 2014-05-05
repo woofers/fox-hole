@@ -31,58 +31,73 @@ MainMenu.prototype = {
         }
 
         //Menu
-        this.load.spritesheet('menuScreen', 'assets/images/ui/menu.png', 1920, 1080, 3);
-        this.load.spritesheet('saveScreen', 'assets/images/ui/save.png', 1920, 1080, 3);
-        this.load.spritesheet('settingsScreen', 'assets/images/ui/settings.png', 1920, 1080, 3);
+        game.load.spritesheet('menuScreen', 'assets/images/ui/menu.png', 1920, 1080, 3);
+        game.load.spritesheet('saveScreen', 'assets/images/ui/save.png', 1920, 1080, 3);
+        game.load.spritesheet('settingsScreen', 'assets/images/ui/settings.png', 1920, 1080, 3);
         game.load.image('aboutScreen', 'assets/images/ui/about.png');
 
         //Loading Screen
         game.load.image('loadingScreen', 'assets/images/ui/loading.png');
 
         //Controls
-        cursors = this.input.keyboard.createCursorKeys();
-        select = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        backSelect = this.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
+        cursors = game.input.keyboard.createCursorKeys();
+        select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
     },
 
     create : function(){
 
         //Draw Settings Menu            
-        this.add.sprite(0, 0, 'aboutScreen');
+        game.add.sprite(0, 0, 'aboutScreen');
 
-        //Draw Settings Menu            
-        settingsMenu = this.add.sprite(0, 0, 'settingsScreen');
-
-        //Addd different selectors
-        settingsMenu.animations.add('settingsResolution', [0], 8, true);
-        settingsMenu.animations.add('settingsFullscreen', [1], 8, true);
-        settingsMenu.animations.add('settingsSound', [2], 8, true);
-
-        //Draw Save Menu            
-        saveMenu = this.add.sprite(0, 0, 'saveScreen');
-
-        //Addd different selectors
-        saveMenu.animations.add('saveSlot1', [0], 8, true);
-        saveMenu.animations.add('saveSlot2', [1], 8, true);
-        saveMenu.animations.add('saveSlot3', [2], 8, true);
-
-        //Draw Menu
-        menu = this.add.sprite(0, 0, 'menuScreen');
-
-        //Addd different selectors
-        menu.animations.add('menuPlay', [0], 8, true);
-        menu.animations.add('menuSetting', [1], 8, true);
-        menu.animations.add('menuAbout', [2], 8, true);
+        //Load Functions
+        MainMenu.prototype.loadSetting();
+        MainMenu.prototype.loadSave();
+        MainMenu.prototype.loadMenu();
 
         //Fullscreen on click
         this.input.onDown.add(MainGame.prototype.gofull, this);
 
+        //Display Loading Screen if the image is loaded
         loadedLoadingScreen = true;
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
 
+    },
+
+    loadSetting : function(){
+
+        //Draw Settings Menu            
+        settingsMenu = game.add.sprite(0, 0, 'settingsScreen');
+
+        //Addd different selectors
+        settingsMenu.animations.add('settingsResolution', [0], 8, true);
+        settingsMenu.animations.add('settingsFullscreen', [1], 8, true);
+        settingsMenu.animations.add('settingsSound', [2], 8, true);
+    },
+
+    loadSave : function(){
+        
+        //Draw Save Menu            
+        saveMenu = game.add.sprite(0, 0, 'saveScreen');
+
+        //Addd different selectors
+        saveMenu.animations.add('saveSlot1', [0], 8, true);
+        saveMenu.animations.add('saveSlot2', [1], 8, true);
+        saveMenu.animations.add('saveSlot3', [2], 8, true);
+    },
+
+    loadMenu : function(){
+        
+        //Draw Menu
+        menu = game.add.sprite(0, 0, 'menuScreen');
+
+        //Addd different selectors
+        menu.animations.add('menuPlay', [0], 8, true);
+        menu.animations.add('menuSetting', [1], 8, true);
+        menu.animations.add('menuAbout', [2], 8, true);
     },
 
     update : function(){

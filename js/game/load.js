@@ -13,7 +13,6 @@
 
 	To do:
 	
-	Fix Music Bug
 	Smoother Camera Transition
 	Settings
 	Chapters | Save Files
