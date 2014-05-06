@@ -32,6 +32,8 @@ var pauseTime;
 //Menu and UI
 var menuSelect;
 
+var playSound;
+
 MainGame.prototype = {
 	
     preload : function(){
@@ -63,6 +65,7 @@ MainGame.prototype = {
         player.movingRight = true;
         player.movingLeft = false;
         debugShow = true;
+        playSound = false;
 
         //Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -174,7 +177,10 @@ MainGame.prototype = {
         
         //Play Music
         music = game.add.audio('music', 1, true);
-        music.play('', 0, 1, true);
+        if (playSound === true)
+        {
+            music.play('', 0, 1, true);
+        }
     },
 
     loadPauseImage : function(){
@@ -470,7 +476,7 @@ MainGame.prototype = {
         //************Dig End************//
 
         //Pause
-        if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down)
+        if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false)
         {
             keyDebouncing.enterPressed = true;
 
@@ -480,6 +486,17 @@ MainGame.prototype = {
             //Pauses Game
             game.paused = true;
         }
+
+        if (playSound === false)
+        {
+            music.pause();
+        }
+        else
+        {
+            music.resume();
+        }
+
+        //console.log(sound);
 	},
 
 	unPause : function(){
@@ -591,13 +608,13 @@ MainGame.prototype = {
 
     tunnel1 : function(){
 
-        tunnel1.fill(1, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
+        tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
         return false;
     },
 
     tunnel2 : function(){
 
-        tunnel2.fill(1, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
+        tunnel2.fill(10, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
         return false;
     },
 

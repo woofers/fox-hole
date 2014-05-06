@@ -10,14 +10,18 @@
 	Good Tutorial
 	Captivating Intro
 	Detailed Game Mechanics
+	Inviting Game World
 
 	To do:
 	
 	Smoother Camera Transition
-	Settings
+	Recreate Menu without images
 	Chapters | Save Files
-	Background
-	Sound
+	Sound Effects
+
+	Bugs:
+
+	End World Stuck Bug
 
 	Animations:
 	

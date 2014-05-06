@@ -15,6 +15,31 @@ var keyDebouncing = {
                         upPressed: false,
                         enterPressed: false
                     };
+//Text
+var text = {
+                fox: null,
+                play: null,
+                settings: null,
+                about: null
+            };
+
+//Text Style
+var titleStyle = { font: "250px Open Sans Bold", fill: "#fff1dd", align: "center" };
+var selectorStyle = { font: "80px Open Sans Bold", fill: "#fff1dd", align: "center" };
+var unSelectedStyle = { font: "65px Open Sans Semibold", fill: "#fff1dd", align: "center" };
+
+//Webfont Import
+WebFontConfig = {
+
+    active: function() {
+
+        game.time.events.add(Phaser.Timer.SECOND, MainMenu.prototype.createText, this); 
+    },
+
+    google: {
+                families: [ 'Open+Sans:400,700,600:latin' ]
+            }
+};
 
 MainMenu.prototype = {
     
@@ -23,6 +48,9 @@ MainMenu.prototype = {
         //Reset Varibles
         menuSelect = 1;
         currentScreen = 1;
+
+        //Import Webfont API
+        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         //Loading Screen
         if(loadedLoadingScreen === true)
@@ -65,6 +93,16 @@ MainMenu.prototype = {
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
 
+    },
+
+    createText : function(){
+
+        /*
+        //Draw text
+        text.fox = game.add.text(715, 115, "FOX", titleStyle);
+        text.play = game.add.text(875, 470, "Play", selectorStyle);
+        text.settings = game.add.text(875, 570, "Settings", unSelectedStyle);
+        */
     },
 
     loadSetting : function(){
