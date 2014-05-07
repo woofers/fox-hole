@@ -46,14 +46,6 @@ var pauseTime;
 //Menu and UI
 var menuSelect;
 
-//Webfont Import
-WebFontConfig = {
-
-    google: {
-                families: [ 'Open+Sans:400,700,600:latin' ]
-            }
-};
-
 MainGame.prototype = {
 	
     preload : function(){
@@ -66,9 +58,6 @@ MainGame.prototype = {
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
-
-        //Import Webfont API
-        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         //Pause
         game.load.image('pausedScreen', 'assets/images/ui/pause.png');

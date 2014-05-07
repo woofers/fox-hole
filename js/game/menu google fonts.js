@@ -37,13 +37,13 @@ var settings = {
             };
 
 //Text Style
-var titleStyle = { font: "250px Open Sans Bold", fill: "#fff1dd", align: "center" };
+var titleStyle = { font: "250px Open Sans", fill: "#fff1dd", align: "center"};
 
 //Webfont Import
 WebFontConfig = {
 
     google: {
-                families: [ 'Open+Sans:400,700,600:latin' ]
+                families: [ 'Open+Sans:600,700:latin' ]
             }
 };
 
@@ -100,25 +100,26 @@ MainMenu.prototype = {
         //Draw Title
         text.title = game.add.text(game.world.centerX, game.world.centerY - 250, "FOX", titleStyle);
         text.title.anchor.setTo(0.5);
+        text.title._fontWeight = "700";
         
         //Draw Selector 1
         text.selector1 = game.add.text(game.world.centerX, game.world.centerY - 15, "Play");
         text.selector1.anchor.setTo(0.5);
-        text.selector1.font = 'Open Sans Bold';
+        text.selector1.font = 'Open Sans';
         text.selector1.fontSize = 80;
         text.selector1.fill = "#fff1dd";
         
         //Draw Selector 2
         text.selector2 = game.add.text(game.world.centerX, game.world.centerY + 150, "Settings");
         text.selector2.anchor.setTo(0.5);
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Open Sans';
         text.selector2.fontSize = 60;
         text.selector2.fill = "#fff1dd";
 
         //Draw Selector 3
         text.selector3 = game.add.text(game.world.centerX, game.world.centerY + 300, "About");
         text.selector3.anchor.setTo(0.5);
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Open Sans';
         text.selector3.fontSize = 60;
         text.selector3.fill = "#fff1dd";
 
@@ -126,6 +127,7 @@ MainMenu.prototype = {
 
         //Load About Screen
         MainMenu.prototype.loadAbout();
+        MainMenu.prototype.highlight1();
     },
 
     update : function(){
@@ -333,6 +335,8 @@ MainMenu.prototype = {
         //Change Resolution String
         settings.resolutionWidth = game.scale.width;
         settings.resolutionHeight = game.scale.height;
+
+        console.log(text.selector1._fontWeight)
     },
 
     render : function(){
@@ -348,32 +352,32 @@ MainMenu.prototype = {
 
     highlight1: function(){
 
-        text.selector1.font = 'Open Sans Bold';
         text.selector1.fontSize = 80;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector1._fontWeight = "700";
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector2._fontWeight = "600";
         text.selector3.fontSize = 60;
+        text.selector3._fontWeight = "600";
     },
 
     highlight2: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Bold';
+        text.selector1._fontWeight = "600";
         text.selector2.fontSize = 80;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector2._fontWeight = "700";
         text.selector3.fontSize = 60;
+        text.selector3._fontWeight = "600";
     },
 
     highlight3: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector1._fontWeight = "600";
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Bold';
+        text.selector2._fontWeight = "600";
         text.selector3.fontSize = 80;
+        text.selector3._fontWeight = "700";
     },
 
     mainText : function(){
