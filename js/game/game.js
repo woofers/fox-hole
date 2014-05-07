@@ -4,6 +4,10 @@ var MainGame = {};
 
 MainGame = function(game){};
 
+//Menu and UI
+var menuSelect = 1;
+var currentScreen = 1;
+
 //Key Debouncing
 var keyDebouncing = {
                         downPressed: false,
@@ -21,6 +25,16 @@ var player = {
                 directX: 0
             };
 
+//Settings
+var settings = {
+                    resolutionWidth: 1920,
+                    resolutionHeight: 1080,
+                    fullscreen: false,
+                    fullscreenString: "Off",
+                    sound: false,
+                    soundString: "Off"
+            };
+
 //Toggle Debug Screen
 var debugShow;
 
@@ -32,18 +46,35 @@ var pauseTime;
 //Menu and UI
 var menuSelect;
 
-var playSound;
+//Webfont Import
+WebFontConfig = {
+
+    google: {
+                families: [ 'Open+Sans:400,700,600:latin' ]
+            }
+};
 
 MainGame.prototype = {
 	
     preload : function(){
 
+        //Set Varible Values
+        player.movingRight = true;
+        player.movingLeft = false;
+        debugShow = false;
+        currentScreen = 1;
+
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
 
+        //Import Webfont API
+        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+
+        //Pause
+        game.load.image('pausedScreen', 'assets/images/ui/pause.png');
+
         //Background and UI
         game.load.image('bg', 'assets/levels/level1/level.png');
-        game.load.spritesheet('pauseScreen', 'assets/images/ui/pause.png', 1920, 1080, 3);
 
         //Map
         game.load.tilemap('map', 'assets/levels/level1/bottom.json', null, Phaser.Tilemap.TILED_JSON);
@@ -55,17 +86,17 @@ MainGame.prototype = {
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
 
+        //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
 
+        //Controlls
+        cursors = game.input.keyboard.createCursorKeys();
+        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 	},
 
 	create : function(){
-
-        //Set Varible Values
-        player.movingRight = true;
-        player.movingLeft = false;
-        debugShow = true;
-        playSound = false;
 
         //Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -76,9 +107,9 @@ MainGame.prototype = {
         //Load Functions
         MainGame.prototype.loadMap();
         MainGame.prototype.loadPlayer();
-        MainGame.prototype.loadPauseImage();
         MainGame.prototype.playMusic();
         MainGame.prototype.unPause();
+        MainGame.prototype.loadPause();
 
         //Set camera boundaries
         camera = game.world.setBounds(0.5, 0, 7600, 1208);
@@ -86,17 +117,11 @@ MainGame.prototype = {
         //Camera follow player
         cameraFollow = game.camera.follow(player);
 
-        //Controlls
-        cursors = game.input.keyboard.createCursorKeys();
-        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
         //Fullscreen on click
         this.input.onDown.add(MainGame.prototype.gofull, game);
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
-
 	},
 
     loadMap : function(){
@@ -177,23 +202,20 @@ MainGame.prototype = {
         
         //Play Music
         music = game.add.audio('music', 1, true);
-        if (playSound === true)
+        
+        //Music Toggle
+        if (settings.sound === true)
         {
             music.play('', 0, 1, true);
         }
     },
 
-    loadPauseImage : function(){
-        
-        //Add Pause Image
-        pauseImage = game.add.sprite(0, 0, 'pauseScreen');
-        pauseImage.fixedToCamera = true;
-        pauseImage.visible =! pauseImage.visible;
+    loadPause : function(){
 
-        //Addd different selectors
-        pauseImage.animations.add('pausePlay', [0], 8, true);
-        pauseImage.animations.add('pauseSetting', [1], 8, true);
-        pauseImage.animations.add('pauseMenu', [2], 8, true);
+        //Toggle About Menu
+        pauseMenu = game.add.sprite(0, 0, 'pausedScreen');
+        pauseMenu.visible =! pauseMenu.visible;
+        pauseMenu.fixedToCamera = true;
     },
 
 	update : function(){
@@ -362,7 +384,7 @@ MainGame.prototype = {
         {
             keyDebouncing.spacePressed = false;
         }
-        if (!cursors.down.isDown && player.body.blocked.down)
+        if (!cursors.down.isDown)
         {
             keyDebouncing.downPressed = false;
         }
@@ -480,14 +502,17 @@ MainGame.prototype = {
         {
             keyDebouncing.enterPressed = true;
 
-            //Draws Pause Screen 
-            pauseImage.visible =! pauseImage.visible;
-        
+            pauseMenu.visible =! pauseMenu.visible;
+
+            //Draw Text
+            MainGame.prototype.createTextPause();
+
             //Pauses Game
             game.paused = true;
         }
 
-        if (playSound === false)
+        //Sound
+        if (settings.sound === false)
         {
             music.pause();
         }
@@ -495,19 +520,33 @@ MainGame.prototype = {
         {
             music.resume();
         }
-
-        //console.log(sound);
 	},
 
 	unPause : function(){
 
+        //Selectors
+        if (menuSelect == 1 && game.paused === true)
+        {
+            MainMenu.prototype.highlight1();
+        }
+        if (menuSelect == 2 && game.paused === true)
+        {
+            MainMenu.prototype.highlight2();
+        }
+        if (menuSelect == 3 && game.paused === true)
+        {
+            MainMenu.prototype.highlight3();
+        }
+
+        //Menu
         if (game.paused === true)
         {
-            //Resume
-            if (menuSelect == 1)
+            //Paused
+            if(currentScreen == 1)
             {
-                pauseImage.animations.play('pausePlay');
-                    
+                //Resume
+                if (menuSelect == 1)
+                {
                     //Unpause
                     if (pauseButton.isDown && keyDebouncing.enterPressed === false)
                     {
@@ -516,22 +555,28 @@ MainGame.prototype = {
                         //Unpauses Game
                         game.paused = false;
 
-                        //Undraws Pause Screen
-                        pauseImage.visible =! pauseImage.visible;
+                        MainGame.prototype.textKill();
+
+                        pauseMenu.visible =! pauseMenu.visible;
                     }
-            }
+                }
 
-            //Settings
-            if (menuSelect == 2)
-            {
-                pauseImage.animations.play('pauseSetting');
-            }
+                //Settings
+                if (menuSelect == 2)
+                {
+                    //Enter
+                    if (pauseButton.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = false;
+                        currentScreen = 2;
+                        menuSelect = 1;
+                        MainGame.prototype.settingsText();
+                    }
+                }
 
-            //Back To Menu
-            if (menuSelect == 3)
-            {
-                pauseImage.animations.play('pauseMenu');
-
+                //Back To Menu
+                if (menuSelect == 3)
+                {
                     //To Menu
                     if (pauseButton.isDown && keyDebouncing.enterPressed === false)
                     {
@@ -540,6 +585,37 @@ MainGame.prototype = {
                         //Call Function To Exit
                         MainGame.prototype.exit();
                     }
+                }
+            }
+            
+            //Settings
+            if(currentScreen == 2)
+            {
+                //Resolution
+                if (menuSelect == 1)
+                {
+
+                }
+
+                //Fullscreen
+                if (menuSelect == 2)
+                {
+
+                }
+
+                //Sound
+                if (menuSelect == 3)
+                {
+
+                }
+
+                //Go Back
+                if (backSelect.isDown)
+                {
+                    currentScreen = 1;
+                    menuSelect = 2;
+                    MainGame.prototype.pauseText();
+                }
             }
 
             //Up
@@ -595,9 +671,92 @@ MainGame.prototype = {
             game.scale.setScreenSize();
         }
 
+        console.log(currentScreen);
+
         //Refreshs function 60 times a second
         setTimeout(MainGame.prototype.unPause, 1000 / 60);
 	},
+
+    createTextPause : function(){
+
+        //Draw Title
+        text.title = game.add.text(960, 240, "PAUSED", titleStyle);
+        text.title.anchor.setTo(0.5);
+        text.title.fill = "#ffffff";
+        text.title.fixedToCamera = true;
+        
+        //Draw Selector 1
+        text.selector1 = game.add.text(960, 525, "Resume");
+        text.selector1.anchor.setTo(0.5);
+        text.selector1.font = 'Open Sans Bold';
+        text.selector1.fontSize = 80;
+        text.selector1.fill = "#ffffff";
+        text.selector1.fixedToCamera = true;
+        
+        //Draw Selector 2
+        text.selector2 = game.add.text(960, 690, "Settings");
+        text.selector2.anchor.setTo(0.5);
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector2.fill = "#ffffff";
+        text.selector2.fixedToCamera = true;
+
+        //Draw Selector 3
+        text.selector3 = game.add.text(960, 840, "Return To Main Menu");
+        text.selector3.anchor.setTo(0.5);
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+        text.selector3.fill = "#ffffff";
+        text.selector3.fixedToCamera = true;
+
+        text.loaded = true;
+    },
+    
+    pauseText : function(){
+            
+        text.title.setText("PAUSED");
+        text.selector1.setText("Resume");
+        text.selector2.setText("Settings");
+        text.selector3.setText("Return To Main Menu");
+    },
+
+    settingsText : function(){
+            
+        text.title.setText("SETTINGS");
+        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
+        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
+        text.selector3.setText("Sound - " + settings.soundString);
+    },
+
+    highlight1: function(){
+
+        text.selector1.font = 'Open Sans Bold';
+        text.selector1.fontSize = 80;
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight2: function(){
+
+        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Open Sans Bold';
+        text.selector2.fontSize = 80;
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight3: function(){
+
+        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Open Sans Bold';
+        text.selector3.fontSize = 80;
+    },
 
     timeCheck : function(){
 
@@ -633,6 +792,15 @@ MainGame.prototype = {
         }      
     },
 
+    textKill : function(){
+
+        //Remove Text
+        text.title.destroy();
+        text.selector1.destroy();
+        text.selector2.destroy();
+        text.selector3.destroy();
+    },
+
     exit : function(){
         
         //Unpause The Game
@@ -640,7 +808,6 @@ MainGame.prototype = {
         
         //Cleanup      
         bg.kill();
-        pauseImage.kill();
         player.kill();
         layerMaster.kill();
         layerTunnel1.kill();
@@ -657,9 +824,7 @@ MainGame.prototype = {
         //Scale Screen To Fullscreen
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.startFullScreen();
-
 	}
-
 };
 
 //Jaxson C. Van Doorn, 2014

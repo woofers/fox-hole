@@ -13,28 +13,34 @@ var loadedLoadingScreen = false;
 var keyDebouncing = {
                         downPressed: false,
                         upPressed: false,
+                        rightPressed: false,
+                        leftPressed: false,
                         enterPressed: false
                     };
 //Text
 var text = {
-                fox: null,
-                play: null,
-                settings: null,
-                about: null
+                title: null,
+                selector1: null,
+                selector2: null,
+                selector3: null,
+                loaded: false
+            };
+
+//Settings
+var settings = {
+                    resolutionWidth: 1920,
+                    resolutionHeight: 1080,
+                    fullscreen: false,
+                    fullscreenString: "Off",
+                    sound: false,
+                    soundString: "Off"
             };
 
 //Text Style
 var titleStyle = { font: "250px Open Sans Bold", fill: "#fff1dd", align: "center" };
-var selectorStyle = { font: "80px Open Sans Bold", fill: "#fff1dd", align: "center" };
-var unSelectedStyle = { font: "65px Open Sans Semibold", fill: "#fff1dd", align: "center" };
 
 //Webfont Import
 WebFontConfig = {
-
-    active: function() {
-
-        game.time.events.add(Phaser.Timer.SECOND, MainMenu.prototype.createText, this); 
-    },
 
     google: {
                 families: [ 'Open+Sans:400,700,600:latin' ]
@@ -53,16 +59,14 @@ MainMenu.prototype = {
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         //Loading Screen
-        if(loadedLoadingScreen === true)
+        if (loadedLoadingScreen === true)
         {
-            loadingMenu = game.add.sprite(0, 0, 'loadingScreen');
+            game.add.sprite(0, 0, 'loadingScreen');
         }
 
         //Menu
-        game.load.spritesheet('menuScreen', 'assets/images/ui/menu.png', 1920, 1080, 3);
-        game.load.spritesheet('saveScreen', 'assets/images/ui/save.png', 1920, 1080, 3);
-        game.load.spritesheet('settingsScreen', 'assets/images/ui/settings.png', 1920, 1080, 3);
         game.load.image('aboutScreen', 'assets/images/ui/about.png');
+        game.load.image('backgroundScreen', 'assets/images/ui/orange.png');
 
         //Loading Screen
         game.load.image('loadingScreen', 'assets/images/ui/loading.png');
@@ -71,206 +75,194 @@ MainMenu.prototype = {
         cursors = game.input.keyboard.createCursorKeys();
         select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
-
     },
 
     create : function(){
 
         //Draw Settings Menu            
-        game.add.sprite(0, 0, 'aboutScreen');
+        menu = game.add.sprite(0, 0, 'backgroundScreen');
 
-        //Load Functions
-        MainMenu.prototype.loadSetting();
-        MainMenu.prototype.loadSave();
-        MainMenu.prototype.loadMenu();
-
-        //Fullscreen on click
-        this.input.onDown.add(MainGame.prototype.gofull, this);
+        //Draw Text
+        MainMenu.prototype.createText();
 
         //Display Loading Screen if the image is loaded
         loadedLoadingScreen = true;
 
+        //Fullscreen on click
+        this.input.onDown.add(MainGame.prototype.gofull, this);
+
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
-
     },
 
     createText : function(){
 
-        /*
-        //Draw text
-        text.fox = game.add.text(715, 115, "FOX", titleStyle);
-        text.play = game.add.text(875, 470, "Play", selectorStyle);
-        text.settings = game.add.text(875, 570, "Settings", unSelectedStyle);
-        */
-    },
-
-    loadSetting : function(){
-
-        //Draw Settings Menu            
-        settingsMenu = game.add.sprite(0, 0, 'settingsScreen');
-
-        //Addd different selectors
-        settingsMenu.animations.add('settingsResolution', [0], 8, true);
-        settingsMenu.animations.add('settingsFullscreen', [1], 8, true);
-        settingsMenu.animations.add('settingsSound', [2], 8, true);
-    },
-
-    loadSave : function(){
+        //Draw Title
+        text.title = game.add.text(game.world.centerX, game.world.centerY - 250, "FOX", titleStyle);
+        text.title.anchor.setTo(0.5);
         
-        //Draw Save Menu            
-        saveMenu = game.add.sprite(0, 0, 'saveScreen');
-
-        //Addd different selectors
-        saveMenu.animations.add('saveSlot1', [0], 8, true);
-        saveMenu.animations.add('saveSlot2', [1], 8, true);
-        saveMenu.animations.add('saveSlot3', [2], 8, true);
-    },
-
-    loadMenu : function(){
+        //Draw Selector 1
+        text.selector1 = game.add.text(game.world.centerX, game.world.centerY - 15, "Play");
+        text.selector1.anchor.setTo(0.5);
+        text.selector1.font = 'Open Sans Bold';
+        text.selector1.fontSize = 80;
+        text.selector1.fill = "#fff1dd";
         
-        //Draw Menu
-        menu = game.add.sprite(0, 0, 'menuScreen');
+        //Draw Selector 2
+        text.selector2 = game.add.text(game.world.centerX, game.world.centerY + 150, "Settings");
+        text.selector2.anchor.setTo(0.5);
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector2.fill = "#fff1dd";
 
-        //Addd different selectors
-        menu.animations.add('menuPlay', [0], 8, true);
-        menu.animations.add('menuSetting', [1], 8, true);
-        menu.animations.add('menuAbout', [2], 8, true);
+        //Draw Selector 3
+        text.selector3 = game.add.text(game.world.centerX, game.world.centerY + 300, "About");
+        text.selector3.anchor.setTo(0.5);
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+        text.selector3.fill = "#fff1dd";
+
+        text.loaded = true;
+
+        //Load About Screen
+        MainMenu.prototype.loadAbout();
     },
 
     update : function(){
         
-        //Main Menu
-        if (currentScreen == 1)
+        //Selectors
+        if (menuSelect == 1 && text.loaded === true)
         {
+            MainMenu.prototype.highlight1();
+        }
+        if (menuSelect == 2 && text.loaded === true)
+        {
+            MainMenu.prototype.highlight2();
+        }
+        if (menuSelect == 3 && text.loaded === true)
+        {
+            MainMenu.prototype.highlight3();
+        }
+
+        //Main Menu
+        if (currentScreen == 1 && text.loaded === true)
+        {
+            MainMenu.prototype.mainText();
+
             //Play
             if (menuSelect == 1)
             {
-                menu.animations.play('menuPlay');
-            
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        menuSelect = 1;
-                        menu.visible =! menu.visible;
-                        currentScreen = 2;
-                    }
+                //Enter
+                if (select.isDown && keyDebouncing.enterPressed === false)
+                {
+                    keyDebouncing.enterPressed = true;
+                    currentScreen = 2;
+                    menuSelect = 1;
+                }
             }
 
             //Settings
             if (menuSelect == 2)
             {
-                menu.animations.play('menuSetting');
-
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        menuSelect = 1;
-                        menu.visible =! menu.visible;
-                        saveMenu.visible =! saveMenu.visible;
-                        currentScreen = 3;
-                    }
+                //Enter
+                if (select.isDown && keyDebouncing.enterPressed === false)
+                {
+                    keyDebouncing.enterPressed = true;
+                    currentScreen = 3;
+                    menuSelect = 1;
+                }
             }
 
             //About
             if (menuSelect == 3)
             {
-                menu.animations.play('menuAbout');
-
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        menuSelect = 1;
-                        menu.visible =! menu.visible;
-                        saveMenu.visible =! saveMenu.visible;
-                        settingsMenu.visible =! settingsMenu.visible;
-                        currentScreen = 4;
-                    }
-            }
-        }
-
-        //Save Slots
-        if (currentScreen == 2)
-        {
-            //Slot 1
-            if (menuSelect == 1)
-            {
-                saveMenu.animations.play('saveSlot1');
-            
                 //Enter
                 if (select.isDown && keyDebouncing.enterPressed === false)
                 {
                     keyDebouncing.enterPressed = true;
-                    MainMenu.prototype.exit();
+                    aboutMenu.visible =! aboutMenu.visible;
+                    currentScreen = 4;
+                    menuSelect = 1;
                 }
             }
+        }
 
-            //Slot 2
-            if (menuSelect == 2)
-            {
-                saveMenu.animations.play('saveSlot2');
-            }
+        //Save Slots
+        if (currentScreen == 2 && text.loaded === true)
+        {
+            MainMenu.prototype.saveText();
+            
+                //Slot 1
+                if (menuSelect == 1)
+                {
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        MainMenu.prototype.exit();
+                    }
+                }
 
-            //Slot 3
-            if (menuSelect == 3)
-            {
-                saveMenu.animations.play('saveSlot3');
-            }
+                //Slot 2
+                if (menuSelect == 2)
+                {
 
-            //Go Back
-            if (backSelect.isDown)
-            {
-                currentScreen = 1;
-                menuSelect = 1;
-                menu.visible =! menu.visible;
-            }
+                }
+
+                //Slot 3
+                if (menuSelect == 3)
+                {
+
+                }
+
+                //Go Back
+                if (backSelect.isDown)
+                {
+                    currentScreen = 1;
+                    menuSelect = 1;
+                }
         }
         
         //Settings
-        if (currentScreen == 3)
+        if (currentScreen == 3 && text.loaded === true)
         {
-            //Slot 1
-            if (menuSelect == 1)
-            {
-                settingsMenu.animations.play('settingsResolution');
-            }
+            MainMenu.prototype.settingsText();
 
-            //Slot 2
-            if (menuSelect == 2)
-            {
-                settingsMenu.animations.play('settingsFullscreen');
-            }
+                //Resolution
+                if (menuSelect == 1)
+                {
 
-            //Slot 3
-            if (menuSelect == 3)
-            {
-                settingsMenu.animations.play('settingsSound');
-            }
+                }
 
-            //Go Back
-            if (backSelect.isDown)
-            {
+                //Fullscreen
+                if (menuSelect == 2)
+                {
+
+                }
+
+                //Sound
+                if (menuSelect == 3)
+                {
+
+                }
+
+                //Go Back
+                if (backSelect.isDown)
+                {
                 currentScreen = 1;
                 menuSelect = 2;
-                menu.visible =! menu.visible;
-                saveMenu.visible =! saveMenu.visible;
-            }
+                }
         }
 
         //About
-        if (currentScreen == 4)
+        if (currentScreen == 4 && text.loaded === true)
         {
             //Go Back
             if (backSelect.isDown)
             {
+                aboutMenu.visible =! aboutMenu.visible;
                 currentScreen = 1;
                 menuSelect = 3;
-                menu.visible =! menu.visible;
-                saveMenu.visible =! saveMenu.visible;
-                settingsMenu.visible =! settingsMenu.visible;
             }
         }
         
@@ -297,6 +289,14 @@ MainMenu.prototype = {
         {
             keyDebouncing.downPressed = false;
         }
+        if (!cursors.down.isRight)
+        {
+            keyDebouncing.rightPressed = false;
+        }
+        if (!cursors.down.isLeft)
+        {
+            keyDebouncing.leftPressed = false;
+        }
         if (!select.isDown)
         {
             keyDebouncing.enterPressed = false;
@@ -318,25 +318,96 @@ MainMenu.prototype = {
             game.scale.maxWidth = 1368;
             game.scale.maxHeight = 768;
             game.scale.setScreenSize();
-
+            settings.fullscreenString = "Off";
+            settings.fullscreen = false;
         }
         else 
         {
             game.scale.maxWidth = 1920;
             game.scale.maxHeight = 1080;
             game.scale.setScreenSize();
+            settings.fullscreenString = "On";
+            settings.fullscreen = true;
         }
+        
+        //Change Resolution String
+        settings.resolutionWidth = game.scale.width;
+        settings.resolutionHeight = game.scale.height;
     },
 
     render : function(){
         
     },
 
+    loadAbout : function(){
+
+        //Toggle About Menu
+        aboutMenu = game.add.sprite(0, 0, 'aboutScreen');
+        aboutMenu.visible =! aboutMenu.visible;
+    },
+
+    highlight1: function(){
+
+        text.selector1.font = 'Open Sans Bold';
+        text.selector1.fontSize = 80;
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight2: function(){
+
+        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Open Sans Bold';
+        text.selector2.fontSize = 80;
+        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight3: function(){
+
+        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Open Sans Bold';
+        text.selector3.fontSize = 80;
+    },
+
+    mainText : function(){
+            
+        text.title.setText("FOX");
+        text.selector1.setText("Play");
+        text.selector2.setText("Settings");
+        text.selector3.setText("About");
+    },
+
+    saveText : function(){
+            
+        text.title.setText("SAVES");
+        text.selector1.setText("Slot 1 - Chapter 1");
+        text.selector2.setText("Slot 2 - New File");
+        text.selector3.setText("Slot 3 - New File");
+    },
+
+    settingsText : function(){
+            
+        text.title.setText("SETTINGS");
+        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
+        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
+        text.selector3.setText("Sound - " + settings.soundString);
+    },
+
     exit : function(){
         
         //Clean Up
         menu.kill();
-        saveMenu.kill();
+        text.title.destroy();
+        text.selector1.destroy();
+        text.selector2.destroy();
+        text.selector3.destroy();
         
         //Start Game
         game.state.start('Game');
@@ -348,7 +419,6 @@ MainMenu.prototype = {
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.startFullScreen();
     }
-
 };
 
 //Jaxson C. Van Doorn, 2014

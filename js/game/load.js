@@ -15,12 +15,12 @@
 	To do:
 	
 	Smoother Camera Transition
-	Recreate Menu without images
 	Chapters | Save Files
 	Sound Effects
 
 	Bugs:
 
+	Fix Return To Menu
 	End World Stuck Bug
 
 	Animations:
