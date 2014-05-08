@@ -17,7 +17,7 @@ var keyDebouncing = {
 
 //Player Varibles
 var player = {
-                movingRight: true,
+                movingRight: false,
                 movingLeft: false,
                 dobuleJump: false,
                 dig: false,
@@ -70,7 +70,7 @@ MainGame.prototype = {
         game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('top', 'assets/levels/level1/top.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/levels/level1/grass.png');
+        game.load.image('tiles', 'assets/levels/level1/cube.png');
 
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
@@ -471,7 +471,7 @@ MainGame.prototype = {
         {
             keyDebouncing.spacePressed = true;
             player.y = player.y - 128;
-            camera = game.world.setBounds(0.5, 0, 7600, 1380);
+            camera = game.world.setBounds(0.5, 0, 7600, 1340);
         }
 
         //Dig Check
@@ -559,7 +559,6 @@ MainGame.prototype = {
                         keyDebouncing.enterPressed = false;
                         currentScreen = 2;
                         menuSelect = 1;
-                        MainGame.prototype.settingsText();
                     }
                 }
 
@@ -575,11 +574,26 @@ MainGame.prototype = {
                         MainGame.prototype.exit();
                     }
                 }
+                    
+                //Go Back
+                if (backSelect.isDown)
+                {
+                    //Unpauses Game
+                    game.paused = false;
+
+                    menuSelect = 1;
+
+                    MainGame.prototype.textKill();
+
+                    pauseMenu.visible =! pauseMenu.visible;
+                }
             }
             
             //Settings
             if(currentScreen == 2)
             {
+                MainGame.prototype.settingsText();
+
                 //Resolution
                 if (menuSelect == 1)
                 {
@@ -652,15 +666,21 @@ MainGame.prototype = {
             game.scale.maxWidth = 1368;
             game.scale.maxHeight = 768;
             game.scale.setScreenSize();
+            settings.fullscreenString = "Off";
+            settings.fullscreen = false;
         }
         else 
         {
             game.scale.maxWidth = 1920;
             game.scale.maxHeight = 1080;
             game.scale.setScreenSize();
+            settings.fullscreenString = "On";
+            settings.fullscreen = true;
         }
-
-        console.log(currentScreen);
+        
+        //Change Resolution String
+        settings.resolutionWidth = game.scale.width;
+        settings.resolutionHeight = game.scale.height;
 
         //Refreshs function 60 times a second
         setTimeout(MainGame.prototype.unPause, 1000 / 60);
@@ -677,7 +697,7 @@ MainGame.prototype = {
         //Draw Selector 1
         text.selector1 = game.add.text(960, 525, "Resume");
         text.selector1.anchor.setTo(0.5);
-        text.selector1.font = 'Open Sans Bold';
+        text.selector1.font = 'Century Gothic Bold';
         text.selector1.fontSize = 80;
         text.selector1.fill = "#ffffff";
         text.selector1.fixedToCamera = true;
@@ -685,7 +705,7 @@ MainGame.prototype = {
         //Draw Selector 2
         text.selector2 = game.add.text(960, 690, "Settings");
         text.selector2.anchor.setTo(0.5);
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
         text.selector2.fill = "#ffffff";
         text.selector2.fixedToCamera = true;
@@ -693,7 +713,7 @@ MainGame.prototype = {
         //Draw Selector 3
         text.selector3 = game.add.text(960, 840, "Return To Main Menu");
         text.selector3.anchor.setTo(0.5);
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
         text.selector3.fill = "#ffffff";
         text.selector3.fixedToCamera = true;
@@ -719,31 +739,31 @@ MainGame.prototype = {
 
     highlight1: function(){
 
-        text.selector1.font = 'Open Sans Bold';
+        text.selector1.font = 'Century Gothic Bold';
         text.selector1.fontSize = 80;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
     },
 
     highlight2: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.font = 'Century Gothic';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Bold';
+        text.selector2.font = 'Century Gothic Bold';
         text.selector2.fontSize = 80;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
     },
 
     highlight3: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.font = 'Century Gothic';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Bold';
+        text.selector3.font = 'Century Gothic Bold';
         text.selector3.fontSize = 80;
     },
 
@@ -762,7 +782,7 @@ MainGame.prototype = {
 
     tunnel2 : function(){
 
-        tunnel2.fill(10, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
+        tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
         return false;
     },
 
@@ -802,6 +822,10 @@ MainGame.prototype = {
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
+        text.title.destroy();
+        text.selector1.destroy();
+        text.selector2.destroy();
+        text.selector3.destroy();
         music.stop();
 
         //Start Menu

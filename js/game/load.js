@@ -19,8 +19,7 @@
 	Sound Effects
 
 	Bugs:
-
-	Fix Return To Menu
+	
 	End World Stuck Bug
 
 	Animations:

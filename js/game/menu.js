@@ -37,15 +37,7 @@ var settings = {
             };
 
 //Text Style
-var titleStyle = { font: "250px Open Sans Bold", fill: "#fff1dd", align: "center" };
-
-//Webfont Import
-WebFontConfig = {
-
-    google: {
-                families: [ 'Open+Sans:400,700,600:latin' ]
-            }
-};
+var titleStyle = { font: "250px Century Gothic Bold", fill: "#fff1dd", align: "center" };
 
 MainMenu.prototype = {
     
@@ -54,9 +46,6 @@ MainMenu.prototype = {
         //Reset Varibles
         menuSelect = 1;
         currentScreen = 1;
-
-        //Import Webfont API
-        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         //Loading Screen
         if (loadedLoadingScreen === true)
@@ -98,27 +87,27 @@ MainMenu.prototype = {
     createText : function(){
 
         //Draw Title
-        text.title = game.add.text(game.world.centerX, game.world.centerY - 250, "FOX", titleStyle);
+        text.title = game.add.text(960, 240, "FOX", titleStyle);
         text.title.anchor.setTo(0.5);
         
         //Draw Selector 1
-        text.selector1 = game.add.text(game.world.centerX, game.world.centerY - 15, "Play");
+        text.selector1 = game.add.text(960, 525, "Play");
         text.selector1.anchor.setTo(0.5);
-        text.selector1.font = 'Open Sans Bold';
+        text.selector1.font = 'Century Gothic Bold';
         text.selector1.fontSize = 80;
         text.selector1.fill = "#fff1dd";
         
         //Draw Selector 2
-        text.selector2 = game.add.text(game.world.centerX, game.world.centerY + 150, "Settings");
+        text.selector2 = game.add.text(960, 690, "Settings");
         text.selector2.anchor.setTo(0.5);
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
         text.selector2.fill = "#fff1dd";
 
         //Draw Selector 3
-        text.selector3 = game.add.text(game.world.centerX, game.world.centerY + 300, "About");
+        text.selector3 = game.add.text(960, 840, "About");
         text.selector3.anchor.setTo(0.5);
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
         text.selector3.fill = "#fff1dd";
 
@@ -348,31 +337,31 @@ MainMenu.prototype = {
 
     highlight1: function(){
 
-        text.selector1.font = 'Open Sans Bold';
+        text.selector1.font = 'Century Gothic Bold';
         text.selector1.fontSize = 80;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
     },
 
     highlight2: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.font = 'Century Gothic';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Bold';
+        text.selector2.font = 'Century Gothic Bold';
         text.selector2.fontSize = 80;
-        text.selector3.font = 'Open Sans Semibold';
+        text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
     },
 
     highlight3: function(){
 
-        text.selector1.font = 'Open Sans Semibold';
+        text.selector1.font = 'Century Gothic';
         text.selector1.fontSize = 60;
-        text.selector2.font = 'Open Sans Semibold';
+        text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
-        text.selector3.font = 'Open Sans Bold';
+        text.selector3.font = 'Century Gothic Bold';
         text.selector3.fontSize = 80;
     },
 
