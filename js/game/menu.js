@@ -4,41 +4,6 @@ var MainMenu = {};
 
 MainMenu = function(game){};
 
-//Menu and UI
-var menuSelect = 1;
-var currentScreen = 1;
-var loadedLoadingScreen = false;
-
-//Key Debouncing
-var keyDebouncing = {
-                        downPressed: false,
-                        upPressed: false,
-                        rightPressed: false,
-                        leftPressed: false,
-                        enterPressed: false
-                    };
-//Text
-var text = {
-                title: null,
-                selector1: null,
-                selector2: null,
-                selector3: null,
-                loaded: false
-            };
-
-//Settings
-var settings = {
-                    resolutionWidth: 1920,
-                    resolutionHeight: 1080,
-                    fullscreen: false,
-                    fullscreenString: "Off",
-                    sound: false,
-                    soundString: "Off"
-            };
-
-//Text Style
-var titleStyle = { font: "250px Century Gothic Bold", fill: "#fff1dd", align: "center" };
-
 MainMenu.prototype = {
     
     preload : function(){
@@ -59,11 +24,6 @@ MainMenu.prototype = {
 
         //Loading Screen
         game.load.image('loadingScreen', 'assets/images/ui/loading.png');
-
-        //Controls
-        cursors = game.input.keyboard.createCursorKeys();
-        select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
     },
 
     create : function(){
@@ -76,6 +36,11 @@ MainMenu.prototype = {
 
         //Display Loading Screen if the image is loaded
         loadedLoadingScreen = true;
+
+        //Controls
+        cursors = game.input.keyboard.createCursorKeys();
+        select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fullscreen on click
         this.input.onDown.add(MainGame.prototype.gofull, this);
@@ -138,42 +103,42 @@ MainMenu.prototype = {
         {
             MainMenu.prototype.mainText();
 
-            //Play
-            if (menuSelect == 1)
-            {
-                //Enter
-                if (select.isDown && keyDebouncing.enterPressed === false)
+                //Play
+                if (menuSelect == 1)
                 {
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
                     keyDebouncing.enterPressed = true;
                     currentScreen = 2;
                     menuSelect = 1;
+                    }
                 }
-            }
 
-            //Settings
-            if (menuSelect == 2)
-            {
-                //Enter
-                if (select.isDown && keyDebouncing.enterPressed === false)
+                //Settings
+                if (menuSelect == 2)
                 {
-                    keyDebouncing.enterPressed = true;
-                    currentScreen = 3;
-                    menuSelect = 1;
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        currentScreen = 3;
+                        menuSelect = 1;
+                    }
                 }
-            }
 
-            //About
-            if (menuSelect == 3)
-            {
-                //Enter
-                if (select.isDown && keyDebouncing.enterPressed === false)
+                //About
+                if (menuSelect == 3)
                 {
-                    keyDebouncing.enterPressed = true;
-                    aboutMenu.visible =! aboutMenu.visible;
-                    currentScreen = 4;
-                    menuSelect = 1;
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        aboutMenu.visible =! aboutMenu.visible;
+                        currentScreen = 4;
+                        menuSelect = 1;
+                    }
                 }
-            }
         }
 
         //Save Slots
@@ -232,14 +197,26 @@ MainMenu.prototype = {
                 //Sound
                 if (menuSelect == 3)
                 {
+                    //Sound Down
+                    if(settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                    {
+                        keyDebouncing.leftPressed = true;
+                        MainMenu.prototype.soundDown(); 
+                    }
 
+                    //Sound Up
+                    if(settings.sound < 100 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    {
+                        keyDebouncing.rightPressed = true;
+                        MainMenu.prototype.soundUp();
+                    }
                 }
 
                 //Go Back
                 if (backSelect.isDown)
                 {
-                currentScreen = 1;
-                menuSelect = 2;
+                    currentScreen = 1;
+                    menuSelect = 2;
                 }
         }
 
@@ -278,11 +255,11 @@ MainMenu.prototype = {
         {
             keyDebouncing.downPressed = false;
         }
-        if (!cursors.down.isRight)
+        if (!cursors.right.isDown)
         {
             keyDebouncing.rightPressed = false;
         }
-        if (!cursors.down.isLeft)
+        if (!cursors.left.isDown)
         {
             keyDebouncing.leftPressed = false;
         }
@@ -322,10 +299,13 @@ MainMenu.prototype = {
         //Change Resolution String
         settings.resolutionWidth = game.scale.width;
         settings.resolutionHeight = game.scale.height;
+
+        //Update Sound String
+        settings.soundString = settings.sound.toString();
     },
 
     render : function(){
-        
+
     },
 
     loadAbout : function(){
@@ -387,6 +367,16 @@ MainMenu.prototype = {
         text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
         text.selector2.setText("Fullscreen - " + settings.fullscreenString);
         text.selector3.setText("Sound - " + settings.soundString);
+    },
+
+    soundUp : function(){
+
+        settings.sound = settings.sound + 10;
+    },
+
+    soundDown : function(){
+
+        settings.sound = settings.sound - 10;
     },
 
     exit : function(){

@@ -4,17 +4,6 @@ var MainGame = {};
 
 MainGame = function(game){};
 
-//Menu and UI
-var menuSelect = 1;
-var currentScreen = 1;
-
-//Key Debouncing
-var keyDebouncing = {
-                        downPressed: false,
-                        spacePressed: false,
-                        enterPressed: false
-                    };
-
 //Player Varibles
 var player = {
                 movingRight: false,
@@ -25,16 +14,6 @@ var player = {
                 directX: 0
             };
 
-//Settings
-var settings = {
-                    resolutionWidth: 1920,
-                    resolutionHeight: 1080,
-                    fullscreen: false,
-                    fullscreenString: "Off",
-                    sound: false,
-                    soundString: "Off"
-            };
-
 //Toggle Debug Screen
 var debugShow;
 
@@ -42,9 +21,6 @@ var debugShow;
 var timeChecker;
 var currentTime;
 var pauseTime;
-
-//Menu and UI
-var menuSelect;
 
 MainGame.prototype = {
 	
@@ -77,12 +53,6 @@ MainGame.prototype = {
 
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
-
-        //Controlls
-        cursors = game.input.keyboard.createCursorKeys();
-        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 	},
 
 	create : function(){
@@ -105,6 +75,16 @@ MainGame.prototype = {
 
         //Camera follow player
         cameraFollow = game.camera.follow(player);
+
+        //Controlls
+        upButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        downButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        leftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        rightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        cursors = game.input.keyboard.createCursorKeys();
+        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fullscreen on click
         this.input.onDown.add(MainGame.prototype.gofull, game);
@@ -193,7 +173,7 @@ MainGame.prototype = {
         music = game.add.audio('music', 1, true);
         
         //Music Toggle
-        if (settings.sound === true)
+        if (settings.sound > 0)
         {
             music.play('', 0, 1, true);
         }
@@ -222,7 +202,7 @@ MainGame.prototype = {
         currentTime = game.time.now;
 
         //Walk Left
-        if (cursors.left.isDown && player.isDigging === false)
+        if (leftButton.isDown && player.isDigging === false)
         {
             //Flip Image
             player.scale.x = -4;
@@ -265,7 +245,7 @@ MainGame.prototype = {
         }
 
         //Walk Right
-        else if (cursors.right.isDown && player.isDigging === false)
+        else if (rightButton.isDown && player.isDigging === false)
         {
             //Flip Image
             player.scale.x = 4;
@@ -373,7 +353,7 @@ MainGame.prototype = {
         {
             keyDebouncing.spacePressed = false;
         }
-        if (!cursors.down.isDown)
+        if (!downButton.isDown)
         {
             keyDebouncing.downPressed = false;
         }
@@ -453,7 +433,7 @@ MainGame.prototype = {
         }
 
         //Down With Delay
-        if (cursors.down.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.y < 1281)
+        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.y < 1281)
         {
             MainGame.prototype.timeCheck();
         }
@@ -498,16 +478,6 @@ MainGame.prototype = {
 
             //Pauses Game
             game.paused = true;
-        }
-
-        //Sound
-        if (settings.sound === false)
-        {
-            music.pause();
-        }
-        else
-        {
-            music.resume();
         }
 	},
 
@@ -609,7 +579,19 @@ MainGame.prototype = {
                 //Sound
                 if (menuSelect == 3)
                 {
+                    //Sound Down
+                    if(settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                    {
+                        keyDebouncing.leftPressed = true;
+                        MainGame.prototype.soundDown();
+                    }
 
+                    //Sound Up
+                    if(settings.sound < 100 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    {
+                        keyDebouncing.rightPressed = true;
+                        MainGame.prototype.soundUp();
+                    }
                 }
 
                 //Go Back
@@ -654,6 +636,14 @@ MainGame.prototype = {
             {
                 keyDebouncing.downPressed = false;
             }
+            if (!cursors.right.isDown)
+            {
+                keyDebouncing.rightPressed = false;
+            }
+            if (!cursors.left.isDown)
+            {
+                keyDebouncing.leftPressed = false;
+            }
             if (!pauseButton.isDown)
             {
                 keyDebouncing.enterPressed = false;
@@ -681,6 +671,12 @@ MainGame.prototype = {
         //Change Resolution String
         settings.resolutionWidth = game.scale.width;
         settings.resolutionHeight = game.scale.height;
+
+        //Update Sound String
+        settings.soundString = settings.sound.toString();
+
+        //Volume Controll
+        music.volume = settings.sound / 100;
 
         //Refreshs function 60 times a second
         setTimeout(MainGame.prototype.unPause, 1000 / 60);
@@ -784,6 +780,16 @@ MainGame.prototype = {
 
         tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
         return false;
+    },
+
+    soundUp : function(){
+
+        settings.sound = settings.sound + 10;
+    },
+
+    soundDown : function(){
+
+        settings.sound = settings.sound - 10;
     },
 
     render : function(){
