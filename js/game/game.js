@@ -587,7 +587,7 @@ MainGame.prototype = {
                     }
 
                     //Sound Up
-                    if(settings.sound < 100 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    if(settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                     {
                         keyDebouncing.rightPressed = true;
                         MainGame.prototype.soundUp();
@@ -676,7 +676,7 @@ MainGame.prototype = {
         settings.soundString = settings.sound.toString();
 
         //Volume Controll
-        music.volume = settings.sound / 100;
+        music.volume = settings.sound / 10;
 
         //Refreshs function 60 times a second
         setTimeout(MainGame.prototype.unPause, 1000 / 60);
@@ -767,29 +767,26 @@ MainGame.prototype = {
 
         timeChecker = game.time.now; 
         player.isDigging = true;
-        return false; 
     },
 
     tunnel1 : function(){
 
         tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
-        return false;
     },
 
     tunnel2 : function(){
 
         tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
-        return false;
     },
 
     soundUp : function(){
 
-        settings.sound = settings.sound + 10;
+        settings.sound = settings.sound + 1;
     },
 
     soundDown : function(){
 
-        settings.sound = settings.sound - 10;
+        settings.sound = settings.sound - 1;
     },
 
     render : function(){
@@ -822,16 +819,13 @@ MainGame.prototype = {
         game.paused = false;
         
         //Cleanup      
+        MainGame.prototype.textKill();
         bg.kill();
         player.kill();
         layerMaster.kill();
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
-        text.title.destroy();
-        text.selector1.destroy();
-        text.selector2.destroy();
-        text.selector3.destroy();
         music.stop();
 
         //Start Menu

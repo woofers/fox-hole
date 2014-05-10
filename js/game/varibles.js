@@ -6,7 +6,7 @@ var settings = {
                     resolutionHeight: 1080,
                     fullscreen: false,
                     fullscreenString: "Off",
-                    sound: 100,
+                    sound: 10,
                     soundString: "100"
             };
 //Text
@@ -27,7 +27,11 @@ var keyDebouncing = {
                         enterPressed: false
                     };
 //Text Style
-var titleStyle = { font: "250px Century Gothic Bold", fill: "#fff1dd", align: "center" };
+var titleStyle = {
+					font: "250px Century Gothic Bold", 
+					fill: "#fff1dd", 
+					align: "center" 
+				};
 
 //Menu and UI
 var menuSelect = 1;

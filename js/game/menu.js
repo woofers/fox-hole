@@ -205,7 +205,7 @@ MainMenu.prototype = {
                     }
 
                     //Sound Up
-                    if(settings.sound < 100 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    if(settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                     {
                         keyDebouncing.rightPressed = true;
                         MainMenu.prototype.soundUp();
@@ -302,6 +302,9 @@ MainMenu.prototype = {
 
         //Update Sound String
         settings.soundString = settings.sound.toString();
+        test = settings.soundString;
+
+        console.log(test);
     },
 
     render : function(){
@@ -371,12 +374,12 @@ MainMenu.prototype = {
 
     soundUp : function(){
 
-        settings.sound = settings.sound + 10;
+        settings.sound = settings.sound + 1;
     },
 
     soundDown : function(){
 
-        settings.sound = settings.sound - 10;
+        settings.sound = settings.sound - 1;
     },
 
     exit : function(){
