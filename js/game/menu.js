@@ -12,6 +12,27 @@ MainMenu.prototype = {
         menuSelect = 1;
         currentScreen = 1;
 
+        //Check if Save is Created
+        saveLoaded = store.get("save.loaded");
+        
+        //If not create Saves
+        if (saveLoaded === undefined)
+        {
+            store.set("save.loaded", true);
+            store.set("save.settings.sound", 10);
+            store.set("save.slot1.chapter", "New File");
+            store.set("save.slot2.chapter", "New File");
+            store.set("save.slot3.chapter", "New File");
+            store.set("save.slot1.x", 400);
+        }
+        
+        //Read Save
+        settings.sound = store.get("save.settings.sound");
+        sav.slot1Chapter = store.get("save.slot1.chapter");
+        sav.slot2Chapter = store.get("save.slot2.chapter");
+        sav.slot3Chapter = store.get("save.slot3.chapter");
+        player.startX = store.get("save.slot1.x");
+
         //Loading Screen
         if (loadedLoadingScreen === true)
         {
@@ -153,7 +174,7 @@ MainMenu.prototype = {
                     if (select.isDown && keyDebouncing.enterPressed === false)
                     {
                         keyDebouncing.enterPressed = true;
-                        MainMenu.prototype.exit();
+                        MainMenu.prototype.exitSlot1();
                     }
                 }
 
@@ -302,9 +323,9 @@ MainMenu.prototype = {
 
         //Update Sound String
         settings.soundString = settings.sound.toString();
-        test = settings.soundString;
 
-        console.log(test);
+        //Auto Save
+        store.set("save.settings.sound", settings.sound);
     },
 
     render : function(){
@@ -359,9 +380,9 @@ MainMenu.prototype = {
     saveText : function(){
             
         text.title.setText("SAVES");
-        text.selector1.setText("Slot 1 - Chapter 1");
-        text.selector2.setText("Slot 2 - New File");
-        text.selector3.setText("Slot 3 - New File");
+        text.selector1.setText("Slot 1 - " + sav.slot1Chapter);
+        text.selector2.setText("Slot 2 - " + sav.slot2Chapter);
+        text.selector3.setText("Slot 3 - " + sav.slot3Chapter);
     },
 
     settingsText : function(){
@@ -382,8 +403,15 @@ MainMenu.prototype = {
         settings.sound = settings.sound - 1;
     },
 
-    exit : function(){
+    exitSlot1 : function(){
         
+        //Save
+        store.set("save.slot1.chapter", "Prologue");
+        MainMenu.prototype.exit();
+    },
+
+    exit : function(){
+
         //Clean Up
         menu.kill();
         text.title.destroy();

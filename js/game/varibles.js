@@ -1,5 +1,16 @@
 //Jaxson C. Van Doorn, 2014
 
+//Player Varibles
+var player = {
+                movingRight: false,
+                movingLeft: false,
+                dobuleJump: false,
+                dig: false,
+                isDigging: false,
+                directX: 0,
+                startX: 400
+            };
+
 //Settings
 var settings = {
                     resolutionWidth: 1920,
@@ -9,6 +20,12 @@ var settings = {
                     sound: 10,
                     soundString: "100"
             };
+var sav = {
+                    slot1: "New File",
+                    slot2: "New File",
+                    slot3: "New File"
+            };
+
 //Text
 var text = {
                 title: null,
@@ -37,5 +54,6 @@ var titleStyle = {
 var menuSelect = 1;
 var currentScreen = 1;
 var loadedLoadingScreen = false;
+var saveLoaded;
 
 //Jaxson C. Van Doorn, 2014

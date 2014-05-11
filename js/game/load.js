@@ -15,12 +15,12 @@
 	To do:
 	
 	Smoother Camera Transition
-	Chapters | Save Files
 	Sound Effects
 
 	Bugs:
 	
 	End World Stuck Bug
+	0 Sound Bug
 
 	Animations:
 	

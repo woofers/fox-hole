@@ -4,21 +4,11 @@ var MainGame = {};
 
 MainGame = function(game){};
 
-//Player Varibles
-var player = {
-                movingRight: false,
-                movingLeft: false,
-                dobuleJump: false,
-                dig: false,
-                isDigging: false,
-                directX: 0
-            };
-
 //Toggle Debug Screen
 var debugShow;
 
 //Time Varibles
-var timeChecker;
+var digDelay;
 var currentTime;
 var pauseTime;
 
@@ -127,7 +117,7 @@ MainGame.prototype = {
     loadPlayer : function(){
 
         //Draw Player
-        player = game.add.sprite(400, 400, 'playerSprite');
+        player = game.add.sprite(player.startX, 400, 'playerSprite');
         player.anchor.setTo(0.7, 1);
         player.scale.setTo(4, 4);
         player.smoothed = false;
@@ -371,7 +361,7 @@ MainGame.prototype = {
         }
 
         //Delay Camera Move Until Animation is Done
-        if (currentTime - timeChecker > 1600)
+        if (currentTime - digDelay > 1600)
         {
             //Tunnel 1
             if(player.y == 1024  && player.isDigging === true)
@@ -435,7 +425,7 @@ MainGame.prototype = {
         //Down With Delay
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.y < 1281)
         {
-            MainGame.prototype.timeCheck();
+            MainGame.prototype.digDelayFunc();
         }
 
         //Up to Earth
@@ -678,6 +668,9 @@ MainGame.prototype = {
         //Volume Controll
         music.volume = settings.sound / 10;
 
+        //Auto Save
+        store.set("save.settings.sound", settings.sound);
+
         //Refreshs function 60 times a second
         setTimeout(MainGame.prototype.unPause, 1000 / 60);
 	},
@@ -707,7 +700,7 @@ MainGame.prototype = {
         text.selector2.fixedToCamera = true;
 
         //Draw Selector 3
-        text.selector3 = game.add.text(960, 840, "Return To Main Menu");
+        text.selector3 = game.add.text(960, 840, "Save and Quit");
         text.selector3.anchor.setTo(0.5);
         text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
@@ -722,7 +715,7 @@ MainGame.prototype = {
         text.title.setText("PAUSED");
         text.selector1.setText("Resume");
         text.selector2.setText("Settings");
-        text.selector3.setText("Return To Main Menu");
+        text.selector3.setText("Save and Quit");
     },
 
     settingsText : function(){
@@ -763,9 +756,9 @@ MainGame.prototype = {
         text.selector3.fontSize = 80;
     },
 
-    timeCheck : function(){
+    digDelayFunc : function(){
 
-        timeChecker = game.time.now; 
+        digDelay = game.time.now; 
         player.isDigging = true;
     },
 
@@ -818,6 +811,9 @@ MainGame.prototype = {
         //Unpause The Game
         game.paused = false;
         
+        //Save
+        store.set("save.slot1.x", player.x);
+
         //Cleanup      
         MainGame.prototype.textKill();
         bg.kill();
