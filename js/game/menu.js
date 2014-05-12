@@ -130,9 +130,9 @@ MainMenu.prototype = {
                     //Enter
                     if (select.isDown && keyDebouncing.enterPressed === false)
                     {
-                    keyDebouncing.enterPressed = true;
-                    currentScreen = 2;
-                    menuSelect = 1;
+                        keyDebouncing.enterPressed = true;
+                        currentScreen = 2;
+                        menuSelect = 1;
                     }
                 }
 
@@ -219,14 +219,14 @@ MainMenu.prototype = {
                 if (menuSelect == 3)
                 {
                     //Sound Down
-                    if(settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                    if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
                     {
                         keyDebouncing.leftPressed = true;
                         MainMenu.prototype.soundDown(); 
                     }
 
                     //Sound Up
-                    if(settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                     {
                         keyDebouncing.rightPressed = true;
                         MainMenu.prototype.soundUp();

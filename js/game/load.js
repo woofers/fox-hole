@@ -18,9 +18,8 @@
 	Sound Effects
 
 	Bugs:
-	
-	End World Stuck Bug
-	0 Sound Bug
+
+	Empty
 
 	Animations:
 	

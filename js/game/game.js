@@ -9,8 +9,8 @@ var debugShow;
 
 //Time Varibles
 var digDelay;
+var jumpDelay;
 var currentTime;
-var pauseTime;
 
 MainGame.prototype = {
 	
@@ -36,10 +36,11 @@ MainGame.prototype = {
         game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('top', 'assets/levels/level1/top.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/levels/level1/cube.png');
+        game.load.image('tiles', 'assets/levels/level1/grass.png');
 
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
+        game.load.atlasXML('enemySprite', 'assets/images/sprites/enemy.png', 'assets/images/sprites/fox.xml');
 
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
@@ -56,6 +57,7 @@ MainGame.prototype = {
         //Load Functions
         MainGame.prototype.loadMap();
         MainGame.prototype.loadPlayer();
+        MainGame.prototype.loadEnemy();
         MainGame.prototype.playMusic();
         MainGame.prototype.unPause();
         MainGame.prototype.loadPause();
@@ -118,7 +120,7 @@ MainGame.prototype = {
 
         //Draw Player
         player = game.add.sprite(player.startX, 400, 'playerSprite');
-        player.anchor.setTo(0.7, 1);
+        player.anchor.setTo(0.5, 1);
         player.scale.setTo(4, 4);
         player.smoothed = false;
 
@@ -157,16 +159,38 @@ MainGame.prototype = {
             player.animations.add('digRight', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
     },
 
+    loadEnemy : function(){
+
+        //Draw Player
+        //enemy.anchor.setTo(0.5, 1);
+        //enemy.smoothed = false;
+
+        //Add Physics
+        //game.physics.arcade.enable(enemy);
+        
+        //Physics Properties
+        //enemy.body.bounce.y = 0;
+        //enemy.body.gravity.y = 700;
+        //enemy.body.collideWorldBounds = true;
+
+        enemy = game.add.group();
+        enemy.enableBody = true;
+        topMap.createFromObjects('enemy', 7, 'enemySprite', 0, true, false, enemy);
+        enemy.setAll(scale.x, 2);
+
+        //Walk
+        enemy.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('foxIdle', 0, 15, '', 4), 10, true);
+        enemy.callAll('animations.play', 'animations', 'spin');
+    },
+
     playMusic : function(){
         
         //Play Music
         music = game.add.audio('music', 1, true);
-        
-        //Music Toggle
-        if (settings.sound > 0)
-        {
-            music.play('', 0, 1, true);
-        }
+        music.play('', 0, 1, true);
+
+        //Volume Controll
+        music.volume = settings.sound / 10;
     },
 
     loadPause : function(){
@@ -177,7 +201,9 @@ MainGame.prototype = {
         pauseMenu.fixedToCamera = true;
     },
 
-	update : function(){
+	//Update Start
+
+    update : function(){
     
         //Colide
         game.physics.arcade.collide(player, layerTunnel1);
@@ -198,7 +224,7 @@ MainGame.prototype = {
             player.scale.x = -4;
                 
                 //Above Ground
-                if(player.dig === false)
+                if (player.dig === false)
                 {
                     player.movingRight = false;
                     player.movingLeft = true;
@@ -206,7 +232,7 @@ MainGame.prototype = {
                     player.body.velocity.x = -550;
 
                         //Walk Left Animation
-                        if(player.body.blocked.down)
+                        if (player.body.blocked.down)
                         {
                             player.animations.play('walkingLeft');
                         }
@@ -219,7 +245,7 @@ MainGame.prototype = {
                 }
 
                 //Underground
-                if(player.dig === true)
+                if (player.dig === true)
                 {
                     player.movingRight = false;
                     player.movingLeft = true;
@@ -227,7 +253,7 @@ MainGame.prototype = {
                     player.body.velocity.x = -350;
                         
                         //Crawl Left Animation
-                        if(player.body.blocked.down)
+                        if (player.body.blocked.down)
                         {
                             player.animations.play('crawlLeft');
                         }
@@ -241,7 +267,7 @@ MainGame.prototype = {
             player.scale.x = 4;
                 
                 //Above Ground
-                if(player.dig === false)
+                if (player.dig === false)
                 {
                     player.movingLeft = false;
                     player.movingRight = true;
@@ -249,7 +275,7 @@ MainGame.prototype = {
                     player.body.velocity.x = 550;
                     
                         //Walk Right Animation
-                        if(player.body.blocked.down)
+                        if (player.body.blocked.down)
                         {
                             player.animations.play('walkingRight');
                         }
@@ -262,7 +288,7 @@ MainGame.prototype = {
                 }
 
                 //Underground
-                if(player.dig === true)
+                if (player.dig === true)
                 {
                     player.movingLeft = false;
                     player.movingRight = true;
@@ -284,14 +310,14 @@ MainGame.prototype = {
                 if(player.dig === false)
                 {
                     //Idle Left Animation
-                    if(player.movingLeft === true)
+                    if (player.movingLeft === true)
                     {
                         player.animations.play('idleLeft');
                         player.scale.x = -4;
                     }
 
                     //Idle Right Animation
-                    if(player.movingRight === true)
+                    if (player.movingRight === true)
                     {
                         player.animations.play('idleRight');
                         player.scale.x = 4;
@@ -299,17 +325,17 @@ MainGame.prototype = {
                 }
 
                 //Underground
-                if(player.dig === true)
+                if (player.dig === true)
                 {
                     //Idle Left Animation
-                    if(player.movingLeft === true)
+                    if (player.movingLeft === true)
                     {
                         player.animations.play('crawlIdleLeft');
                         player.scale.x = -4;
                     }
 
                     //Idle Right Animation
-                    if(player.movingRight === true)
+                    if (player.movingRight === true)
                     {
                         player.animations.play('crawlIdleRight');
                         player.scale.x = 4;
@@ -364,7 +390,7 @@ MainGame.prototype = {
         if (currentTime - digDelay > 1600)
         {
             //Tunnel 1
-            if(player.y == 1024  && player.isDigging === true)
+            if (player.y == 1024  && player.isDigging === true)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -373,7 +399,7 @@ MainGame.prototype = {
             }
 
             //Tunnel 2
-            if(player.y == 1280 && player.isDigging === true)
+            if (player.y == 1280 && player.isDigging === true)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -383,20 +409,20 @@ MainGame.prototype = {
         }
 
         //Digging Animations
-        if(player.isDigging === true)
+        if (player.isDigging === true)
         {
             //To Tunnel 1
             if (player.y == 1024)
             {
                 //Dig Left Animation
-                if(player.movingLeft === true)
+                if (player.movingLeft === true)
                 {
                     player.animations.play('digLeft');
                     player.scale.x = -4;
                 }
 
                 //Dig Right Animation
-                if(player.movingRight === true)
+                if (player.movingRight === true)
                 {
                     player.animations.play('digRight');
                     player.scale.x = 4;
@@ -407,14 +433,14 @@ MainGame.prototype = {
             if (player.y == 1280)
             {
                 //Dig Left Animation
-                if(player.movingLeft === true)
+                if (player.movingLeft === true)
                 {
                     player.animations.play('digLeft');
                     player.scale.x = -4;
                 }
 
                 //Dig Right Animation
-                if(player.movingRight === true)
+                if (player.movingRight === true)
                 {
                     player.animations.play('digRight');
                     player.scale.x = 4;
@@ -429,7 +455,7 @@ MainGame.prototype = {
         }
 
         //Up to Earth
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1280)
+        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1280 && player.isDigging === false)
         {
             keyDebouncing.spacePressed = true;
             player.y = player.y - 256;
@@ -437,7 +463,7 @@ MainGame.prototype = {
         }
 
         //Up to Tunnel 1
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1408 && player.body.blocked.down)
+        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1408 && player.body.blocked.down && player.isDigging === false)
         {
             keyDebouncing.spacePressed = true;
             player.y = player.y - 128;
@@ -469,7 +495,99 @@ MainGame.prototype = {
             //Pauses Game
             game.paused = true;
         }
+
+        console.log(enemy);
 	},
+
+    //Update End
+
+    pauseText : function(){
+            
+        text.title.setText("PAUSED");
+        text.selector1.setText("Resume");
+        text.selector2.setText("Settings");
+        text.selector3.setText("Save and Quit");
+    },
+
+    settingsText : function(){
+            
+        text.title.setText("SETTINGS");
+        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
+        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
+        text.selector3.setText("Sound - " + settings.soundString);
+    },
+
+    highlight1: function(){
+
+        text.selector1.font = 'Century Gothic Bold';
+        text.selector1.fontSize = 80;
+        text.selector2.font = 'Century Gothic';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Century Gothic';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight2: function(){
+
+        text.selector1.font = 'Century Gothic';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Century Gothic Bold';
+        text.selector2.fontSize = 80;
+        text.selector3.font = 'Century Gothic';
+        text.selector3.fontSize = 60;
+    },
+
+    highlight3: function(){
+
+        text.selector1.font = 'Century Gothic';
+        text.selector1.fontSize = 60;
+        text.selector2.font = 'Century Gothic';
+        text.selector2.fontSize = 60;
+        text.selector3.font = 'Century Gothic Bold';
+        text.selector3.fontSize = 80;
+    },
+
+    digDelayFunc : function(){
+
+        digDelay = game.time.now; 
+        player.isDigging = true;
+    },
+
+    tunnel1 : function(){
+
+        tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
+    },
+
+    tunnel2 : function(){
+
+        tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
+    },
+
+    soundUp : function(){
+
+        settings.sound = settings.sound + 1;
+    },
+
+    soundDown : function(){
+
+        settings.sound = settings.sound - 1;
+    },
+
+    render : function(){
+
+        //Debug Info
+        if (debugShow === true)
+        {
+            game.debug.cameraInfo(game.camera, 32, 32);
+            game.debug.text('isDigging: ' + player.isDigging, 32, 128);
+            game.debug.text('AnimationFrame: ' + player.animations.currentFrame.index, 32, 160);
+            game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
+            game.debug.text('Speed: ' + player.body.velocity.x, 32, 226);
+            game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
+            game.debug.spriteInfo(player, 32, 290);
+            game.debug.body(player);
+        } 
+    },
 
 	unPause : function(){
 
@@ -491,7 +609,7 @@ MainGame.prototype = {
         if (game.paused === true)
         {
             //Paused
-            if(currentScreen == 1)
+            if (currentScreen == 1)
             {
                 //Resume
                 if (menuSelect == 1)
@@ -550,7 +668,7 @@ MainGame.prototype = {
             }
             
             //Settings
-            if(currentScreen == 2)
+            if (currentScreen == 2)
             {
                 MainGame.prototype.settingsText();
 
@@ -570,14 +688,14 @@ MainGame.prototype = {
                 if (menuSelect == 3)
                 {
                     //Sound Down
-                    if(settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                    if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
                     {
                         keyDebouncing.leftPressed = true;
                         MainGame.prototype.soundDown();
                     }
 
                     //Sound Up
-                    if(settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                    if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                     {
                         keyDebouncing.rightPressed = true;
                         MainGame.prototype.soundUp();
@@ -708,93 +826,6 @@ MainGame.prototype = {
         text.selector3.fixedToCamera = true;
 
         text.loaded = true;
-    },
-    
-    pauseText : function(){
-            
-        text.title.setText("PAUSED");
-        text.selector1.setText("Resume");
-        text.selector2.setText("Settings");
-        text.selector3.setText("Save and Quit");
-    },
-
-    settingsText : function(){
-            
-        text.title.setText("SETTINGS");
-        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
-        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
-        text.selector3.setText("Sound - " + settings.soundString);
-    },
-
-    highlight1: function(){
-
-        text.selector1.font = 'Century Gothic Bold';
-        text.selector1.fontSize = 80;
-        text.selector2.font = 'Century Gothic';
-        text.selector2.fontSize = 60;
-        text.selector3.font = 'Century Gothic';
-        text.selector3.fontSize = 60;
-    },
-
-    highlight2: function(){
-
-        text.selector1.font = 'Century Gothic';
-        text.selector1.fontSize = 60;
-        text.selector2.font = 'Century Gothic Bold';
-        text.selector2.fontSize = 80;
-        text.selector3.font = 'Century Gothic';
-        text.selector3.fontSize = 60;
-    },
-
-    highlight3: function(){
-
-        text.selector1.font = 'Century Gothic';
-        text.selector1.fontSize = 60;
-        text.selector2.font = 'Century Gothic';
-        text.selector2.fontSize = 60;
-        text.selector3.font = 'Century Gothic Bold';
-        text.selector3.fontSize = 80;
-    },
-
-    digDelayFunc : function(){
-
-        digDelay = game.time.now; 
-        player.isDigging = true;
-    },
-
-    tunnel1 : function(){
-
-        tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
-    },
-
-    tunnel2 : function(){
-
-        tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
-    },
-
-    soundUp : function(){
-
-        settings.sound = settings.sound + 1;
-    },
-
-    soundDown : function(){
-
-        settings.sound = settings.sound - 1;
-    },
-
-    render : function(){
-
-        //Debug Info
-        if(debugShow === true)
-        {
-            game.debug.cameraInfo(game.camera, 32, 32);
-            game.debug.text('isDigging: ' + player.isDigging, 32, 128);
-            game.debug.text('AnimationFrame: ' + player.animations.currentFrame.index, 32, 160);
-            game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
-            game.debug.text('Speed: ' + player.body.velocity.x, 32, 226);
-            game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
-            game.debug.spriteInfo(player, 32, 290);
-        }      
     },
 
     textKill : function(){
