@@ -19,10 +19,12 @@
 
 	Bugs:
 
-	Empty
+	Pause Bug
+	Sound Spike Bug
 
 	Animations:
 	
+	Finish Tunnel Tiles
 	Alt Dig
 	Crawl Idle
 
@@ -42,8 +44,8 @@ window.onload = function() {
     game.scale.setScreenSize();
 
 	//Create Game States
-	game.state.add('Menu', MainMenu);
-	game.state.add('Game', MainGame);
+	game.state.add('Menu', mainMenu);
+	game.state.add('Game', chapter1);
 
 	//Load Menu State
 	game.state.start('Menu');

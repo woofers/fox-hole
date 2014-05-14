@@ -1,10 +1,10 @@
 //Jaxson C. Van Doorn, 2014
 
-var MainMenu = {};
+var mainMenu = {};
 
-MainMenu = function(game){};
+mainMenu = function(game){};
 
-MainMenu.prototype = {
+mainMenu.prototype = {
     
     preload : function(){
 
@@ -12,36 +12,18 @@ MainMenu.prototype = {
         menuSelect = 1;
         currentScreen = 1;
 
-        //Check if Save is Created
-        saveLoaded = store.get("save.loaded");
-        
-        //If not create Saves
-        if (saveLoaded === undefined)
-        {
-            store.set("save.loaded", true);
-            store.set("save.settings.sound", 10);
-            store.set("save.slot1.chapter", "New File");
-            store.set("save.slot2.chapter", "New File");
-            store.set("save.slot3.chapter", "New File");
-            store.set("save.slot1.x", 400);
-        }
-        
-        //Read Save
-        settings.sound = store.get("save.settings.sound");
-        sav.slot1Chapter = store.get("save.slot1.chapter");
-        sav.slot2Chapter = store.get("save.slot2.chapter");
-        sav.slot3Chapter = store.get("save.slot3.chapter");
-        player.startX = store.get("save.slot1.x");
-
         //Loading Screen
         if (loadedLoadingScreen === true)
         {
             game.add.sprite(0, 0, 'loadingScreen');
         }
 
+        //Manages Save Data
+        mainMenu.prototype.checkSave();
+
         //Menu
         game.load.image('aboutScreen', 'assets/images/ui/about.png');
-        game.load.image('backgroundScreen', 'assets/images/ui/orange.png');
+        game.load.image('menuBg', 'assets/images/ui/orange.png');
 
         //Loading Screen
         game.load.image('loadingScreen', 'assets/images/ui/loading.png');
@@ -50,10 +32,14 @@ MainMenu.prototype = {
     create : function(){
 
         //Draw Settings Menu            
-        menu = game.add.sprite(0, 0, 'backgroundScreen');
+        menu = game.add.sprite(0, 0, 'menuBg');
 
         //Draw Text
-        MainMenu.prototype.createText();
+        mainMenu.prototype.createMenuText();
+
+        //Make Selection
+        //gobalFunctions.prototype.highlightSelection();
+        gobalFunctions.prototype.scale();
 
         //Display Loading Screen if the image is loaded
         loadedLoadingScreen = true;
@@ -64,13 +50,13 @@ MainMenu.prototype = {
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fullscreen on click
-        this.input.onDown.add(MainGame.prototype.gofull, this);
+        this.input.onDown.add(gobalFunctions.prototype.gofull, this);
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
     },
 
-    createText : function(){
+    createMenuText : function(){
 
         //Draw Title
         text.title = game.add.text(960, 240, "FOX", titleStyle);
@@ -100,29 +86,29 @@ MainMenu.prototype = {
         text.loaded = true;
 
         //Load About Screen
-        MainMenu.prototype.loadAbout();
+        mainMenu.prototype.toggleAbout();
     },
 
     update : function(){
-        
+
         //Selectors
         if (menuSelect == 1 && text.loaded === true)
         {
-            MainMenu.prototype.highlight1();
+            gobalFunctions.prototype.highlight1();
         }
         if (menuSelect == 2 && text.loaded === true)
         {
-            MainMenu.prototype.highlight2();
+            gobalFunctions.prototype.highlight2();
         }
         if (menuSelect == 3 && text.loaded === true)
         {
-            MainMenu.prototype.highlight3();
+            gobalFunctions.prototype.highlight3();
         }
 
         //Main Menu
         if (currentScreen == 1 && text.loaded === true)
         {
-            MainMenu.prototype.mainText();
+            mainMenu.prototype.mainText();
 
                 //Play
                 if (menuSelect == 1)
@@ -165,7 +151,7 @@ MainMenu.prototype = {
         //Save Slots
         if (currentScreen == 2 && text.loaded === true)
         {
-            MainMenu.prototype.saveText();
+            mainMenu.prototype.saveText();
             
                 //Slot 1
                 if (menuSelect == 1)
@@ -174,7 +160,7 @@ MainMenu.prototype = {
                     if (select.isDown && keyDebouncing.enterPressed === false)
                     {
                         keyDebouncing.enterPressed = true;
-                        MainMenu.prototype.exitSlot1();
+                        mainMenu.prototype.exit();
                     }
                 }
 
@@ -201,7 +187,7 @@ MainMenu.prototype = {
         //Settings
         if (currentScreen == 3 && text.loaded === true)
         {
-            MainMenu.prototype.settingsText();
+            gobalFunctions.prototype.settingsText();
 
                 //Resolution
                 if (menuSelect == 1)
@@ -222,14 +208,14 @@ MainMenu.prototype = {
                     if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
                     {
                         keyDebouncing.leftPressed = true;
-                        MainMenu.prototype.soundDown(); 
+                        gobalFunctions.prototype.soundDown(); 
                     }
 
                     //Sound Up
                     if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                     {
                         keyDebouncing.rightPressed = true;
-                        MainMenu.prototype.soundUp();
+                        gobalFunctions.prototype.soundUp();
                     }
                 }
 
@@ -299,28 +285,6 @@ MainMenu.prototype = {
             menuSelect = 3;
         }
 
-        //Rescale when In and Out of Fullscreen
-        if (Phaser.ScaleManager.prototype.isFullScreen === null)
-        {
-            game.scale.maxWidth = 1368;
-            game.scale.maxHeight = 768;
-            game.scale.setScreenSize();
-            settings.fullscreenString = "Off";
-            settings.fullscreen = false;
-        }
-        else 
-        {
-            game.scale.maxWidth = 1920;
-            game.scale.maxHeight = 1080;
-            game.scale.setScreenSize();
-            settings.fullscreenString = "On";
-            settings.fullscreen = true;
-        }
-        
-        //Change Resolution String
-        settings.resolutionWidth = game.scale.width;
-        settings.resolutionHeight = game.scale.height;
-
         //Update Sound String
         settings.soundString = settings.sound.toString();
 
@@ -332,41 +296,11 @@ MainMenu.prototype = {
 
     },
 
-    loadAbout : function(){
+    toggleAbout : function(){
 
         //Toggle About Menu
         aboutMenu = game.add.sprite(0, 0, 'aboutScreen');
         aboutMenu.visible =! aboutMenu.visible;
-    },
-
-    highlight1: function(){
-
-        text.selector1.font = 'Century Gothic Bold';
-        text.selector1.fontSize = 80;
-        text.selector2.font = 'Century Gothic';
-        text.selector2.fontSize = 60;
-        text.selector3.font = 'Century Gothic';
-        text.selector3.fontSize = 60;
-    },
-
-    highlight2: function(){
-
-        text.selector1.font = 'Century Gothic';
-        text.selector1.fontSize = 60;
-        text.selector2.font = 'Century Gothic Bold';
-        text.selector2.fontSize = 80;
-        text.selector3.font = 'Century Gothic';
-        text.selector3.fontSize = 60;
-    },
-
-    highlight3: function(){
-
-        text.selector1.font = 'Century Gothic';
-        text.selector1.fontSize = 60;
-        text.selector2.font = 'Century Gothic';
-        text.selector2.fontSize = 60;
-        text.selector3.font = 'Century Gothic Bold';
-        text.selector3.fontSize = 80;
     },
 
     mainText : function(){
@@ -380,37 +314,45 @@ MainMenu.prototype = {
     saveText : function(){
             
         text.title.setText("SAVES");
-        text.selector1.setText("Slot 1 - " + sav.slot1Chapter);
-        text.selector2.setText("Slot 2 - " + sav.slot2Chapter);
-        text.selector3.setText("Slot 3 - " + sav.slot3Chapter);
+        text.selector1.setText("Play - " + sav.chapter);
+        text.selector2.setText("Erase Save");
+        text.selector3.setText("Export Save");
     },
 
-    settingsText : function(){
-            
-        text.title.setText("SETTINGS");
-        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
-        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
-        text.selector3.setText("Sound - " + settings.soundString);
-    },
+    checkSave : function(){
 
-    soundUp : function(){
-
-        settings.sound = settings.sound + 1;
-    },
-
-    soundDown : function(){
-
-        settings.sound = settings.sound - 1;
-    },
-
-    exitSlot1 : function(){
+        //Check if Save is Created
+        saveLoaded = store.get("save.loaded");
         
-        //Save
-        store.set("save.slot1.chapter", "Prologue");
-        MainMenu.prototype.exit();
+        //If not create Saves
+        if (saveLoaded === undefined)
+        {
+            mainMenu.prototype.createSave();
+        }
+
+        mainMenu.prototype.readSave();
+    },
+
+    createSave : function(){
+            
+        store.set("save.loaded", true);
+        store.set("save.settings.sound", 10);
+        store.set("save.chapter", "New File");
+        store.set("save.x", 400);
+    },
+
+    readSave : function(){
+        
+        //Read Save
+        settings.sound = store.get("save.settings.sound");
+        sav.chapter = store.get("save.chapter");
+        sav.x = store.get("save.x");
     },
 
     exit : function(){
+
+        //Save
+        store.set("save.chapter", "Prologue");
 
         //Clean Up
         menu.kill();
@@ -421,13 +363,6 @@ MainMenu.prototype = {
         
         //Start Game
         game.state.start('Game');
-    },
-
-    gofull : function(){
-
-        //Scale Screen To Fullscreen
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.startFullScreen();
     }
 };
 

@@ -7,8 +7,7 @@ var player = {
                 dobuleJump: false,
                 dig: false,
                 isDigging: false,
-                directX: 0,
-                startX: 400
+                directX: 0
             };
 
 //Settings
@@ -21,9 +20,8 @@ var settings = {
                     soundString: "100"
             };
 var sav = {
-                    slot1: "New File",
-                    slot2: "New File",
-                    slot3: "New File"
+                    chapter: "New File",
+                    x: null
             };
 
 //Text
@@ -41,7 +39,8 @@ var keyDebouncing = {
                         upPressed: false,
                         rightPressed: false,
                         leftPressed: false,
-                        enterPressed: false
+                        enterPressed: false,
+                        backPressed: false
                     };
 //Text Style
 var titleStyle = {
