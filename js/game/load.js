@@ -14,12 +14,15 @@
 
 	To do:
 	
+	Finsih Fullscreen Toggle
+	Hills
 	Smoother Camera Transition
-	Sound Effects
+	Enimies
+	Attacks | Pounce and Tail Wip
 
 	Bugs:
 
-	Pause Bug
+	Start No Animation Bug
 	Sound Spike Bug
 
 	Animations:
@@ -27,6 +30,7 @@
 	Finish Tunnel Tiles
 	Alt Dig
 	Crawl Idle
+	Pounce
 
  ******************/
 
@@ -45,7 +49,7 @@ window.onload = function() {
 
 	//Create Game States
 	game.state.add('Menu', mainMenu);
-	game.state.add('Game', chapter1);
+	game.state.add('chapter1', chapter1);
 
 	//Load Menu State
 	game.state.start('Menu');

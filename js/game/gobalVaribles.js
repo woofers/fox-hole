@@ -16,11 +16,11 @@ var settings = {
                     resolutionHeight: 1080,
                     fullscreen: false,
                     fullscreenString: "Off",
-                    sound: 10,
-                    soundString: "100"
+                    sound: 10
             };
 var sav = {
-                    chapter: "New File",
+                    chapter: 1,
+                    chapterString: "New File",
                     x: null
             };
 
@@ -48,11 +48,25 @@ var titleStyle = {
 					fill: "#fff1dd", 
 					align: "center" 
 				};
+//Music
+var music = {
+                    volume: 0
+                };
 
 //Menu and UI
 var menuSelect = 1;
 var currentScreen = 1;
+
+//Saving and Loading
 var loadedLoadingScreen = false;
 var saveLoaded;
+
+//Toggle Debug Screen
+var debugShow;
+
+//Time Varibles
+var digDelay;
+var jumpDelay;
+var currentTime;
 
 //Jaxson C. Van Doorn, 2014

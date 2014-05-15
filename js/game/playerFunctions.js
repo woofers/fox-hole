@@ -9,7 +9,7 @@ playerFunctions.prototype = {
     loadPlayer : function(){
 
         //Draw Player
-        player = game.add.sprite(sav.x, 400, 'playerSprite');
+        player = game.add.sprite(sav.x, 930, 'playerSprite');
         player.anchor.setTo(0.5, 1);
         player.scale.setTo(4, 4);
         player.smoothed = false;

@@ -21,12 +21,52 @@ mainMenu.prototype = {
         //Manages Save Data
         mainMenu.prototype.checkSave();
 
+        //Scale Window
+        gobalFunctions.prototype.scale();
+
+        //Souund Adjustor
+        gobalFunctions.prototype.soundAdjust();
+
         //Menu
         game.load.image('aboutScreen', 'assets/images/ui/about.png');
         game.load.image('menuBg', 'assets/images/ui/orange.png');
 
         //Loading Screen
         game.load.image('loadingScreen', 'assets/images/ui/loading.png');
+
+        //Tell Game that the loading image has loaded
+        loadedLoadingScreen = true;
+    },
+
+    checkSave : function(){
+
+        //Check if Save is Created
+        saveLoaded = store.get("save.loaded");
+        
+        //If not create Saves
+        if (saveLoaded === undefined)
+        {
+            mainMenu.prototype.createSave();
+        }
+
+        mainMenu.prototype.readSave();
+    },
+
+    createSave : function(){
+            
+        store.set("save.loaded", true);
+        store.set("save.settings.sound", 10);
+        store.set("save.chapter", 1);
+        store.set("save.chapterString", "New File");
+        store.set("save.x", 400);
+    },
+
+    readSave : function(){
+        
+        settings.sound = store.get("save.settings.sound");
+        sav.chapter = store.get("save.chapter");
+        sav.chapterString = store.get("save.chapterString");
+        sav.x = store.get("save.x");
     },
 
     create : function(){
@@ -36,13 +76,6 @@ mainMenu.prototype = {
 
         //Draw Text
         mainMenu.prototype.createMenuText();
-
-        //Make Selection
-        //gobalFunctions.prototype.highlightSelection();
-        gobalFunctions.prototype.scale();
-
-        //Display Loading Screen if the image is loaded
-        loadedLoadingScreen = true;
 
         //Controls
         cursors = game.input.keyboard.createCursorKeys();
@@ -198,7 +231,20 @@ mainMenu.prototype = {
                 //Fullscreen
                 if (menuSelect == 2)
                 {
+                    //Exit
+                    if (settings.fullscreen === true)
+                    {
+                        if (cursors.left.isDown  || cursors.right.isDown)
+                        {
+                            gobalFunctions.prototype.fullExit();
+                        }
+                    }
 
+                    //Enter
+                    if (settings.fullscreen === false)
+                    {
+                        //cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
+                    }
                 }
 
                 //Sound
@@ -285,11 +331,10 @@ mainMenu.prototype = {
             menuSelect = 3;
         }
 
-        //Update Sound String
-        settings.soundString = settings.sound.toString();
-
         //Auto Save
         store.set("save.settings.sound", settings.sound);
+
+        console.log(cursors.left.onDown);
     },
 
     render : function(){
@@ -314,45 +359,12 @@ mainMenu.prototype = {
     saveText : function(){
             
         text.title.setText("SAVES");
-        text.selector1.setText("Play - " + sav.chapter);
+        text.selector1.setText("Chapter" + " " + sav.chapter + " - " + sav.chapterString);
         text.selector2.setText("Erase Save");
         text.selector3.setText("Export Save");
     },
 
-    checkSave : function(){
-
-        //Check if Save is Created
-        saveLoaded = store.get("save.loaded");
-        
-        //If not create Saves
-        if (saveLoaded === undefined)
-        {
-            mainMenu.prototype.createSave();
-        }
-
-        mainMenu.prototype.readSave();
-    },
-
-    createSave : function(){
-            
-        store.set("save.loaded", true);
-        store.set("save.settings.sound", 10);
-        store.set("save.chapter", "New File");
-        store.set("save.x", 400);
-    },
-
-    readSave : function(){
-        
-        //Read Save
-        settings.sound = store.get("save.settings.sound");
-        sav.chapter = store.get("save.chapter");
-        sav.x = store.get("save.x");
-    },
-
     exit : function(){
-
-        //Save
-        store.set("save.chapter", "Prologue");
 
         //Clean Up
         menu.kill();
@@ -360,9 +372,14 @@ mainMenu.prototype = {
         text.selector1.destroy();
         text.selector2.destroy();
         text.selector3.destroy();
-        
-        //Start Game
-        game.state.start('Game');
+
+        mainMenu.prototype.chapter1();
+    },
+
+    chapter1 : function(){
+
+        //Start Chapter
+        game.state.start('chapter1');
     }
 };
 

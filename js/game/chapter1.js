@@ -4,14 +4,6 @@ var chapter1 = {};
 
 chapter1 = function(game){};
 
-//Toggle Debug Screen
-var debugShow;
-
-//Time Varibles
-var digDelay;
-var jumpDelay;
-var currentTime;
-
 chapter1.prototype = {
 	
     preload : function(){
@@ -19,7 +11,7 @@ chapter1.prototype = {
         //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
-        debugShow = false;
+        debugShow = true;
         currentScreen = 1;
 
         //Loading Screen
@@ -31,7 +23,7 @@ chapter1.prototype = {
         //Background and UI
         game.load.image('bg', 'assets/levels/level1/level.png');
 
-        //Map
+        //Tile Maps
         game.load.tilemap('map', 'assets/levels/level1/bottom.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -129,13 +121,10 @@ chapter1.prototype = {
     },
 
     playMusic : function(){
-        
+
         //Play Music
         music = game.add.audio('music', 1, true);
         music.play('', 0, 1, true);
-
-        //Volume Controll
-        music.volume = settings.sound / 10;
     },
 
     update : function(){
@@ -299,20 +288,6 @@ chapter1.prototype = {
             player.dobuleJump = false;
         }
 
-        //Key Debouncing
-        if (!jumpButton.isDown)
-        {
-            keyDebouncing.spacePressed = false;
-        }
-        if (!downButton.isDown)
-        {
-            keyDebouncing.downPressed = false;
-        }
-        if (!cursors.down.isDown)
-        {
-            keyDebouncing.enterPressed = false;
-        }
-
         //************Dig Start************//
 
         //Set isDigging to false
@@ -383,26 +358,28 @@ chapter1.prototype = {
             }
         }
 
-        //Down With Delay
+        //Down
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.y < 1281)
         {
             playerFunctions.prototype.digDelayFunc();
         }
 
-        //Up to Earth
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1280 && player.isDigging === false)
+        //Up
+        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false)
         {
-            keyDebouncing.spacePressed = true;
-            player.y = player.y - 256;
-            camera = game.world.setBounds(0.5, 0, 7600, 1208);
-        }
+            if (player.y == 1280)
+            {
+                keyDebouncing.spacePressed = true;
+                player.y = player.y - 256;
+                camera = game.world.setBounds(0.5, 0, 7600, 1208);
+            }
 
-        //Up to Tunnel 1
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.y == 1408 && player.body.blocked.down && player.isDigging === false)
-        {
-            keyDebouncing.spacePressed = true;
-            player.y = player.y - 128;
-            camera = game.world.setBounds(0.5, 0, 7600, 1340);
+            if (player.y == 1408)
+            {
+                keyDebouncing.spacePressed = true;
+                player.y = player.y - 128;
+                camera = game.world.setBounds(0.5, 0, 7600, 1340);
+            }
         }
 
         //Dig Check
@@ -417,6 +394,20 @@ chapter1.prototype = {
         
         //************Dig End************//
 
+        //Key Debouncing
+        if (!jumpButton.isDown)
+        {
+            keyDebouncing.spacePressed = false;
+        }
+        if (!downButton.isDown)
+        {
+            keyDebouncing.downPressed = false;
+        }
+        if (!cursors.down.isDown)
+        {
+            keyDebouncing.enterPressed = false;
+        }
+
         //Pause
         if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false)
         {
@@ -427,7 +418,7 @@ chapter1.prototype = {
             //Draw Text
             pauseMenu.prototype.createTextPause();
 
-            //Pauses Game
+            //Pauses Game 
             game.paused = true;
         }
 	},
@@ -443,18 +434,27 @@ chapter1.prototype = {
             game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
             game.debug.text('Speed: ' + player.body.velocity.x, 32, 226);
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
-            game.debug.spriteInfo(player, 32, 290);
+            game.debug.text('Sound: ' + music.volume, 32, 290);
+            game.debug.spriteInfo(player, 32, 322);
             game.debug.body(player);
         } 
+    },
+
+    save : function(){
+
+        //Save
+        store.set("save.slot1.x", player.x);
+        store.set("save.chapterString", "The Forest");
+        store.set("save.chapter", sav.chapter);
     },
 
     exit : function(){
         
         //Unpause The Game
         game.paused = false;
-        
+
         //Save
-        store.set("save.slot1.x", player.x);
+        chapter1.prototype.save();
 
         //Cleanup      
         pauseMenu.prototype.textKill();

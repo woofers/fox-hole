@@ -22,33 +22,25 @@ pauseMenu.prototype = {
         text.selector3.setText("Save and Quit");
     },
 
-    settingsText : function(){
-            
-        text.title.setText("SETTINGS");
-        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
-        text.selector2.setText("Fullscreen - " + settings.fullscreenString);
-        text.selector3.setText("Sound - " + settings.soundString);
-    },
-
 	pauseGame : function(){
-
-        //Selectors
-        if (menuSelect == 1 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight1();
-        }
-        if (menuSelect == 2 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight2();
-        }
-        if (menuSelect == 3 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight3();
-        }
 
         //Menu
         if (game.paused === true)
         {
+            //Selectors
+            if (menuSelect == 1 && text.loaded === true)
+            {
+                gobalFunctions.prototype.highlight1();
+            }
+            if (menuSelect == 2 && text.loaded === true)
+            {
+                gobalFunctions.prototype.highlight2();
+            }
+            if (menuSelect == 3 && text.loaded === true)
+            {
+                gobalFunctions.prototype.highlight3();
+            }
+
             //Paused
             if (currentScreen == 1)
             {
@@ -102,10 +94,11 @@ pauseMenu.prototype = {
 
                     keyDebouncing.backPressed = true;
 
+                    //Reset Selector
                     menuSelect = 1;
 
+                    //Kill Pause Assets
                     pauseMenu.prototype.textKill();
-
                     pauseMenuBg.visible =! pauseMenuBg.visible;
                 }
             }
@@ -205,12 +198,6 @@ pauseMenu.prototype = {
                 keyDebouncing.backPressed = false;
             }
         }
-
-        //Update Sound String
-        settings.soundString = settings.sound.toString();
-
-        //Volume Controll
-        music.volume = settings.sound / 10;
 
         //Auto Save
         store.set("save.settings.sound", settings.sound);

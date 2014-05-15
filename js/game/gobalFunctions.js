@@ -36,26 +36,6 @@ gobalFunctions.prototype = {
         text.selector3.fontSize = 80;
     },
 
-    highlightSelection : function(){
-
-        //Selectors
-        if (menuSelect == 1 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight1();
-        }
-        if (menuSelect == 2 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight2();
-        }
-        if (menuSelect == 3 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight3();
-        }
-
-        //Refreshs function 60 times a second
-        setTimeout(gobalFunctions.prototype.highlightSelection, 1000 / 60);
-    },
-
     mainText : function(){
             
         text.title.setText("FOX");
@@ -69,17 +49,17 @@ gobalFunctions.prototype = {
         text.title.setText("SETTINGS");
         text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
         text.selector2.setText("Fullscreen - " + settings.fullscreenString);
-        text.selector3.setText("Sound - " + settings.soundString);
+        text.selector3.setText("Sound - " + settings.sound);
     },
 
     soundUp : function(){
 
-        settings.sound = settings.sound + 1;
+        settings.sound += 1;
     },
 
     soundDown : function(){
 
-        settings.sound = settings.sound - 1;
+        settings.sound -= 1;
     },
 
     scale: function(){
@@ -110,12 +90,41 @@ gobalFunctions.prototype = {
         setTimeout(gobalFunctions.prototype.scale, 1000 / 60);
     },
 
+    soundAdjust : function(){
+        
+        //Volume Controll
+        music.volume = settings.sound / 10;
+
+        //Refreshs function 60 times a second
+        setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 60);
+    },
+
+    empty : function(){
+    
+    },
+
+    fullExit : function(){
+        
+        if (document.exitFullscreen) 
+        {
+            document.exitFullscreen();
+        }
+        else if (document.mozCancelFullScreen) 
+        {
+            document.mozCancelFullScreen();
+        }
+        else if (document.webkitCancelFullScreen) 
+        {
+            document.webkitCancelFullScreen();
+        }
+    },
+
     gofull : function(){
 
         //Scale Screen To Fullscreen
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.startFullScreen();
-    },
+        game.scale.startFullScreen();
+    }
 };
 
 //Jaxson C. Van Doorn, 2014
