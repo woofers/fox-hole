@@ -55,13 +55,20 @@ playerFunctions.prototype = {
         player.isDigging = true;
     },
 
+    topLayer : function(){
+        
+        player.layer = 1;
+    },
+
     tunnel1 : function(){
 
+        player.layer = 2;
         tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
     },
 
     tunnel2 : function(){
 
+        player.layer = 3;
         tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
     }
 };

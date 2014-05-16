@@ -13,6 +13,7 @@ chapter1.prototype = {
         player.movingLeft = false;
         debugShow = true;
         currentScreen = 1;
+        cameraY = 1208;
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
@@ -55,7 +56,7 @@ chapter1.prototype = {
         pauseMenu.prototype.loadPauseBg();
 
         //Set camera boundaries
-        camera = game.world.setBounds(0.5, 0, 7600, 1208);
+        camera = game.world.setBounds(0.5, 0, 7600, cameraY);
 
         //Camera follow player
         cameraFollow = game.camera.follow(player);
@@ -110,9 +111,12 @@ chapter1.prototype = {
 
     loadEnemy : function(){
 
-        enemy = game.add.group();
+        enemy = game.add.group();  
         enemy.enableBody = true;
-        topMap.createFromObjects('enemy', 7, 'enemySprite', 0, true, false, enemy);
+        topMap.createFromObjects('enemy1', 7, 'enemySprite', 0, true, false, enemy);
+        enemy.scale.setTo(4, 4);  
+        //enemy.scale.x = 4;
+        //enemy.scale.y = 4;
         game.physics.arcade.enable(enemy);
 
         //Walk
@@ -130,9 +134,9 @@ chapter1.prototype = {
     update : function(){
     
         //Colide
+        game.physics.arcade.collide(player, layerTop, playerFunctions.prototype.topLayer);
         game.physics.arcade.collide(player, layerTunnel1);
         game.physics.arcade.collide(player, layerTunnel2, playerFunctions.prototype.tunnel1);
-        game.physics.arcade.collide(player, layerTop);
         game.physics.arcade.collide(player, layerMaster, playerFunctions.prototype.tunnel2);
 
         //Reset Velocity
@@ -300,7 +304,7 @@ chapter1.prototype = {
         if (currentTime - digDelay > 1600)
         {
             //Tunnel 1
-            if (player.y == 1024  && player.isDigging === true)
+            if (player.layer == 1  && player.isDigging === true)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -309,7 +313,7 @@ chapter1.prototype = {
             }
 
             //Tunnel 2
-            if (player.y == 1280 && player.isDigging === true)
+            if (player.layer == 2 && player.isDigging === true)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -322,7 +326,7 @@ chapter1.prototype = {
         if (player.isDigging === true)
         {
             //To Tunnel 1
-            if (player.y == 1024)
+            if (player.layer == 1)
             {
                 //Dig Left Animation
                 if (player.movingLeft === true)
@@ -340,7 +344,7 @@ chapter1.prototype = {
             }
 
             //To Tunnel 2
-            if (player.y == 1280)
+            if (player.layer == 2)
             {
                 //Dig Left Animation
                 if (player.movingLeft === true)
@@ -359,7 +363,7 @@ chapter1.prototype = {
         }
 
         //Down
-        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.y < 1281)
+        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
         {
             playerFunctions.prototype.digDelayFunc();
         }
@@ -367,14 +371,14 @@ chapter1.prototype = {
         //Up
         if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false)
         {
-            if (player.y == 1280)
+            if (player.layer == 2)
             {
                 keyDebouncing.spacePressed = true;
                 player.y = player.y - 256;
                 camera = game.world.setBounds(0.5, 0, 7600, 1208);
             }
 
-            if (player.y == 1408)
+            if (player.layer == 3)
             {
                 keyDebouncing.spacePressed = true;
                 player.y = player.y - 128;
@@ -443,7 +447,7 @@ chapter1.prototype = {
     save : function(){
 
         //Save
-        store.set("save.slot1.x", player.x);
+        store.set("save.x", player.x);
         store.set("save.chapterString", "The Forest");
         store.set("save.chapter", sav.chapter);
     },

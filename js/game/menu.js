@@ -234,16 +234,28 @@ mainMenu.prototype = {
                     //Exit
                     if (settings.fullscreen === true)
                     {
-                        if (cursors.left.isDown  || cursors.right.isDown)
+                        cursors.right.onDown.removeAll();
+
+                        //Left
+                        if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                         {
+                            keyDebouncing.leftPressed = true;
                             gobalFunctions.prototype.fullExit();
+                        }
+
+                        //Right
+                        if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                        {
+                            keyDebouncing.rightPressed = true;
+                            gobalFunctions.prototype.fullExit(); 
                         }
                     }
 
                     //Enter
                     if (settings.fullscreen === false)
                     {
-                        //cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
+                        cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
+                        cursors.right.onDown.add(gobalFunctions.prototype.gofull, this);
                     }
                 }
 
@@ -333,8 +345,6 @@ mainMenu.prototype = {
 
         //Auto Save
         store.set("save.settings.sound", settings.sound);
-
-        console.log(cursors.left.onDown);
     },
 
     render : function(){

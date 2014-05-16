@@ -7,7 +7,8 @@ var player = {
                 dobuleJump: false,
                 dig: false,
                 isDigging: false,
-                directX: 0
+                directX: 0,
+                layer: 1
             };
 
 //Settings
@@ -56,6 +57,7 @@ var music = {
 //Menu and UI
 var menuSelect = 1;
 var currentScreen = 1;
+var camraY
 
 //Saving and Loading
 var loadedLoadingScreen = false;
