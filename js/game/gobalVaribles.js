@@ -46,7 +46,7 @@ var keyDebouncing = {
 //Text Style
 var titleStyle = {
 					font: "250px Century Gothic Bold", 
-					fill: "#fff1dd", 
+					fill: "#ffffff", 
 					align: "center" 
 				};
 //Music

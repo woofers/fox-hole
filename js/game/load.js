@@ -15,7 +15,6 @@
 	To do:
 	
 	Finsih Fullscreen Toggle
-	Hills
 	Smoother Camera Transition
 	Enimies
 	Attacks | Pounce and Tail Wip
@@ -28,6 +27,7 @@
 	Animations:
 	
 	Finish Tunnel Tiles
+	Hills
 	Alt Dig
 	Crawl Idle
 	Pounce

@@ -100,21 +100,21 @@ mainMenu.prototype = {
         text.selector1.anchor.setTo(0.5);
         text.selector1.font = 'Century Gothic Bold';
         text.selector1.fontSize = 80;
-        text.selector1.fill = "#fff1dd";
+        text.selector1.fill = "#ffffff";
         
         //Draw Selector 2
         text.selector2 = game.add.text(960, 690, "Settings");
         text.selector2.anchor.setTo(0.5);
         text.selector2.font = 'Century Gothic';
         text.selector2.fontSize = 60;
-        text.selector2.fill = "#fff1dd";
+        text.selector2.fill = "#ffffff";
 
         //Draw Selector 3
         text.selector3 = game.add.text(960, 840, "About");
         text.selector3.anchor.setTo(0.5);
         text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
-        text.selector3.fill = "#fff1dd";
+        text.selector3.fill = "#ffffff";
 
         text.loaded = true;
 

@@ -11,7 +11,7 @@ chapter1.prototype = {
         //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
-        debugShow = true;
+        debugShow = false;
         currentScreen = 1;
         cameraY = 1208;
 
@@ -114,7 +114,7 @@ chapter1.prototype = {
         enemy = game.add.group();  
         enemy.enableBody = true;
         topMap.createFromObjects('enemy1', 7, 'enemySprite', 0, true, false, enemy);
-        enemy.scale.setTo(4, 4);  
+        //enemy.scale.setTo(4, 4);  
         //enemy.scale.x = 4;
         //enemy.scale.y = 4;
         game.physics.arcade.enable(enemy);
@@ -387,7 +387,7 @@ chapter1.prototype = {
         }
 
         //Dig Check
-        if (player.y > 1024)
+        if (player.layer > 1)
         {
             player.dig = true;
         }
