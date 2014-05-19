@@ -43,12 +43,13 @@ mainMenu.prototype = {
         //Check if Save is Created
         saveLoaded = store.get("save.loaded");
         
-        //If not create Saves
+        //If not create Save File
         if (saveLoaded === undefined)
         {
             mainMenu.prototype.createSave();
         }
 
+        //Then Read the Save File
         mainMenu.prototype.readSave();
     },
 

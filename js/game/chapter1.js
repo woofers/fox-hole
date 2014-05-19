@@ -11,9 +11,9 @@ chapter1.prototype = {
         //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
-        debugShow = false;
+        debugShow = true;
         currentScreen = 1;
-        cameraY = 1208;
+        sav.cameraY = 1208;
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
@@ -56,7 +56,7 @@ chapter1.prototype = {
         pauseMenu.prototype.loadPauseBg();
 
         //Set camera boundaries
-        camera = game.world.setBounds(0.5, 0, 7600, cameraY);
+        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
 
         //Camera follow player
         cameraFollow = game.camera.follow(player);
@@ -92,9 +92,16 @@ chapter1.prototype = {
         topMap.addTilesetImage('block', 'tiles');
 
         //Draws map to screen        
-        layerMaster = map.createLayer('collisionLayer');
         layerTunnel1 = tunnel1.createLayer('collisionLayer');
         layerTunnel2 = tunnel2.createLayer('collisionLayer');
+
+        bottomGroup = game.add.group();
+        topGroup = game.add.group();
+
+        bottomGroup.add(layerTunnel2);
+        topGroup.add(layerTunnel1);
+
+        layerMaster = map.createLayer('collisionLayer');
         layerTop = topMap.createLayer('collisionLayer');
 
         //Map collision
@@ -114,7 +121,7 @@ chapter1.prototype = {
         enemy = game.add.group();  
         enemy.enableBody = true;
         topMap.createFromObjects('enemy1', 7, 'enemySprite', 0, true, false, enemy);
-        //enemy.scale.setTo(4, 4);  
+        //enemy.scale.setTo(4, 4);
         //enemy.scale.x = 4;
         //enemy.scale.y = 4;
         game.physics.arcade.enable(enemy);
@@ -148,15 +155,15 @@ chapter1.prototype = {
         //Walk Left
         if (leftButton.isDown && player.isDigging === false)
         {
-            //Flip Image
             player.scale.x = -4;
-                
+            player.body.offset.x = 35; 
+            player.movingRight = false;
+            player.movingLeft = true;
+            player.directX = 80;
+
                 //Above Ground
                 if (player.dig === false)
                 {
-                    player.movingRight = false;
-                    player.movingLeft = true;
-                    player.directX = 80;
                     player.body.velocity.x = -550;
 
                         //Walk Left Animation
@@ -175,9 +182,6 @@ chapter1.prototype = {
                 //Underground
                 if (player.dig === true)
                 {
-                    player.movingRight = false;
-                    player.movingLeft = true;
-                    player.directX = 80;
                     player.body.velocity.x = -350;
                         
                         //Crawl Left Animation
@@ -191,15 +195,15 @@ chapter1.prototype = {
         //Walk Right
         else if (rightButton.isDown && player.isDigging === false)
         {
-            //Flip Image
             player.scale.x = 4;
+            player.body.offset.x = 30; 
+            player.movingLeft = false;
+            player.movingRight = true;
+            player.directX = 190;
                 
                 //Above Ground
                 if (player.dig === false)
                 {
-                    player.movingLeft = false;
-                    player.movingRight = true;
-                    player.directX = 190;
                     player.body.velocity.x = 550;
                     
                         //Walk Right Animation
@@ -218,9 +222,6 @@ chapter1.prototype = {
                 //Underground
                 if (player.dig === true)
                 {
-                    player.movingLeft = false;
-                    player.movingRight = true;
-                    player.directX = 190;
                     player.body.velocity.x = 350;
                     
                         //Crawl Right Animation
@@ -309,7 +310,6 @@ chapter1.prototype = {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
                 player.y = player.y + 256;
-                camera = game.world.setBounds(0.5, 0, 7600, 1380);
             }
 
             //Tunnel 2
@@ -318,7 +318,6 @@ chapter1.prototype = {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
                 player.y = player.y + 128;
-                camera = game.world.setBounds(0.5, 0, 7600, 1536);
             }  
         }
 
@@ -366,23 +365,24 @@ chapter1.prototype = {
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
         {
             playerFunctions.prototype.digDelayFunc();
+            playerFunctions.prototype.swapLayers();
         }
 
         //Up
         if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false)
         {
+            playerFunctions.prototype.swapLayers();
+
             if (player.layer == 2)
             {
                 keyDebouncing.spacePressed = true;
                 player.y = player.y - 256;
-                camera = game.world.setBounds(0.5, 0, 7600, 1208);
             }
 
             if (player.layer == 3)
             {
                 keyDebouncing.spacePressed = true;
                 player.y = player.y - 128;
-                camera = game.world.setBounds(0.5, 0, 7600, 1340);
             }
         }
 
@@ -425,6 +425,17 @@ chapter1.prototype = {
             //Pauses Game 
             game.paused = true;
         }
+
+        //Camera
+        sav.cameraY = 184 + player.y;
+        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+        
+        //Camera Max out
+        if (sav.cameraY > 1536)
+        {
+            sav.cameraY = 1536;
+            camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+        }
 	},
 
     render : function(){
@@ -440,8 +451,9 @@ chapter1.prototype = {
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
             game.debug.text('Sound: ' + music.volume, 32, 290);
             game.debug.spriteInfo(player, 32, 322);
+            game.debug.soundInfo(music, 32, 400);
             game.debug.body(player);
-        } 
+        }
     },
 
     save : function(){

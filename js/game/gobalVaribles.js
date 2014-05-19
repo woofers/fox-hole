@@ -1,6 +1,6 @@
 //Jaxson C. Van Doorn, 2014
 
-//Player Varibles
+//Player
 var player = {
                 movingRight: false,
                 movingLeft: false,
@@ -19,10 +19,12 @@ var settings = {
                     fullscreenString: "Off",
                     sound: 10
             };
+//Save
 var sav = {
-                    chapter: 1,
-                    chapterString: "New File",
-                    x: null
+                    chapter: null,
+                    chapterString: null,
+                    x: null,
+                    cameraY: null
             };
 
 //Text
@@ -52,12 +54,15 @@ var titleStyle = {
 //Music
 var music = {
                     volume: 0
-                };
+            };
 
 //Menu and UI
 var menuSelect = 1;
 var currentScreen = 1;
-var camraY
+
+//Camera
+var camera;
+var cameraY;
 
 //Saving and Loading
 var loadedLoadingScreen = false;
