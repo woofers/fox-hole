@@ -21,7 +21,7 @@
         {
          "firstgid":1,
          "image":"grass.png",
-         "imageheight":256,
+         "imageheight":512,
          "imagewidth":768,
          "margin":0,
          "name":"block",

@@ -248,6 +248,8 @@ pauseMenu.prototype = {
         text.selector1.destroy();
         text.selector2.destroy();
         text.selector3.destroy();
+
+        game.stage.smoothed = false;
     }
 };
 

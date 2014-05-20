@@ -11,7 +11,7 @@ chapter1.prototype = {
         //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
-        debugShow = true;
+        debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
 
@@ -25,6 +25,7 @@ chapter1.prototype = {
         game.load.image('bg', 'assets/levels/level1/level.png');
 
         //Tile Maps
+        game.load.tilemap('dug', 'assets/levels/level1/dug.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('map', 'assets/levels/level1/bottom.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -49,8 +50,8 @@ chapter1.prototype = {
 
         //Load Functions
         chapter1.prototype.loadMap();
+        enemy1Functions.prototype.loadEnemy();
         playerFunctions.prototype.loadPlayer();
-        chapter1.prototype.loadEnemy();
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
@@ -66,10 +67,14 @@ chapter1.prototype = {
         downButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
         leftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
         rightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        attackButton = game.input.keyboard.addKey(Phaser.Keyboard.R);
         cursors = game.input.keyboard.createCursorKeys();
         jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
+
+        //Turns on smoothing
+        game.stage.smoothed = false;
 
         //Fullscreen on click
         this.input.onDown.add(gobalFunctions.prototype.gofull, game);
@@ -81,26 +86,22 @@ chapter1.prototype = {
     loadMap : function(){
         
         //Loads title map
+        dug = game.add.tilemap('dug');
         map = game.add.tilemap('map');
         tunnel1 = game.add.tilemap('tunnel1');
         tunnel2 = game.add.tilemap('tunnel2');
         topMap = game.add.tilemap('top');
 
+        dug.addTilesetImage('block', 'tiles');
         map.addTilesetImage('block', 'tiles');
         tunnel1.addTilesetImage('block', 'tiles');
         tunnel2.addTilesetImage('block', 'tiles');
         topMap.addTilesetImage('block', 'tiles');
 
         //Draws map to screen        
+        layerDug = dug.createLayer('dug');
         layerTunnel1 = tunnel1.createLayer('collisionLayer');
         layerTunnel2 = tunnel2.createLayer('collisionLayer');
-
-        bottomGroup = game.add.group();
-        topGroup = game.add.group();
-
-        bottomGroup.add(layerTunnel2);
-        topGroup.add(layerTunnel1);
-
         layerMaster = map.createLayer('collisionLayer');
         layerTop = topMap.createLayer('collisionLayer');
 
@@ -114,21 +115,6 @@ chapter1.prototype = {
         game.physics.arcade.enable(layerTunnel1);
         game.physics.arcade.enable(layerTunnel2);
         game.physics.arcade.enable(layerTop);
-    },
-
-    loadEnemy : function(){
-
-        enemy = game.add.group();  
-        enemy.enableBody = true;
-        topMap.createFromObjects('enemy1', 7, 'enemySprite', 0, true, false, enemy);
-        //enemy.scale.setTo(4, 4);
-        //enemy.scale.x = 4;
-        //enemy.scale.y = 4;
-        game.physics.arcade.enable(enemy);
-
-        //Walk
-        enemy.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('foxIdle', 0, 15, '', 4), 10, true);
-        enemy.callAll('animations.play', 'animations', 'spin');
     },
 
     playMusic : function(){
@@ -145,6 +131,10 @@ chapter1.prototype = {
         game.physics.arcade.collide(player, layerTunnel1);
         game.physics.arcade.collide(player, layerTunnel2, playerFunctions.prototype.tunnel1);
         game.physics.arcade.collide(player, layerMaster, playerFunctions.prototype.tunnel2);
+
+        //Enemy
+        game.physics.arcade.overlap(player, enemy, enemy1Functions.prototype.kill, null, this);
+        game.physics.arcade.collide(enemy, layerTop);
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -302,18 +292,19 @@ chapter1.prototype = {
         }
 
         //Delay Camera Move Until Animation is Done
-        if (currentTime - digDelay > 1600)
+        if (currentTime - digDelay > 1600 && player.isDigging === true)
         {
             //Tunnel 1
-            if (player.layer == 1  && player.isDigging === true)
+            if (player.layer == 1)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
+                topMap.putTileWorldXY(13, player.x, player.y - 128, 128, 128, layerTop);
                 player.y = player.y + 256;
             }
 
             //Tunnel 2
-            if (player.layer == 2 && player.isDigging === true)
+            if (player.layer == 2)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -365,18 +356,17 @@ chapter1.prototype = {
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
         {
             playerFunctions.prototype.digDelayFunc();
-            playerFunctions.prototype.swapLayers();
         }
 
         //Up
         if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false)
         {
-            playerFunctions.prototype.swapLayers();
-
             if (player.layer == 2)
             {
                 keyDebouncing.spacePressed = true;
                 player.y = player.y - 256;
+                
+                chapter1.prototype.killLevel();
             }
 
             if (player.layer == 3)
@@ -417,6 +407,8 @@ chapter1.prototype = {
         {
             keyDebouncing.enterPressed = true;
 
+            game.stage.smoothed = true;
+
             pauseMenuBg.visible =! pauseMenuBg.visible;
 
             //Draw Text
@@ -453,7 +445,21 @@ chapter1.prototype = {
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
             game.debug.body(player);
+            game.debug.body(enemy);
         }
+    },
+
+    killLevel : function(){
+
+        layerDug.kill();
+        layerMaster.kill();
+        layerTunnel1.kill();
+        layerTunnel2.kill();
+        layerTop.kill();
+
+        chapter1.prototype.loadMap();
+
+        //playerGroup.bringToTop();
     },
 
     save : function(){
@@ -476,6 +482,8 @@ chapter1.prototype = {
         pauseMenu.prototype.textKill();
         bg.kill();
         player.kill();
+        enemy.destroy();
+        layerDug.kill();
         layerMaster.kill();
         layerTunnel1.kill();
         layerTunnel2.kill();

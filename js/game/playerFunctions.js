@@ -12,7 +12,7 @@ playerFunctions.prototype = {
         player = game.add.sprite(sav.x, 700, 'playerSprite');
         player.anchor.setTo(0.7, 1);
         player.scale.setTo(4, 4);
-        player.smoothed = false;
+        //player.smoothed = false;
 
         //Add Physics
         game.physics.arcade.enable(player);
@@ -24,6 +24,10 @@ playerFunctions.prototype = {
         player.body.bounce.y = 0;
         player.body.gravity.y = 700;
         player.body.collideWorldBounds = true;
+
+        //Create Group
+        playerGroup = game.add.group();
+        playerGroup.add(player);
 
         //Player Animations
 
@@ -66,18 +70,13 @@ playerFunctions.prototype = {
     tunnel1 : function(){
 
         player.layer = 2;
-        tunnel1.fill(9, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
+        tunnel1.fill(8, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
     },
 
     tunnel2 : function(){
 
         player.layer = 3;
-        tunnel2.fill(11, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
-    },
-
-    swapLayers : function(){
-        
-        game.world.swap(topGroup, bottomGroup);
+        tunnel2.fill(8, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
     }
 };
 

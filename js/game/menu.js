@@ -86,6 +86,9 @@ mainMenu.prototype = {
         //Fullscreen on click
         this.input.onDown.add(gobalFunctions.prototype.gofull, this);
 
+        //Turns on smoothing
+        game.stage.smoothed = true;
+
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
     },

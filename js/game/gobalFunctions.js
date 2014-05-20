@@ -68,7 +68,7 @@ gobalFunctions.prototype = {
         if (Phaser.ScaleManager.prototype.isFullScreen === null)
         {
             game.scale.maxWidth = 1368;
-            game.scale.maxHeight = 768;
+            game.scale.maxHeight = 770;
             game.scale.setScreenSize();
             settings.fullscreenString = "Off";
             settings.fullscreen = false;

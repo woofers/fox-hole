@@ -14,26 +14,25 @@
 
 	To do:
 	
+		Reset Tilemap
 		Finsih Fullscreen Toggle
-		Smoother Camera Transition
-		Enimies
 		Attacks | Pounce and Tail Wip
 
 	Bugs:
 
 		Dig Bug
-		Tile Bug
 		Start No Animation Bug
 		Sound Spike Bug
 
-	Animations:
+	Graphics:
 	
 		Finish Tunnel Tiles
 		Hills
 		Alt Dig
 		Crawl Idle
 		Pounce
-
+		Tail Wip
+		Lose Animation
 */
 
 //Set up Canvas
@@ -55,7 +54,6 @@ window.onload = function() {
 
 	//Load Menu State
 	game.state.start('Menu');
-
 };
 
 //Jaxson C. Van Doorn, 2014
