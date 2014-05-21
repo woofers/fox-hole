@@ -14,15 +14,14 @@
 
 	To do:
 	
-		Reset Tilemap
+		Better Camera
 		Finsih Fullscreen Toggle
 		Attacks | Pounce and Tail Wip
 
 	Bugs:
 
 		Dig Bug
-		Start No Animation Bug
-		Sound Spike Bug
+		Clip Bug
 
 	Graphics:
 	

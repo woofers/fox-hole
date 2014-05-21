@@ -22,7 +22,7 @@ pauseMenu.prototype = {
         text.selector3.setText("Save and Quit");
     },
 
-	pauseGame : function(){
+	pauseGame : function(){      
 
         //Menu
         if (game.paused === true)
@@ -198,9 +198,6 @@ pauseMenu.prototype = {
                 keyDebouncing.backPressed = false;
             }
         }
-
-        //Auto Save
-        store.set("save.settings.sound", settings.sound);
 
         //Refreshs function 60 times a second
         setTimeout(pauseMenu.prototype.pauseGame, 1000 / 60);

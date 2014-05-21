@@ -9,8 +9,6 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        player.movingRight = true;
-        player.movingLeft = false;
         debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
@@ -55,6 +53,10 @@ chapter1.prototype = {
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
+
+        player.movingRight = true;
+        player.movingLeft = false;
+        player.directX = 80;
 
         //Set camera boundaries
         camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
@@ -125,7 +127,7 @@ chapter1.prototype = {
     },
 
     update : function(){
-    
+
         //Colide
         game.physics.arcade.collide(player, layerTop, playerFunctions.prototype.topLayer);
         game.physics.arcade.collide(player, layerTunnel1);
@@ -409,6 +411,7 @@ chapter1.prototype = {
 
             game.stage.smoothed = true;
 
+            pauseMenuBg.bringToTop();
             pauseMenuBg.visible =! pauseMenuBg.visible;
 
             //Draw Text
@@ -417,17 +420,17 @@ chapter1.prototype = {
             //Pauses Game 
             game.paused = true;
         }
-
+        /* 
         //Camera
         sav.cameraY = 184 + player.y;
         camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
-        
+
         //Camera Max out
         if (sav.cameraY > 1536)
         {
             sav.cameraY = 1536;
             camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
-        }
+        }*/
 	},
 
     render : function(){
@@ -451,15 +454,37 @@ chapter1.prototype = {
 
     killLevel : function(){
 
-        layerDug.kill();
-        layerMaster.kill();
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
 
-        chapter1.prototype.loadMap();
+        chapter1.prototype.resetLevel();
+    },
 
-        //playerGroup.bringToTop();
+    resetLevel : function(){
+
+        //Loads title map
+        tunnel1 = game.add.tilemap('tunnel1');
+        tunnel2 = game.add.tilemap('tunnel2');
+        topMap = game.add.tilemap('top');
+
+        tunnel1.addTilesetImage('block', 'tiles');
+        tunnel2.addTilesetImage('block', 'tiles');
+        topMap.addTilesetImage('block', 'tiles');
+
+        //Draws map to screen        
+        layerTunnel1 = tunnel1.createLayer('collisionLayer');
+        layerTunnel2 = tunnel2.createLayer('collisionLayer');
+        layerTop = topMap.createLayer('collisionLayer');
+
+        //Map collision
+        tunnel1.setCollisionBetween(0, 6);
+        tunnel2.setCollisionBetween(0, 6);
+        topMap.setCollisionBetween(0, 6);
+
+        game.physics.arcade.enable(layerTunnel1);
+        game.physics.arcade.enable(layerTunnel2);
+        game.physics.arcade.enable(layerTop);
     },
 
     save : function(){

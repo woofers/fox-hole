@@ -13,10 +13,7 @@ mainMenu.prototype = {
         currentScreen = 1;
 
         //Loading Screen
-        if (loadedLoadingScreen === true)
-        {
-            game.add.sprite(0, 0, 'loadingScreen');
-        }
+        mainMenu.prototype.loadingScreenDisplay();
 
         //Manages Save Data
         mainMenu.prototype.checkSave();
@@ -255,12 +252,14 @@ mainMenu.prototype = {
                         }
                     }
 
+                    /*
                     //Enter
                     if (settings.fullscreen === false)
                     {
                         cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
                         cursors.right.onDown.add(gobalFunctions.prototype.gofull, this);
                     }
+                    */
                 }
 
                 //Sound
@@ -346,9 +345,6 @@ mainMenu.prototype = {
         {
             menuSelect = 3;
         }
-
-        //Auto Save
-        store.set("save.settings.sound", settings.sound);
     },
 
     render : function(){
@@ -376,6 +372,14 @@ mainMenu.prototype = {
         text.selector1.setText("Chapter" + " " + sav.chapter + " - " + sav.chapterString);
         text.selector2.setText("Erase Save");
         text.selector3.setText("Export Save");
+    },
+
+    loadingScreenDisplay : function(){
+        
+        if (loadedLoadingScreen === true)
+        {
+            game.add.sprite(0, 0, 'loadingScreen');
+        }
     },
 
     exit : function(){

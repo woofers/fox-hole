@@ -76,6 +76,4 @@ var digDelay;
 var jumpDelay;
 var currentTime;
 
-var playerGroup;
-
 //Jaxson C. Van Doorn, 2014

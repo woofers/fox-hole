@@ -95,12 +95,11 @@ gobalFunctions.prototype = {
         //Volume Controll
         music.volume = settings.sound / 10;
 
+        //Auto Save
+        store.set("save.settings.sound", settings.sound);
+
         //Refreshs function 60 times a second
         setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 60);
-    },
-
-    empty : function(){
-    
     },
 
     fullExit : function(){
