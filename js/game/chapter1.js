@@ -112,11 +112,6 @@ chapter1.prototype = {
         tunnel1.setCollisionBetween(0, 6);
         tunnel2.setCollisionBetween(0, 6);
         topMap.setCollisionBetween(0, 6);
-
-        game.physics.arcade.enable(layerMaster);
-        game.physics.arcade.enable(layerTunnel1);
-        game.physics.arcade.enable(layerTunnel2);
-        game.physics.arcade.enable(layerTop);
     },
 
     playMusic : function(){
@@ -145,7 +140,7 @@ chapter1.prototype = {
         currentTime = game.time.now;
 
         //Walk Left
-        if (leftButton.isDown && player.isDigging === false)
+        if (leftButton.isDown && player.isDigging === false && player.body.blocked.left === false)
         {
             player.scale.x = -4;
             player.body.offset.x = 35; 
@@ -185,7 +180,7 @@ chapter1.prototype = {
         }
 
         //Walk Right
-        else if (rightButton.isDown && player.isDigging === false)
+        else if (rightButton.isDown && player.isDigging === false && player.body.blocked.right === false)
         {
             player.scale.x = 4;
             player.body.offset.x = 30; 
@@ -420,7 +415,7 @@ chapter1.prototype = {
             //Pauses Game 
             game.paused = true;
         }
-        /* 
+/*
         //Camera
         sav.cameraY = 184 + player.y;
         camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
@@ -430,7 +425,14 @@ chapter1.prototype = {
         {
             sav.cameraY = 1536;
             camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
-        }*/
+        }
+*/
+
+        //Camera
+        sav.cameraY = 184 + player.y;
+        //game.camera.setBoundsToWorld();
+    
+        console.log(player.body.blocked.right)
 	},
 
     render : function(){
@@ -448,7 +450,6 @@ chapter1.prototype = {
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
             game.debug.body(player);
-            game.debug.body(enemy);
         }
     },
 

@@ -47,7 +47,7 @@ gobalFunctions.prototype = {
     settingsText : function(){
             
         text.title.setText("SETTINGS");
-        text.selector1.setText("Resolution - " + settings.resolutionWidth + " x " + settings.resolutionHeight);
+        text.selector1.setText("Resolution - " + game.scale.width + " x " + game.scale.height);
         text.selector2.setText("Fullscreen - " + settings.fullscreenString);
         text.selector3.setText("Sound - " + settings.sound);
     },
@@ -62,34 +62,6 @@ gobalFunctions.prototype = {
         settings.sound -= 1;
     },
 
-    scale: function(){
-        
-        //Rescale when In and Out of Fullscreen
-        if (Phaser.ScaleManager.prototype.isFullScreen === null)
-        {
-            game.scale.maxWidth = 1368;
-            game.scale.maxHeight = 770;
-            game.scale.setScreenSize();
-            settings.fullscreenString = "Off";
-            settings.fullscreen = false;
-        }
-        else 
-        {
-            game.scale.maxWidth = 1920;
-            game.scale.maxHeight = 1080;
-            game.scale.setScreenSize();
-            settings.fullscreenString = "On";
-            settings.fullscreen = true;
-        }
-        
-        //Change Resolution String
-        settings.resolutionWidth = game.scale.width;
-        settings.resolutionHeight = game.scale.height;
-
-        //Refreshs function 60 times a second
-        setTimeout(gobalFunctions.prototype.scale, 1000 / 60);
-    },
-
     soundAdjust : function(){
         
         //Volume Controll
@@ -99,7 +71,7 @@ gobalFunctions.prototype = {
         store.set("save.settings.sound", settings.sound);
 
         //Refreshs function 60 times a second
-        setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 60);
+        setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 5);
     },
 
     fullExit : function(){

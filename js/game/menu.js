@@ -18,9 +18,6 @@ mainMenu.prototype = {
         //Manages Save Data
         mainMenu.prototype.checkSave();
 
-        //Scale Window
-        gobalFunctions.prototype.scale();
-
         //Souund Adjustor
         gobalFunctions.prototype.soundAdjust();
 
@@ -142,8 +139,6 @@ mainMenu.prototype = {
         //Main Menu
         if (currentScreen == 1 && text.loaded === true)
         {
-            mainMenu.prototype.mainText();
-
                 //Play
                 if (menuSelect == 1)
                 {
@@ -153,6 +148,7 @@ mainMenu.prototype = {
                         keyDebouncing.enterPressed = true;
                         currentScreen = 2;
                         menuSelect = 1;
+                        mainMenu.prototype.saveText();
                     }
                 }
 
@@ -165,6 +161,7 @@ mainMenu.prototype = {
                         keyDebouncing.enterPressed = true;
                         currentScreen = 3;
                         menuSelect = 1;
+                        gobalFunctions.prototype.settingsText();
                     }
                 }
 
@@ -185,8 +182,6 @@ mainMenu.prototype = {
         //Save Slots
         if (currentScreen == 2 && text.loaded === true)
         {
-            mainMenu.prototype.saveText();
-            
                 //Slot 1
                 if (menuSelect == 1)
                 {
@@ -215,14 +210,13 @@ mainMenu.prototype = {
                 {
                     currentScreen = 1;
                     menuSelect = 1;
+                    mainMenu.prototype.mainText();
                 }
         }
         
         //Settings
         if (currentScreen == 3 && text.loaded === true)
         {
-            gobalFunctions.prototype.settingsText();
-
                 //Resolution
                 if (menuSelect == 1)
                 {
@@ -232,6 +226,7 @@ mainMenu.prototype = {
                 //Fullscreen
                 if (menuSelect == 2)
                 {
+                    /*
                     //Exit
                     if (settings.fullscreen === true)
                     {
@@ -252,7 +247,6 @@ mainMenu.prototype = {
                         }
                     }
 
-                    /*
                     //Enter
                     if (settings.fullscreen === false)
                     {
@@ -285,6 +279,7 @@ mainMenu.prototype = {
                 {
                     currentScreen = 1;
                     menuSelect = 2;
+                    mainMenu.prototype.mainText();
                 }
         }
 
