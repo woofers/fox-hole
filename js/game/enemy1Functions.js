@@ -38,8 +38,7 @@ enemy1Functions.prototype = {
         }
         else
         {
-            player.x = sav.x;
-            player.y = 700;
+        	playerFunctions.prototype.kill();
         }
     }
 };

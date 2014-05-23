@@ -14,14 +14,15 @@
 
 	To do:
 	
+		Stop Animation On Collide
 		Better Camera
 		Finsih Fullscreen Toggle
 		Attacks | Pounce and Tail Wip
 
 	Bugs:
 
+		Memory Hog | Laggy
 		Dig Bug
-		Clip Bug
 
 	Graphics:
 	

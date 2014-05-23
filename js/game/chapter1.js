@@ -75,6 +75,9 @@ chapter1.prototype = {
         pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
+        //Fixies Clipping
+        game.physics.arcade.TILE_BIAS = 128;
+
         //Turns on smoothing
         game.stage.smoothed = false;
 
@@ -114,6 +117,17 @@ chapter1.prototype = {
         topMap.setCollisionBetween(0, 6);
     },
 
+    temp : function(){
+
+        topMap = game.add.tilemap('top');
+
+        topMap.addTilesetImage('block', 'tiles');
+
+        layerTop = topMap.createLayer('collisionLayer');
+
+        topMap.setCollisionBetween(0, 6);
+    },
+
     playMusic : function(){
 
         //Play Music
@@ -140,7 +154,7 @@ chapter1.prototype = {
         currentTime = game.time.now;
 
         //Walk Left
-        if (leftButton.isDown && player.isDigging === false && player.body.blocked.left === false)
+        if (leftButton.isDown && player.isDigging === false)
         {
             player.scale.x = -4;
             player.body.offset.x = 35; 
@@ -156,13 +170,13 @@ chapter1.prototype = {
                         //Walk Left Animation
                         if (player.body.blocked.down)
                         {
-                            player.animations.play('walkingLeft');
+                            player.animations.play('walking');
                         }
 
                         //Jump Left Animation
                         else
                         {
-                            player.animations.play('jumpingLeft');
+                            player.animations.play('jumping');
                         }
                 }
 
@@ -174,13 +188,13 @@ chapter1.prototype = {
                         //Crawl Left Animation
                         if (player.body.blocked.down)
                         {
-                            player.animations.play('crawlLeft');
+                            player.animations.play('crawl');
                         }
                 }
         }
 
         //Walk Right
-        else if (rightButton.isDown && player.isDigging === false && player.body.blocked.right === false)
+        else if (rightButton.isDown && player.isDigging === false)
         {
             player.scale.x = 4;
             player.body.offset.x = 30; 
@@ -196,13 +210,13 @@ chapter1.prototype = {
                         //Walk Right Animation
                         if (player.body.blocked.down)
                         {
-                            player.animations.play('walkingRight');
+                            player.animations.play('walking');
                         }
 
                         //Jump Right Animation
                         else
                         {
-                            player.animations.play('jumpingRight'); 
+                            player.animations.play('jumping'); 
                         }
                 }
 
@@ -214,7 +228,7 @@ chapter1.prototype = {
                         //Crawl Right Animation
                         if(player.body.blocked.down)
                         {
-                            player.animations.play('crawlRight');
+                            player.animations.play('crawl');
                         }
                 }
         }
@@ -225,37 +239,37 @@ chapter1.prototype = {
                 //Above Ground
                 if(player.dig === false)
                 {
-                    //Idle Left Animation
-                    if (player.movingLeft === true)
-                    {
-                        player.animations.play('idleLeft');
-                        player.scale.x = -4;
-                    }
+                    player.animations.play('idle');
+                        
+                        //Idle Left Animation
+                        if (player.movingLeft === true)
+                        {
+                            player.scale.x = -4;
+                        }
 
-                    //Idle Right Animation
-                    if (player.movingRight === true)
-                    {
-                        player.animations.play('idleRight');
-                        player.scale.x = 4;
-                    } 
+                        //Idle Right Animation
+                        if (player.movingRight === true)
+                        {
+                            player.scale.x = 4;
+                        } 
                 }
 
                 //Underground
                 if (player.dig === true)
                 {
-                    //Idle Left Animation
-                    if (player.movingLeft === true)
-                    {
-                        player.animations.play('crawlIdleLeft');
-                        player.scale.x = -4;
-                    }
+                     player.animations.play('crawlIdle');
 
-                    //Idle Right Animation
-                    if (player.movingRight === true)
-                    {
-                        player.animations.play('crawlIdleRight');
-                        player.scale.x = 4;
-                    } 
+                        //Idle Left Animation
+                        if (player.movingLeft === true)
+                        {
+                            player.scale.x = -4;
+                        }
+
+                        //Idle Right Animation
+                        if (player.movingRight === true)
+                        {
+                            player.scale.x = 4;
+                        } 
                 }
         }
 
@@ -280,7 +294,7 @@ chapter1.prototype = {
             player.dobuleJump = false;
         }
 
-        //************Dig Start************//
+        //----------Dig Start----------//
 
         //Set isDigging to false
         if (!player.isDigging === true)
@@ -296,7 +310,7 @@ chapter1.prototype = {
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
-                topMap.putTileWorldXY(13, player.x, player.y - 128, 128, 128, layerTop);
+                topMap.putTileWorldXY(13, player.x, player.y - 100, 128, 128, layerTop);
                 player.y = player.y + 256;
             }
 
@@ -315,37 +329,37 @@ chapter1.prototype = {
             //To Tunnel 1
             if (player.layer == 1)
             {
-                //Dig Left Animation
-                if (player.movingLeft === true)
-                {
-                    player.animations.play('digLeft');
-                    player.scale.x = -4;
-                }
+                player.animations.play('dig');
+                    
+                    //Dig Left Animation
+                    if (player.movingLeft === true)
+                    {
+                        player.scale.x = -4;
+                    }
 
-                //Dig Right Animation
-                if (player.movingRight === true)
-                {
-                    player.animations.play('digRight');
-                    player.scale.x = 4;
-                }    
+                    //Dig Right Animation
+                    if (player.movingRight === true)
+                    {
+                        player.scale.x = 4;
+                    }    
             }
 
             //To Tunnel 2
             if (player.layer == 2)
             {
-                //Dig Left Animation
-                if (player.movingLeft === true)
-                {
-                    player.animations.play('digLeft');
-                    player.scale.x = -4;
-                }
+                player.animations.play('dig');
+                
+                    //Dig Left Animation
+                    if (player.movingLeft === true)
+                    {
+                        player.scale.x = -4;
+                    }
 
-                //Dig Right Animation
-                if (player.movingRight === true)
-                {
-                    player.animations.play('digRight');
-                    player.scale.x = 4;
-                }    
+                    //Dig Right Animation
+                    if (player.movingRight === true)
+                    {
+                        player.scale.x = 4;
+                    }    
             }
         }
 
@@ -383,7 +397,24 @@ chapter1.prototype = {
             player.dig = false;
         }
         
-        //************Dig End************//
+        //----------Dig End----------//
+
+        //Camera
+        sav.cameraY = 184 + player.y;
+        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+
+        //Camera Max out
+        if (sav.cameraY > 1536)
+        {
+            sav.cameraY = 1536;
+            camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+        }
+
+        //Stop the anmation
+        if (player.body.blocked.right || player.body.blocked.left)
+        {
+            player.animations.stop();
+        }
 
         //Key Debouncing
         if (!jumpButton.isDown)
@@ -415,24 +446,7 @@ chapter1.prototype = {
             //Pauses Game 
             game.paused = true;
         }
-/*
-        //Camera
-        sav.cameraY = 184 + player.y;
-        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
 
-        //Camera Max out
-        if (sav.cameraY > 1536)
-        {
-            sav.cameraY = 1536;
-            camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
-        }
-*/
-
-        //Camera
-        sav.cameraY = 184 + player.y;
-        //game.camera.setBoundsToWorld();
-    
-        console.log(player.body.blocked.right)
 	},
 
     render : function(){
@@ -482,10 +496,6 @@ chapter1.prototype = {
         tunnel1.setCollisionBetween(0, 6);
         tunnel2.setCollisionBetween(0, 6);
         topMap.setCollisionBetween(0, 6);
-
-        game.physics.arcade.enable(layerTunnel1);
-        game.physics.arcade.enable(layerTunnel2);
-        game.physics.arcade.enable(layerTop);
     },
 
     save : function(){

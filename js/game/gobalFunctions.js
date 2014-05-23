@@ -71,7 +71,7 @@ gobalFunctions.prototype = {
         store.set("save.settings.sound", settings.sound);
 
         //Refreshs function 60 times a second
-        setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 5);
+        setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 60);
     },
 
     fullExit : function(){

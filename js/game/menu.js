@@ -161,7 +161,6 @@ mainMenu.prototype = {
                         keyDebouncing.enterPressed = true;
                         currentScreen = 3;
                         menuSelect = 1;
-                        gobalFunctions.prototype.settingsText();
                     }
                 }
 
@@ -182,7 +181,7 @@ mainMenu.prototype = {
         //Save Slots
         if (currentScreen == 2 && text.loaded === true)
         {
-                //Slot 1
+                //Play
                 if (menuSelect == 1)
                 {
                     //Enter
@@ -193,10 +192,16 @@ mainMenu.prototype = {
                     }
                 }
 
-                //Slot 2
+                //Erase
                 if (menuSelect == 2)
                 {
-
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        mainMenu.prototype.createSave();
+                        mainMenu.prototype.readSave();
+                        mainMenu.prototype.saveText();
+                    }
                 }
 
                 //Slot 3
@@ -217,70 +222,72 @@ mainMenu.prototype = {
         //Settings
         if (currentScreen == 3 && text.loaded === true)
         {
-                //Resolution
-                if (menuSelect == 1)
-                {
+                gobalFunctions.prototype.settingsText();
 
-                }
-
-                //Fullscreen
-                if (menuSelect == 2)
-                {
-                    /*
-                    //Exit
-                    if (settings.fullscreen === true)
+                    //Resolution
+                    if (menuSelect == 1)
                     {
-                        cursors.right.onDown.removeAll();
 
-                        //Left
-                        if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                    }
+
+                    //Fullscreen
+                    if (menuSelect == 2)
+                    {
+
+                        //Exit
+                        if (settings.fullscreen === true)
+                        {
+                            cursors.right.onDown.removeAll();
+
+                            //Left
+                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                            {
+                                keyDebouncing.leftPressed = true;
+                                gobalFunctions.prototype.fullExit();
+                            }
+
+                            //Right
+                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                            {
+                                keyDebouncing.rightPressed = true;
+                                gobalFunctions.prototype.fullExit(); 
+                            }
+                        }
+/*
+                        //Enter
+                        if (settings.fullscreen === false)
+                        {
+                            cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
+                            cursors.right.onDown.add(gobalFunctions.prototype.gofull, this);
+                        }
+*/
+                    }
+
+                    //Sound
+                    if (menuSelect == 3)
+                    {
+                        //Sound Down
+                        if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
                         {
                             keyDebouncing.leftPressed = true;
-                            gobalFunctions.prototype.fullExit();
+                            gobalFunctions.prototype.soundDown(); 
                         }
 
-                        //Right
-                        if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                        //Sound Up
+                        if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                         {
                             keyDebouncing.rightPressed = true;
-                            gobalFunctions.prototype.fullExit(); 
+                            gobalFunctions.prototype.soundUp();
                         }
                     }
 
-                    //Enter
-                    if (settings.fullscreen === false)
+                    //Go Back
+                    if (backSelect.isDown)
                     {
-                        cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
-                        cursors.right.onDown.add(gobalFunctions.prototype.gofull, this);
+                        currentScreen = 1;
+                        menuSelect = 2;
+                        mainMenu.prototype.mainText();
                     }
-                    */
-                }
-
-                //Sound
-                if (menuSelect == 3)
-                {
-                    //Sound Down
-                    if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
-                    {
-                        keyDebouncing.leftPressed = true;
-                        gobalFunctions.prototype.soundDown(); 
-                    }
-
-                    //Sound Up
-                    if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
-                    {
-                        keyDebouncing.rightPressed = true;
-                        gobalFunctions.prototype.soundUp();
-                    }
-                }
-
-                //Go Back
-                if (backSelect.isDown)
-                {
-                    currentScreen = 1;
-                    menuSelect = 2;
-                    mainMenu.prototype.mainText();
-                }
         }
 
         //About
