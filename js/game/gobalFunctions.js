@@ -74,22 +74,6 @@ gobalFunctions.prototype = {
         setTimeout(gobalFunctions.prototype.soundAdjust, 1000 / 60);
     },
 
-    fullExit : function(){
-        
-        if (document.exitFullscreen) 
-        {
-            document.exitFullscreen();
-        }
-        else if (document.mozCancelFullScreen) 
-        {
-            document.mozCancelFullScreen();
-        }
-        else if (document.webkitCancelFullScreen) 
-        {
-            document.webkitCancelFullScreen();
-        }
-    },
-
     gofull : function(){
 
         //Scale Screen To Fullscreen

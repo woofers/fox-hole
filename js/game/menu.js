@@ -235,32 +235,44 @@ mainMenu.prototype = {
                     {
 
                         //Exit
-                        if (settings.fullscreen === true)
+                        if (win.isFullscreen === true)
                         {
-                            cursors.right.onDown.removeAll();
-
                             //Left
                             if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                             {
                                 keyDebouncing.leftPressed = true;
-                                gobalFunctions.prototype.fullExit();
+                                win.isFullscreen = false;
+                                settings.fullscreenString = "Off";
                             }
 
                             //Right
                             if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                             {
                                 keyDebouncing.rightPressed = true;
-                                gobalFunctions.prototype.fullExit(); 
+                                win.isFullscreen = false;
+                                settings.fullscreenString = "Off";
                             }
                         }
-/*
+                        
                         //Enter
-                        if (settings.fullscreen === false)
+                        if (win.isFullscreen === false)
                         {
-                            cursors.left.onDown.add(gobalFunctions.prototype.gofull, this);
-                            cursors.right.onDown.add(gobalFunctions.prototype.gofull, this);
+                            //Left
+                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                            {
+                                keyDebouncing.leftPressed = true;
+                                win.isFullscreen = true;
+                                settings.fullscreenString = "On";
+                            }
+
+                            //Right
+                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                            {
+                                keyDebouncing.rightPressed = true;
+                                win.isFullscreen = true;
+                                settings.fullscreenString = "On";
+                            }
                         }
-*/
                     }
 
                     //Sound

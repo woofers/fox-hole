@@ -117,7 +117,45 @@ pauseMenu.prototype = {
                 //Fullscreen
                 if (menuSelect == 2)
                 {
+                        //Exit
+                        if (win.isFullscreen === true)
+                        {
+                            //Left
+                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                            {
+                                keyDebouncing.leftPressed = true;
+                                win.isFullscreen = false;
+                                settings.fullscreenString = "Off";
+                            }
 
+                            //Right
+                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                            {
+                                keyDebouncing.rightPressed = true;
+                                win.isFullscreen = false;
+                                settings.fullscreenString = "Off";
+                            }
+                        }
+                        
+                        //Enter
+                        if (win.isFullscreen === false)
+                        {
+                            //Left
+                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                            {
+                                keyDebouncing.leftPressed = true;
+                                win.isFullscreen = true;
+                                settings.fullscreenString = "On";
+                            }
+
+                            //Right
+                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                            {
+                                keyDebouncing.rightPressed = true;
+                                win.isFullscreen = true;
+                                settings.fullscreenString = "On";
+                            }
+                        }
                 }
 
                 //Sound

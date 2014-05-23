@@ -17,7 +17,8 @@ var settings = {
                     resolutionHeight: 1080,
                     fullscreen: false,
                     fullscreenString: "Off",
-                    sound: 10
+                    sound: 10,
+                    resolutionScroller: null
             };
 //Save
 var sav = {
@@ -55,6 +56,10 @@ var titleStyle = {
 var music = {
                     volume: 0
             };
+
+//Node Webbkit Import
+var gui = require('nw.gui');
+var win = gui.Window.get();
 
 //Menu and UI
 var menuSelect = 1;

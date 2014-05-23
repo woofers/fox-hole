@@ -8,11 +8,23 @@
 			<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 			<meta content="utf-8" http-equiv="encoding">
 
-			<!--CSS-->
-			<link rel="stylesheet" type="text/css" href="style.css">
-
 			<!--Icon-->
 			<link rel="shortcut icon" type='image/x-icon' href='favicon.ico' />
+
+			<!--CSS-->
+			<style type="text/css">
+				
+				* 
+				{
+					margin: 0;
+					padding: 0;
+				}
+				#canvasdiv
+				{ 
+					cursor: none; 
+				}
+
+			</style>
 			
 			<!--Import Phaser, JQuerry and Store.js-->
 			<script type="text/javascript" src="js/phaser/phaser.min.js"></script>
@@ -26,29 +38,17 @@
 		</head>
 		
 <body oncontextmenu ="return false;">
-				<section class ="container">
-							
+						
 						<!--Game Cavas-->						
 						<div id = "canvasdiv">
 							<script type="text/javascript" src="js/game/gobalVaribles.js"></script>
 							<script type="text/javascript" src="js/game/playerFunctions.js"></script>
-							<script type="text/javascript" src="js/game/enemy1Functions.js"></script>
 							<script type="text/javascript" src="js/game/gobalFunctions.js"></script>
+							<script type="text/javascript" src="js/game/enemy1Functions.js"></script>
 							<script type="text/javascript" src="js/game/load.js"></script>
 							<script type="text/javascript" src="js/game/menu.js"></script>
 							<script type="text/javascript" src="js/game/pause.js"></script>
 							<script type="text/javascript" src="js/game/chapter1.js"></script>
 						</div>
-						
- 						<!--Game Name-->
- 						<h2 class="game">Fox</h2>
- 						<p class="paragraph">A game about Foxes</p>
- 						
- 						<!--Footer-->
- 						<section id="footer">
-								<hr class="line"/>
-								<p class="footertext">Copyright 2014, Jaxson Van Doorn and Avery Suzuki</p>
-						</section>
-				</section>
 		</body>
 </html>
