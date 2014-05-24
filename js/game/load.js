@@ -23,9 +23,9 @@
 
 	Graphics:
 	
-		Finish Tunnel Tiles
 		Hills
 		Alt Dig
+		Enimies
 		Crawl Idle
 		Pounce
 		Tail Wip

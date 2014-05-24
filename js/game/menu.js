@@ -102,7 +102,7 @@ mainMenu.prototype = {
         text.selector2.fill = "#ffffff";
 
         //Draw Selector 3
-        text.selector3 = game.add.text(960, 840, "About");
+        text.selector3 = game.add.text(960, 840, "Exit");
         text.selector3.anchor.setTo(0.5);
         text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
@@ -158,16 +158,13 @@ mainMenu.prototype = {
                     }
                 }
 
-                //About
+                //Exit
                 if (menuSelect == 3)
                 {
                     //Enter
                     if (select.isDown && keyDebouncing.enterPressed === false)
                     {
-                        keyDebouncing.enterPressed = true;
-                        aboutMenu.visible =! aboutMenu.visible;
-                        currentScreen = 4;
-                        menuSelect = 1;
+                        gui.App.quit();
                     }
                 }
         }
@@ -198,15 +195,23 @@ mainMenu.prototype = {
                     }
                 }
 
-                //Slot 3
+                //About
                 if (menuSelect == 3)
                 {
-
+                    //Enter
+                    if (select.isDown && keyDebouncing.enterPressed === false)
+                    {
+                        keyDebouncing.enterPressed = true;
+                        aboutMenu.visible =! aboutMenu.visible;
+                        currentScreen = 4;
+                        menuSelect = 1;
+                    }
                 }
 
                 //Go Back
-                if (backSelect.isDown)
+                if (backSelect.isDown && keyDebouncing.backPressed === false)
                 {
+                    keyDebouncing.backPressed = true;
                     currentScreen = 1;
                     menuSelect = 1;
                     mainMenu.prototype.mainText();
@@ -288,8 +293,9 @@ mainMenu.prototype = {
                     }
 
                     //Go Back
-                    if (backSelect.isDown)
+                    if (backSelect.isDown && keyDebouncing.backPressed === false)
                     {
+                        keyDebouncing.backPressed = true;
                         currentScreen = 1;
                         menuSelect = 2;
                         mainMenu.prototype.mainText();
@@ -300,10 +306,11 @@ mainMenu.prototype = {
         if (currentScreen == 4 && text.loaded === true)
         {
             //Go Back
-            if (backSelect.isDown)
+            if (backSelect.isDown && keyDebouncing.backPressed === false)
             {
+                keyDebouncing.backPressed = true;
                 aboutMenu.visible =! aboutMenu.visible;
-                currentScreen = 1;
+                currentScreen = 2;
                 menuSelect = 3;
             }
         }
@@ -343,6 +350,10 @@ mainMenu.prototype = {
         {
             keyDebouncing.enterPressed = false;
         }
+        if (!backSelect.isDown)
+        {
+            keyDebouncing.backPressed = false;
+        }
 
         //Looping
         if (menuSelect > 3)
@@ -371,15 +382,15 @@ mainMenu.prototype = {
         text.title.setText("FOX");
         text.selector1.setText("Play");
         text.selector2.setText("Settings");
-        text.selector3.setText("About");
+        text.selector3.setText("Exit");
     },
 
     saveText : function(){
             
-        text.title.setText("SAVES");
+        text.title.setText("PLAY");
         text.selector1.setText("Chapter" + " " + sav.chapter + " - " + sav.chapterString);
         text.selector2.setText("Erase Save");
-        text.selector3.setText("Export Save");
+        text.selector3.setText("About Game");
     },
 
     loadingScreenDisplay : function(){

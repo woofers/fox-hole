@@ -46,6 +46,7 @@ playerFunctions.prototype = {
 
         //Diging
         player.animations.add('dig', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
+        player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 22, '', 4), 10, false);
     },
 
     digDelayFunc : function(){

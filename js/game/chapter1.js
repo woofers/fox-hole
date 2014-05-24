@@ -341,7 +341,7 @@ chapter1.prototype = {
             //To Tunnel 2
             if (player.layer == 2)
             {
-                player.animations.play('dig');
+                player.animations.play('digSmall');
                 
                     //Dig Left Animation
                     if (player.movingLeft === true)
