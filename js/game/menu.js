@@ -77,12 +77,6 @@ mainMenu.prototype = {
         select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
-        //Fullscreen on click
-        this.input.onDown.add(gobalFunctions.prototype.gofull, this);
-
-        //Turns on smoothing
-        game.stage.smoothed = true;
-
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
     },

@@ -238,7 +238,7 @@ pauseMenu.prototype = {
         }
 
         //Refreshs function 60 times a second
-        setTimeout(pauseMenu.prototype.pauseGame, 1000 / 60);
+        setTimeout(pauseMenu.prototype.pauseGame, 16);
 	},
 
     createTextPause : function(){
@@ -283,8 +283,6 @@ pauseMenu.prototype = {
         text.selector1.destroy();
         text.selector2.destroy();
         text.selector3.destroy();
-
-        game.stage.smoothed = false;
     }
 };
 

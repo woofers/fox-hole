@@ -65,24 +65,18 @@ chapter1.prototype = {
         cameraFollow = game.camera.follow(player);
 
         //Controlls
+        cursors = game.input.keyboard.createCursorKeys();
         upButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
         downButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
         leftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
         rightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.R);
-        cursors = game.input.keyboard.createCursorKeys();
         jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fixies Clipping
         game.physics.arcade.TILE_BIAS = 128;
-
-        //Turns on smoothing
-        game.stage.smoothed = false;
-
-        //Fullscreen on click
-        this.input.onDown.add(gobalFunctions.prototype.gofull, game);
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
@@ -434,8 +428,6 @@ chapter1.prototype = {
         if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false)
         {
             keyDebouncing.enterPressed = true;
-
-            game.stage.smoothed = true;
 
             pauseMenuBg.bringToTop();
             pauseMenuBg.visible =! pauseMenuBg.visible;

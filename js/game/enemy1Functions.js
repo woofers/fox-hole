@@ -24,6 +24,7 @@ enemy1Functions.prototype = {
         enemy.setAll('body.bounce', 0);
         enemy.setAll('body.gravity.y', 700);
         enemy.setAll('body.collideWorldBounds', true);
+        enemy.setAll('smoothed', false);
 
         //Walk
         enemy.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('foxIdle', 0, 15, '', 4), 10, true);

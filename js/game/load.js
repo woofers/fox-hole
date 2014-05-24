@@ -14,9 +14,6 @@
 
 	To do:
 	
-		Stop Animation On Collide
-		Better Camera
-		Finsih Fullscreen Toggle
 		Attacks | Pounce and Tail Wip
 
 	Bugs:

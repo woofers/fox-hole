@@ -12,6 +12,7 @@ playerFunctions.prototype = {
         player = game.add.sprite(sav.x, 700, 'playerSprite');
         player.anchor.setTo(0.7, 1);
         player.scale.setTo(4, 4);
+        player.smoothed = false;
 
         //Add Physics
         game.physics.arcade.enable(player);
@@ -25,8 +26,8 @@ playerFunctions.prototype = {
         player.body.collideWorldBounds = true;
 
         //Create Group
-        playerGroup = game.add.group();
-        playerGroup.add(player);
+        //playerGroup = game.add.group();
+        //playerGroup.add(player);
 
         //Player Animations
 
