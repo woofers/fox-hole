@@ -26,8 +26,8 @@ playerFunctions.prototype = {
         player.body.collideWorldBounds = true;
 
         //Create Group
-        //playerGroup = game.add.group();
-        //playerGroup.add(player);
+        playerGroup = game.add.group();
+        playerGroup.add(player);
 
         //Player Animations
 
@@ -46,7 +46,7 @@ playerFunctions.prototype = {
 
         //Diging
         player.animations.add('dig', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
-        player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 22, '', 4), 10, false);
+        player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 24, '', 4), 13, false);
     },
 
     digDelayFunc : function(){

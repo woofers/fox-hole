@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<TextureAtlas imagePath="enemy.png">
+	
+	<!--Jaxson C. Van Doorn, 2014-->
+
+	<!--Idle-->
+		<SubTexture name="croc1Idle0000" x="0" y="0" width="60" height="110"/>
+
+</TextureAtlas>

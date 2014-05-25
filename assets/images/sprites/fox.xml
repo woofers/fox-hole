@@ -48,7 +48,7 @@
 		<SubTexture name="foxDig0008" x="536" y="165" width="67" height="55"/>
 		<SubTexture name="foxDig0009" x="603" y="165" width="67" height="55"/>
 		<SubTexture name="foxDig0010" x="670" y="165" width="67" height="55"/>
-		<SubTexture name="foxDig0011" x="736" y="165" width="67" height="55"/>
+		<SubTexture name="foxDig0011" x="737" y="165" width="67" height="55"/>
 		<SubTexture name="foxDig0012" x="804" y="165" width="67" height="55"/>
 		<SubTexture name="foxDig0013" x="871" y="165" width="67" height="55"/>
 		<SubTexture name="foxDig0014" x="938" y="165" width="67" height="55"/>
@@ -68,7 +68,7 @@
 		<SubTexture name="foxDigSmall0008" x="536" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0009" x="603" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0010" x="670" y="220" width="67" height="55"/>
-		<SubTexture name="foxDigSmall0011" x="736" y="220" width="67" height="55"/>
+		<SubTexture name="foxDigSmall0011" x="737" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0012" x="804" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0013" x="871" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0014" x="938" y="220" width="67" height="55"/>
@@ -81,5 +81,7 @@
 		<SubTexture name="foxDigSmall0021" x="1407" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0022" x="1474" y="220" width="67" height="55"/>
 		<SubTexture name="foxDigSmall0023" x="1541" y="220" width="67" height="55"/>
+		<SubTexture name="foxDigSmall0024" x="1608" y="220" width="67" height="55"/>
+		<SubTexture name="foxDigSmall0024" x="1675" y="220" width="67" height="55"/>
 
 </TextureAtlas>

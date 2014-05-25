@@ -18,22 +18,36 @@ enemy1Functions.prototype = {
         game.physics.arcade.enable(enemy);
 
         enemy.setAll('anchor.x', 0.5);
-        enemy.setAll('scale.x', 4);
-        enemy.setAll('scale.y', 4);
+        enemy.setAll('scale.x', -2.5);
+        enemy.setAll('scale.y', 2.5);
 
         enemy.setAll('body.bounce', 0);
         enemy.setAll('body.gravity.y', 700);
         enemy.setAll('body.collideWorldBounds', true);
         enemy.setAll('smoothed', false);
 
+        //enemy.set(2, scale.x, -2.5);
+
         //Walk
-        enemy.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('foxIdle', 0, 15, '', 4), 10, true);
-        enemy.callAll('animations.play', 'animations', 'spin');
+        //enemy.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('foxIdle', 0, 0, '', 4), 10, true);
+        //enemy.callAll('animations.play', 'animations', 'spin');
+    },
+
+    vision : function(){
+
+    },
+
+    follow : function(){
+
+    },
+
+    attack : function(){
+
     },
 
     kill : function(player, enemy){
 
-        if (attackButton.isDown && player.scale.x == enemy.scale.x)
+        if (attackButton.isDown)
         {
             enemy.kill();
         }

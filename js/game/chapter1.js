@@ -9,7 +9,7 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = false;
+        debugShow = true;
         currentScreen = 1;
         sav.cameraY = 1208;
 
@@ -32,7 +32,7 @@ chapter1.prototype = {
 
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
-        game.load.atlasXML('enemySprite', 'assets/images/sprites/enemy.png', 'assets/images/sprites/fox.xml');
+        game.load.atlasXML('enemySprite', 'assets/images/sprites/enemy.png', 'assets/images/sprites/enemy.xml');
 
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
@@ -297,10 +297,10 @@ chapter1.prototype = {
         }
 
         //Delay Camera Move Until Animation is Done
-        if (currentTime - digDelay > 1600 && player.isDigging === true)
+        if (player.isDigging === true)
         {
             //Tunnel 1
-            if (player.layer == 1)
+            if (currentTime - digDelay > 1600 && player.layer == 1)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -309,7 +309,7 @@ chapter1.prototype = {
             }
 
             //Tunnel 2
-            if (player.layer == 2)
+            if (currentTime - digDelay > 1800 && player.layer == 2)
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
@@ -439,6 +439,25 @@ chapter1.prototype = {
             game.paused = true;
         }
 
+        //Enemy Ai WIP
+        for (i = 0; i < enemy.length; i++) {
+            
+            if (enemy.getAt(i).scale.x == 2.5)
+            {
+                if (player.x - 500 > enemy.getAt(i).body.x && player.x > enemy.getAt(i).body.x)
+                {
+                    console.log("Enemy " + i + " sees you")
+                }
+            }
+            else if (enemy.getAt(i).scale.x == -2.5)
+            {
+                if (player.x + 500 > enemy.getAt(i).body.x && player.x < enemy.getAt(i).body.x)
+                {
+                    console.log("Enemy " + i + " sees you")
+                }
+            }
+        }
+
 	},
 
     render : function(){
@@ -455,7 +474,7 @@ chapter1.prototype = {
             game.debug.text('Sound: ' + music.volume, 32, 290);
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
-            game.debug.body(player);
+            //game.debug.body(player);
         }
     },
 
