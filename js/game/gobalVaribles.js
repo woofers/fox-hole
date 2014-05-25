@@ -81,4 +81,7 @@ var digDelay;
 var jumpDelay;
 var currentTime;
 
+//Enemy
+var enemyDelay;
+
 //Jaxson C. Van Doorn, 2014

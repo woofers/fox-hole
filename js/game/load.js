@@ -14,17 +14,16 @@
 
 	To do:
 	
+		Enemy AI
 		Attacks | Pounce and Tail Wip
 
 	Bugs:
 
-		Memory Hog | Laggy
 		Dig Bug
 
 	Graphics:
 	
 		Hills
-		Enimies
 		Crawl Idle
 		Pounce
 		Tail Wip

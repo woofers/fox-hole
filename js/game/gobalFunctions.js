@@ -72,13 +72,6 @@ gobalFunctions.prototype = {
 
         //Refreshs function 60 times a second
         setTimeout(gobalFunctions.prototype.soundAdjust, 250);
-    },
-
-    gofull : function(){
-
-        //Scale Screen To Fullscreen
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.scale.startFullScreen();
     }
 };
 

@@ -32,7 +32,9 @@ chapter1.prototype = {
 
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
-        game.load.atlasXML('enemySprite', 'assets/images/sprites/enemy.png', 'assets/images/sprites/enemy.xml');
+        
+        //Enemy
+        game.load.atlasXML('croc1Sprite', 'assets/images/sprites/croc1.png', 'assets/images/sprites/croc1.xml');
 
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
@@ -48,7 +50,7 @@ chapter1.prototype = {
 
         //Load Functions
         chapter1.prototype.loadMap();
-        enemy1Functions.prototype.loadEnemy();
+        croc11Functions.prototype.loadCroc1();
         playerFunctions.prototype.loadPlayer();
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
@@ -138,8 +140,8 @@ chapter1.prototype = {
         game.physics.arcade.collide(player, layerMaster, playerFunctions.prototype.tunnel2);
 
         //Enemy
-        game.physics.arcade.overlap(player, enemy, enemy1Functions.prototype.kill, null, this);
-        game.physics.arcade.collide(enemy, layerTop);
+        game.physics.arcade.overlap(player, croc1, croc11Functions.prototype.kill, null, this);
+        game.physics.arcade.collide(croc1, layerTop);
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -439,25 +441,28 @@ chapter1.prototype = {
             game.paused = true;
         }
 
-        //Enemy Ai WIP
-        for (i = 0; i < enemy.length; i++) {
+        //Croc1 AI
+        for (i = 0; i < croc1.length; i++) {
             
-            if (enemy.getAt(i).scale.x == 2.5)
+            //Facing Right
+            if (croc1.getAt(i).scale.x == 2.5)
             {
-                if (player.x - 500 > enemy.getAt(i).body.x && player.x > enemy.getAt(i).body.x)
+                if (player.x - 500 > croc1.getAt(i).x && player.x > croc1.getAt(i).x)
                 {
-                    console.log("Enemy " + i + " sees you")
+                    console.log("Croc1 " + i + " sees you")
                 }
             }
-            else if (enemy.getAt(i).scale.x == -2.5)
+            
+            //Facing Left
+            else if (croc1.getAt(i).scale.x == -2.5)
             {
-                if (player.x + 500 > enemy.getAt(i).body.x && player.x < enemy.getAt(i).body.x)
+                if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
                 {
-                    console.log("Enemy " + i + " sees you")
+                    console.log("Croc1 " + i + " sees you")
                 }
             }
-        }
 
+        }
 	},
 
     render : function(){
@@ -529,7 +534,7 @@ chapter1.prototype = {
         pauseMenu.prototype.textKill();
         bg.kill();
         player.kill();
-        enemy.destroy();
+        croc1.destroy();
         layerDug.kill();
         layerMaster.kill();
         layerTunnel1.kill();
