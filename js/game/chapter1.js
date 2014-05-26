@@ -9,7 +9,7 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = true;
+        debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
 
@@ -110,17 +110,6 @@ chapter1.prototype = {
         map.setCollisionBetween(0, 6);
         tunnel1.setCollisionBetween(0, 6);
         tunnel2.setCollisionBetween(0, 6);
-        topMap.setCollisionBetween(0, 6);
-    },
-
-    temp : function(){
-
-        topMap = game.add.tilemap('top');
-
-        topMap.addTilesetImage('block', 'tiles');
-
-        layerTop = topMap.createLayer('collisionLayer');
-
         topMap.setCollisionBetween(0, 6);
     },
 
@@ -412,6 +401,34 @@ chapter1.prototype = {
             player.animations.stop();
         }
 
+        //Croc1 AI
+        for (i = 0; i < croc1.length; i++)
+        {
+            
+            if (player.dig === false)
+            {
+                //Facing Right -->
+                if (croc1.getAt(i).scale.x == 2.5)
+                {
+                    if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x)
+                    {
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 500, 0)
+                        //croc1.getAt(i)console.log("Croc1 " + i + " sees you");
+                    }
+                }
+                
+                //Facing Left <--
+                else if (croc1.getAt(i).scale.x == -2.5)
+                {
+                    if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
+                    {
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 500, 0)
+                        //console.log("Croc1 " + i + " sees you");
+                    }
+                }
+            }
+        }
+
         //Key Debouncing
         if (!jumpButton.isDown)
         {
@@ -440,29 +457,6 @@ chapter1.prototype = {
             //Pauses Game 
             game.paused = true;
         }
-
-        //Croc1 AI
-        for (i = 0; i < croc1.length; i++) {
-            
-            //Facing Right
-            if (croc1.getAt(i).scale.x == 2.5)
-            {
-                if (player.x - 500 > croc1.getAt(i).x && player.x > croc1.getAt(i).x)
-                {
-                    console.log("Croc1 " + i + " sees you")
-                }
-            }
-            
-            //Facing Left
-            else if (croc1.getAt(i).scale.x == -2.5)
-            {
-                if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
-                {
-                    console.log("Croc1 " + i + " sees you")
-                }
-            }
-
-        }
 	},
 
     render : function(){
@@ -479,7 +473,7 @@ chapter1.prototype = {
             game.debug.text('Sound: ' + music.volume, 32, 290);
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
-            //game.debug.body(player);
+            game.debug.body(player);
         }
     },
 

@@ -18,7 +18,7 @@ croc11Functions.prototype = {
         game.physics.arcade.enable(croc1);
 
         croc1.setAll('anchor.x', 0.5);
-        croc1.setAll('scale.x', -2.5);
+        croc1.setAll('scale.x', 2.5);
         croc1.setAll('scale.y', 2.5);
 
         croc1.setAll('body.bounce', 0);
@@ -26,7 +26,7 @@ croc11Functions.prototype = {
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
-        //croc1.set(2, 'scale.x', -2.5);
+        //croc1.getAt(1).scale.x = -2.5;
 
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
@@ -53,7 +53,7 @@ croc11Functions.prototype = {
         }
         else
         {
-        	playerFunctions.prototype.kill();
+            playerFunctions.prototype.kill();
         }
     }
 };
