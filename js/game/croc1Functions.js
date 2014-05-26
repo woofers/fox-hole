@@ -14,38 +14,29 @@ croc11Functions.prototype = {
         //Create Croc1 From Tilemap
         croc1Chilldren = topMap.createFromObjects('enemy1', 7, 'croc1Sprite', 0, true, false, croc1);
 
+        //Enable Body and Physics
         croc1.enableBody = true;
         game.physics.arcade.enable(croc1);
 
+        //Set Properties
         croc1.setAll('anchor.x', 0.5);
-        croc1.setAll('scale.x', 2.5);
+        croc1.setAll('scale.x', -2.5);
         croc1.setAll('scale.y', 2.5);
-
         croc1.setAll('body.bounce', 0);
         croc1.setAll('body.gravity.y', 700);
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
-
-        //croc1.getAt(1).scale.x = -2.5;
 
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
         croc1.callAll('animations.play', 'animations', 'spin');
     },
 
-    follow : function(){
+    following : function(){
 
     },
 
-    attack : function(){
-
-    },
-
-    delay : function(){
-
-    },
-
-    kill : function(player, croc1){
+    killCheck : function(player, croc1){
 
         if (attackButton.isDown)
         {

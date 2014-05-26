@@ -26,8 +26,36 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":4224,
-                 "y":766
+                 "x":5124,
+                 "y":754
+                }, 
+                {
+                 "gid":7,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":6472,
+                 "y":744
+                }, 
+                {
+                 "gid":7,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":3208,
+                 "y":764
                 }],
          "opacity":1,
          "type":"objectgroup",

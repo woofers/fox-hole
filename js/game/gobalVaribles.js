@@ -8,7 +8,8 @@ var player = {
                 dig: false,
                 isDigging: false,
                 directX: 0,
-                layer: 1
+                layer: 1,
+                chased: false
             };
 
 //Settings
@@ -81,7 +82,7 @@ var digDelay;
 var jumpDelay;
 var currentTime;
 
-//Enemy
-var enemyDelay;
+var follow;
+var mudTile;
 
 //Jaxson C. Van Doorn, 2014

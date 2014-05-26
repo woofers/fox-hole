@@ -75,10 +75,21 @@ playerFunctions.prototype = {
 
     kill : function(){
         
+        //Player
+        mudTile = 8;
         player.x = sav.x;
         player.y = 700;
         player.movingLeft = false;
         player.movingRight = true;
+        digDelay = null;
+
+        //Enemy
+        follow = false;
+        croc1.destroy();
+        croc11Functions.prototype.loadCroc1();
+
+        //Level
+        chapter1.prototype.killLevel();
     },
 };
 

@@ -12,6 +12,7 @@ chapter1.prototype = {
         debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
+        mudTile = 13;
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
@@ -129,7 +130,7 @@ chapter1.prototype = {
         game.physics.arcade.collide(player, layerMaster, playerFunctions.prototype.tunnel2);
 
         //Enemy
-        game.physics.arcade.overlap(player, croc1, croc11Functions.prototype.kill, null, this);
+        game.physics.arcade.overlap(player, croc1, croc11Functions.prototype.killCheck, null, this);
         game.physics.arcade.collide(croc1, layerTop);
 
         //Reset Velocity
@@ -295,7 +296,7 @@ chapter1.prototype = {
             {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
-                topMap.putTileWorldXY(13, player.x, player.y - 100, 128, 128, layerTop);
+                topMap.putTileWorldXY(mudTile, player.x, player.y - 100, 128, 128, layerTop);
                 player.y = player.y + 256;
             }
 
@@ -351,6 +352,7 @@ chapter1.prototype = {
         //Down
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
         {
+            mudTile = 13;
             playerFunctions.prototype.digDelayFunc();
         }
 
@@ -404,27 +406,51 @@ chapter1.prototype = {
         //Croc1 AI
         for (i = 0; i < croc1.length; i++)
         {
-            
-            if (player.dig === false)
+            if (player.dig === player.dig)
             {
                 //Facing Right -->
                 if (croc1.getAt(i).scale.x == 2.5)
                 {
+                    //Follow Right  
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x)
                     {
-                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 500, 0)
-                        //croc1.getAt(i)console.log("Croc1 " + i + " sees you");
+                        croc1.getAt(i).scale.x = 2.5;
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0);
+                        croc1.getAt(i).follow = true;
+                        console.log("Croc1 Facing Right " + i + " is following you");
+                    }
+
+                    //Flip Right
+                    if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).follow === true)
+                    {
+                        croc1.getAt(i).scale.x = -2.5;
+                        console.log("Croc1 Is Facing Left " + i);
                     }
                 }
                 
                 //Facing Left <--
-                else if (croc1.getAt(i).scale.x == -2.5)
+                if (croc1.getAt(i).scale.x == -2.5)
                 {
+                    //Follow Left
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
                     {
-                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 500, 0)
-                        //console.log("Croc1 " + i + " sees you");
+                        croc1.getAt(i).scale.x = -2.5;
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0);
+                        croc1.getAt(i).follow = true;
+                        console.log("Croc1 Facing Left " + i + " is following you");
                     }
+
+                    //Flip Left
+                    if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).follow === true)
+                    {
+                        croc1.getAt(i).scale.x = 2.5;
+                        console.log("Croc1 Is Facing Right " + i);
+                    }
+                }
+
+                if (!croc1.getAt(i).follow === true)
+                {
+                    croc1.getAt(i).follow = false;
                 }
             }
         }
