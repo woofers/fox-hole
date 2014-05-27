@@ -9,10 +9,11 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = false;
+        debugShow = true;
         currentScreen = 1;
         sav.cameraY = 1208;
         mudTile = 13;
+        game.time.advancedTiming = true;
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
@@ -406,25 +407,32 @@ chapter1.prototype = {
         //Croc1 AI
         for (i = 0; i < croc1.length; i++)
         {
-            if (player.dig === player.dig)
+            if (player.dig === false)
             {
                 //Facing Right -->
                 if (croc1.getAt(i).scale.x == 2.5)
                 {
-                    //Follow Right  
+                    //Follow Right
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x)
                     {
                         croc1.getAt(i).scale.x = 2.5;
-                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0);
                         croc1.getAt(i).follow = true;
                         console.log("Croc1 Facing Right " + i + " is following you");
                     }
-
-                    //Flip Right
+                    
+                    //Flip to Left
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
                         croc1.getAt(i).scale.x = -2.5;
                         console.log("Croc1 Is Facing Left " + i);
+                    }
+
+                    //Stop Follow Right
+                    if (player.x - 1000 > croc1.getAt(i).x && player.x > croc1.getAt(i).x)
+                    {
+                        croc1.getAt(i).follow = false;
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
+                        console.log("Croc1 Facing Right " + i + " stoped following you");
                     }
                 }
                 
@@ -435,23 +443,52 @@ chapter1.prototype = {
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
                     {
                         croc1.getAt(i).scale.x = -2.5;
-                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0);
                         croc1.getAt(i).follow = true;
                         console.log("Croc1 Facing Left " + i + " is following you");
                     }
-
-                    //Flip Left
+                    
+                    //Flip to Right
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
                         croc1.getAt(i).scale.x = 2.5;
                         console.log("Croc1 Is Facing Right " + i);
                     }
+
+                    //Stop Follow Left
+                    if (player.x + 1000 < croc1.getAt(i).x && player.x < croc1.getAt(i).x)
+                    {
+                        croc1.getAt(i).follow = false;
+                        game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
+                        console.log("Croc1 Facing Left " + i + " stoped following you");
+                    }
                 }
 
+                //Jump
+                if (croc1.getAt(i).body.blocked.down && croc1.getAt(i).body.blocked.left || croc1.getAt(i).body.blocked.right)
+                {
+                    //croc1.getAt(i).body.velocity.y = -350;
+                    croc1.getAt(i).y -= 20;
+                    console.log("Croc1 " + i + " is jumping");
+                }
+
+                //Follow
+                if (croc1.getAt(i).follow === true)
+                {
+                    game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0); 
+                }
+                
+                //Set follow to false
                 if (!croc1.getAt(i).follow === true)
                 {
                     croc1.getAt(i).follow = false;
                 }
+            }
+            
+            //Stop Follow
+            if (player.dig === true) 
+            {
+                croc1.getAt(i).follow = false;
+                game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
             }
         }
 
@@ -491,12 +528,12 @@ chapter1.prototype = {
         if (debugShow === true)
         {
             game.debug.cameraInfo(game.camera, 32, 32);
+            game.debug.text('FPS: ' + game.time.fps, 256, 32);
             game.debug.text('isDigging: ' + player.isDigging, 32, 128);
             game.debug.text('AnimationFrame: ' + player.animations.currentFrame.index, 32, 160);
             game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
             game.debug.text('Speed: ' + player.body.velocity.x, 32, 226);
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
-            game.debug.text('Sound: ' + music.volume, 32, 290);
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
             game.debug.body(player);

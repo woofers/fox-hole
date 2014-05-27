@@ -114,6 +114,13 @@ mainMenu.prototype = {
         mainMenu.prototype.toggleAbout();
     },
 
+    toggleAbout : function(){
+
+        //Toggle About Menu
+        aboutMenu = game.add.sprite(0, 0, 'aboutScreen');
+        aboutMenu.visible =! aboutMenu.visible;
+    },
+
     update : function(){
 
         //Selectors
@@ -368,13 +375,6 @@ mainMenu.prototype = {
 
     render : function(){
 
-    },
-
-    toggleAbout : function(){
-
-        //Toggle About Menu
-        aboutMenu = game.add.sprite(0, 0, 'aboutScreen');
-        aboutMenu.visible =! aboutMenu.visible;
     },
 
     mainText : function(){

@@ -14,7 +14,6 @@
 
 	To do:
 	
-		Enemy AI
 		Attacks | Pounce and Tail Wip
 
 	Bugs:

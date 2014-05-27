@@ -82,7 +82,7 @@ var digDelay;
 var jumpDelay;
 var currentTime;
 
-var follow;
+//Game Stuff
 var mudTile;
 
 //Jaxson C. Van Doorn, 2014

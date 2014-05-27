@@ -20,7 +20,7 @@ croc11Functions.prototype = {
 
         //Set Properties
         croc1.setAll('anchor.x', 0.5);
-        croc1.setAll('scale.x', -2.5);
+        croc1.setAll('scale.x', 2.5);
         croc1.setAll('scale.y', 2.5);
         croc1.setAll('body.bounce', 0);
         croc1.setAll('body.gravity.y', 700);
@@ -30,10 +30,6 @@ croc11Functions.prototype = {
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
         croc1.callAll('animations.play', 'animations', 'spin');
-    },
-
-    following : function(){
-
     },
 
     killCheck : function(player, croc1){
