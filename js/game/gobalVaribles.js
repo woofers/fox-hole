@@ -9,7 +9,7 @@ var player = {
                 isDigging: false,
                 directX: 0,
                 layer: 1,
-                chased: false
+                onTile: null
             };
 
 //Settings

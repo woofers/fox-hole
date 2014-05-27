@@ -49,6 +49,13 @@ playerFunctions.prototype = {
         player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 24, '', 4), 13, false);
     },
 
+    digDown : function(){
+
+        mudTile = 13;
+        playerFunctions.prototype.digDelayFunc();
+        playerFunctions.prototype.onTile();
+    },
+
     digDelayFunc : function(){
 
         digDelay = game.time.now; 
@@ -71,6 +78,27 @@ playerFunctions.prototype = {
 
         player.layer = 3;
         tunnel2.fill(8, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
+    },
+
+    onTile : function() {
+
+        if (player.movingLeft === true)
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+        else if (player.movingRight === true)
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+
+        if (player.onTile === null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     },
 
     kill : function(){

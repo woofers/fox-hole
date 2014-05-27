@@ -17,6 +17,8 @@ mainMenu.prototype = {
 
         //Manages Save Data
         mainMenu.prototype.checkSave();
+        mainMenu.prototype.createSave();
+        mainMenu.prototype.readSave();
 
         //Souund Adjustor
         gobalFunctions.prototype.soundAdjust();
@@ -32,6 +34,14 @@ mainMenu.prototype = {
         loadedLoadingScreen = true;
     },
 
+    loadingScreenDisplay : function(){
+        
+        if (loadedLoadingScreen === true)
+        {
+            return game.add.sprite(0, 0, 'loadingScreen');
+        }
+    },
+
     checkSave : function(){
 
         //Check if Save is Created
@@ -40,20 +50,24 @@ mainMenu.prototype = {
         //If not create Save File
         if (saveLoaded === undefined)
         {
-            mainMenu.prototype.createSave();
+            return true;
         }
-
-        //Then Read the Save File
-        mainMenu.prototype.readSave();
+        else 
+        {
+            return false;
+        }
     },
 
     createSave : function(){
             
-        store.set("save.loaded", true);
-        store.set("save.settings.sound", 10);
-        store.set("save.chapter", 1);
-        store.set("save.chapterString", "New File");
-        store.set("save.x", 400);
+        if (mainMenu.prototype.checkSave())
+        {
+            store.set("save.loaded", true);
+            store.set("save.settings.sound", 10);
+            store.set("save.chapter", 1);
+            store.set("save.chapterString", "New File");
+            store.set("save.x", 400);
+        }
     },
 
     readSave : function(){
@@ -64,6 +78,15 @@ mainMenu.prototype = {
         sav.x = store.get("save.x");
     },
 
+    eraseSave : function(){
+
+        store.set("save.loaded", true);
+        store.set("save.settings.sound", 10);
+        store.set("save.chapter", 1);
+        store.set("save.chapterString", "New File");
+        store.set("save.x", 400);
+    },
+
     create : function(){
 
         //Draw Settings Menu            
@@ -71,6 +94,9 @@ mainMenu.prototype = {
 
         //Draw Text
         mainMenu.prototype.createMenuText();
+
+        //Load About Screen
+        mainMenu.prototype.toggleAbout();
 
         //Controls
         cursors = game.input.keyboard.createCursorKeys();
@@ -109,9 +135,6 @@ mainMenu.prototype = {
         text.selector3.fill = "#ffffff";
 
         text.loaded = true;
-
-        //Load About Screen
-        mainMenu.prototype.toggleAbout();
     },
 
     toggleAbout : function(){
@@ -123,179 +146,97 @@ mainMenu.prototype = {
 
     update : function(){
 
-        //Selectors
-        if (menuSelect == 1 && text.loaded === true)
+        if (text.loaded === true)
         {
-            gobalFunctions.prototype.highlight1();
-        }
-        if (menuSelect == 2 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight2();
-        }
-        if (menuSelect == 3 && text.loaded === true)
-        {
-            gobalFunctions.prototype.highlight3();
-        }
+            //Selectors
+            if (menuSelect == 1)
+            {
+                gobalFunctions.prototype.highlight1();
+            }
+            if (menuSelect == 2)
+            {
+                gobalFunctions.prototype.highlight2();
+            }
+            if (menuSelect == 3)
+            {
+                gobalFunctions.prototype.highlight3();
+            }
 
-        //Main Menu
-        if (currentScreen == 1 && text.loaded === true)
-        {
-                //Play
-                if (menuSelect == 1)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        currentScreen = 2;
-                        menuSelect = 1;
-                        mainMenu.prototype.saveText();
-                    }
-                }
-
-                //Settings
-                if (menuSelect == 2)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        currentScreen = 3;
-                        menuSelect = 1;
-                    }
-                }
-
-                //Exit
-                if (menuSelect == 3)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        gui.App.quit();
-                    }
-                }
-        }
-
-        //Save Slots
-        if (currentScreen == 2 && text.loaded === true)
-        {
-                //Play
-                if (menuSelect == 1)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        mainMenu.prototype.exit();
-                    }
-                }
-
-                //Erase
-                if (menuSelect == 2)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        mainMenu.prototype.createSave();
-                        mainMenu.prototype.readSave();
-                        mainMenu.prototype.saveText();
-                    }
-                }
-
-                //About
-                if (menuSelect == 3)
-                {
-                    //Enter
-                    if (select.isDown && keyDebouncing.enterPressed === false)
-                    {
-                        keyDebouncing.enterPressed = true;
-                        aboutMenu.visible =! aboutMenu.visible;
-                        currentScreen = 4;
-                        menuSelect = 1;
-                    }
-                }
-
-                //Go Back
-                if (backSelect.isDown && keyDebouncing.backPressed === false)
-                {
-                    keyDebouncing.backPressed = true;
-                    currentScreen = 1;
-                    menuSelect = 1;
-                    mainMenu.prototype.mainText();
-                }
-        }
-        
-        //Settings
-        if (currentScreen == 3 && text.loaded === true)
-        {
-                gobalFunctions.prototype.settingsText();
-
-                    //Resolution
+            //Main Menu
+            if (currentScreen == 1)
+            {
+                    //Play
                     if (menuSelect == 1)
                     {
-
+                        //Enter
+                        if (select.isDown && keyDebouncing.enterPressed === false)
+                        {
+                            keyDebouncing.enterPressed = true;
+                            currentScreen = 2;
+                            menuSelect = 1;
+                            mainMenu.prototype.saveText();
+                        }
                     }
 
-                    //Fullscreen
+                    //Settings
                     if (menuSelect == 2)
                     {
-
-                        //Exit
-                        if (win.isFullscreen === true)
-                        {
-                            //Left
-                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
-                            {
-                                keyDebouncing.leftPressed = true;
-                                win.isFullscreen = false;
-                                settings.fullscreenString = "Off";
-                            }
-
-                            //Right
-                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
-                            {
-                                keyDebouncing.rightPressed = true;
-                                win.isFullscreen = false;
-                                settings.fullscreenString = "Off";
-                            }
-                        }
-                        
                         //Enter
-                        if (win.isFullscreen === false)
+                        if (select.isDown && keyDebouncing.enterPressed === false)
                         {
-                            //Left
-                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
-                            {
-                                keyDebouncing.leftPressed = true;
-                                win.isFullscreen = true;
-                                settings.fullscreenString = "On";
-                            }
-
-                            //Right
-                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
-                            {
-                                keyDebouncing.rightPressed = true;
-                                win.isFullscreen = true;
-                                settings.fullscreenString = "On";
-                            }
+                            keyDebouncing.enterPressed = true;
+                            currentScreen = 3;
+                            menuSelect = 1;
                         }
                     }
 
-                    //Sound
+                    //Exit
                     if (menuSelect == 3)
                     {
-                        //Sound Down
-                        if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                        //Enter
+                        if (select.isDown && keyDebouncing.enterPressed === false)
                         {
-                            keyDebouncing.leftPressed = true;
-                            gobalFunctions.prototype.soundDown(); 
+                            gui.App.quit();
                         }
+                    }
+            }
 
-                        //Sound Up
-                        if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+            //Save Slots
+            if (currentScreen == 2)
+            {
+                    //Play
+                    if (menuSelect == 1)
+                    {
+                        //Enter
+                        if (select.isDown && keyDebouncing.enterPressed === false)
                         {
-                            keyDebouncing.rightPressed = true;
-                            gobalFunctions.prototype.soundUp();
+                            keyDebouncing.enterPressed = true;
+                            mainMenu.prototype.exit();
+                        }
+                    }
+
+                    //Erase
+                    if (menuSelect == 2)
+                    {
+                        //Enter
+                        if (select.isDown && keyDebouncing.enterPressed === false)
+                        {
+                            mainMenu.prototype.eraseSave();
+                            mainMenu.prototype.readSave();
+                            mainMenu.prototype.saveText();
+                        }
+                    }
+
+                    //About
+                    if (menuSelect == 3)
+                    {
+                        //Enter
+                        if (select.isDown && keyDebouncing.enterPressed === false)
+                        {
+                            keyDebouncing.enterPressed = true;
+                            aboutMenu.visible =! aboutMenu.visible;
+                            currentScreen = 4;
+                            menuSelect = 1;
                         }
                     }
 
@@ -304,21 +245,106 @@ mainMenu.prototype = {
                     {
                         keyDebouncing.backPressed = true;
                         currentScreen = 1;
-                        menuSelect = 2;
+                        menuSelect = 1;
                         mainMenu.prototype.mainText();
                     }
-        }
-
-        //About
-        if (currentScreen == 4 && text.loaded === true)
-        {
-            //Go Back
-            if (backSelect.isDown && keyDebouncing.backPressed === false)
+            }
+            
+            //Settings
+            if (currentScreen == 3)
             {
-                keyDebouncing.backPressed = true;
-                aboutMenu.visible =! aboutMenu.visible;
-                currentScreen = 2;
-                menuSelect = 3;
+                    gobalFunctions.prototype.settingsText();
+
+                        //Resolution
+                        if (menuSelect == 1)
+                        {
+
+                        }
+
+                        //Fullscreen
+                        if (menuSelect == 2)
+                        {
+
+                            //Exit
+                            if (win.isFullscreen === true)
+                            {
+                                //Left
+                                if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                                {
+                                    keyDebouncing.leftPressed = true;
+                                    win.isFullscreen = false;
+                                    settings.fullscreenString = "Off";
+                                }
+
+                                //Right
+                                if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                                {
+                                    keyDebouncing.rightPressed = true;
+                                    win.isFullscreen = false;
+                                    settings.fullscreenString = "Off";
+                                }
+                            }
+                            
+                            //Enter
+                            if (win.isFullscreen === false)
+                            {
+                                //Left
+                                if (cursors.left.isDown && keyDebouncing.leftPressed === false)
+                                {
+                                    keyDebouncing.leftPressed = true;
+                                    win.isFullscreen = true;
+                                    settings.fullscreenString = "On";
+                                }
+
+                                //Right
+                                if (cursors.right.isDown && keyDebouncing.rightPressed === false)
+                                {
+                                    keyDebouncing.rightPressed = true;
+                                    win.isFullscreen = true;
+                                    settings.fullscreenString = "On";
+                                }
+                            }
+                        }
+
+                        //Sound
+                        if (menuSelect == 3)
+                        {
+                            //Sound Down
+                            if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
+                            {
+                                keyDebouncing.leftPressed = true;
+                                gobalFunctions.prototype.soundDown(); 
+                            }
+
+                            //Sound Up
+                            if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
+                            {
+                                keyDebouncing.rightPressed = true;
+                                gobalFunctions.prototype.soundUp();
+                            }
+                        }
+
+                        //Go Back
+                        if (backSelect.isDown && keyDebouncing.backPressed === false)
+                        {
+                            keyDebouncing.backPressed = true;
+                            currentScreen = 1;
+                            menuSelect = 2;
+                            mainMenu.prototype.mainText();
+                        }
+            }
+
+            //About
+            if (currentScreen == 4)
+            {
+                //Go Back
+                if (backSelect.isDown && keyDebouncing.backPressed === false)
+                {
+                    keyDebouncing.backPressed = true;
+                    aboutMenu.visible =! aboutMenu.visible;
+                    currentScreen = 2;
+                    menuSelect = 3;
+                }
             }
         }
         
@@ -391,14 +417,6 @@ mainMenu.prototype = {
         text.selector1.setText("Chapter" + " " + sav.chapter + " - " + sav.chapterString);
         text.selector2.setText("Erase Save");
         text.selector3.setText("About Game");
-    },
-
-    loadingScreenDisplay : function(){
-        
-        if (loadedLoadingScreen === true)
-        {
-            game.add.sprite(0, 0, 'loadingScreen');
-        }
     },
 
     exit : function(){

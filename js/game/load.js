@@ -13,7 +13,7 @@
 		Inviting Game World
 
 	To do:
-	
+
 		Attacks | Pounce and Tail Wip
 
 	Bugs:

@@ -12,7 +12,6 @@ chapter1.prototype = {
         debugShow = true;
         currentScreen = 1;
         sav.cameraY = 1208;
-        mudTile = 13;
         game.time.advancedTiming = true;
 
         //Loading Screen
@@ -57,10 +56,12 @@ chapter1.prototype = {
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
-
+        
+        //Set Varible Values
         player.movingRight = true;
         player.movingLeft = false;
         player.directX = 80;
+        player.isDigging = false;
 
         //Set camera boundaries
         camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
@@ -140,94 +141,97 @@ chapter1.prototype = {
         //Create Time Counter
         currentTime = game.time.now;
 
-        //Walk Left
-        if (leftButton.isDown && player.isDigging === false)
+        //Moving
+        if (player.isDigging === false)
         {
-            player.scale.x = -4;
-            player.body.offset.x = 35; 
-            player.movingRight = false;
-            player.movingLeft = true;
-            player.directX = 80;
+            //Walk Left
+            if (leftButton.isDown)
+            {
+                player.scale.x = -4;
+                player.body.offset.x = 35; 
+                player.movingRight = false;
+                player.movingLeft = true;
+                player.directX = 80;
 
-                //Above Ground
-                if (player.dig === false)
-                {
-                    player.body.velocity.x = -550;
+                    //Above Ground
+                    if (player.dig === false)
+                    {
+                        player.body.velocity.x = -550;
 
-                        //Walk Left Animation
-                        if (player.body.blocked.down)
-                        {
-                            player.animations.play('walking');
-                        }
+                            //Walk Left Animation
+                            if (player.body.blocked.down)
+                            {
+                                player.animations.play('walking');
+                            }
 
-                        //Jump Left Animation
-                        else
-                        {
-                            player.animations.play('jumping');
-                        }
-                }
+                            //Jump Left Animation
+                            else
+                            {
+                                player.animations.play('jumping');
+                            }
+                    }
 
-                //Underground
-                if (player.dig === true)
-                {
-                    player.body.velocity.x = -350;
+                    //Underground
+                    if (player.dig === true)
+                    {
+                        player.body.velocity.x = -350;
+                            
+                            //Crawl Left Animation
+                            if (player.body.blocked.down)
+                            {
+                                player.animations.play('crawl');
+                            }
+                    }
+            }
+
+            //Walk Right
+            else if (rightButton.isDown)
+            {
+                player.scale.x = 4;
+                player.body.offset.x = 30; 
+                player.movingLeft = false;
+                player.movingRight = true;
+                player.directX = 190;
+                    
+                    //Above Ground
+                    if (player.dig === false)
+                    {
+                        player.body.velocity.x = 550;
                         
-                        //Crawl Left Animation
-                        if (player.body.blocked.down)
-                        {
-                            player.animations.play('crawl');
-                        }
-                }
-        }
+                            //Walk Right Animation
+                            if (player.body.blocked.down)
+                            {
+                                player.animations.play('walking');
+                            }
 
-        //Walk Right
-        else if (rightButton.isDown && player.isDigging === false)
-        {
-            player.scale.x = 4;
-            player.body.offset.x = 30; 
-            player.movingLeft = false;
-            player.movingRight = true;
-            player.directX = 190;
-                
-                //Above Ground
-                if (player.dig === false)
-                {
-                    player.body.velocity.x = 550;
-                    
-                        //Walk Right Animation
-                        if (player.body.blocked.down)
-                        {
-                            player.animations.play('walking');
-                        }
+                            //Jump Right Animation
+                            else
+                            {
+                                player.animations.play('jumping'); 
+                            }
+                    }
 
-                        //Jump Right Animation
-                        else
-                        {
-                            player.animations.play('jumping'); 
-                        }
-                }
-
-                //Underground
-                if (player.dig === true)
-                {
-                    player.body.velocity.x = 350;
-                    
-                        //Crawl Right Animation
-                        if(player.body.blocked.down)
-                        {
-                            player.animations.play('crawl');
-                        }
-                }
-        }
-    
-        //Still
-        else if (player.isDigging === false)
-        {
+                    //Underground
+                    if (player.dig === true)
+                    {
+                        player.body.velocity.x = 350;
+                        
+                            //Crawl Right Animation
+                            if(player.body.blocked.down)
+                            {
+                                player.animations.play('crawl');
+                            }
+                    }
+            }
+        
+            //Still
+            else
+            {
                 //Above Ground
                 if(player.dig === false)
                 {
                     player.animations.play('idle');
-                        
+                            
                         //Idle Left Animation
                         if (player.movingLeft === true)
                         {
@@ -244,7 +248,7 @@ chapter1.prototype = {
                 //Underground
                 if (player.dig === true)
                 {
-                     player.animations.play('crawlIdle');
+                    player.animations.play('crawlIdle');
 
                         //Idle Left Animation
                         if (player.movingLeft === true)
@@ -258,21 +262,26 @@ chapter1.prototype = {
                             player.scale.x = 4;
                         } 
                 }
+            }
         }
 
         //Jump
-        if (jumpButton.isDown && player.body.blocked.down && player.isDigging === false && player.dig === false && keyDebouncing.spacePressed === false)
+        if (jumpButton.isDown)
         {
-            keyDebouncing.spacePressed = true;
-            player.body.velocity.y = -350;
-        }
+            //Single Jump
+            if (player.body.blocked.down && player.isDigging === false && player.dig === false && keyDebouncing.spacePressed === false)
+            {
+                keyDebouncing.spacePressed = true;
+                player.body.velocity.y = -350;
+            }
 
-        //Double Jump
-        if (jumpButton.isDown && player.dobuleJump === false && !player.body.blocked.down && keyDebouncing.spacePressed === false)
-        {
-            keyDebouncing.spacePressed = true;
-            player.dobuleJump = true;
-            player.body.velocity.y = -350;
+            //Double Jump
+            if (player.dobuleJump === false && !player.body.blocked.down && keyDebouncing.spacePressed === false)
+            {
+                keyDebouncing.spacePressed = true;
+                player.dobuleJump = true;
+                player.body.velocity.y = -350;
+            }
         }
 
         //Reset Double Jump Varible
@@ -282,12 +291,6 @@ chapter1.prototype = {
         }
 
         //----------Dig Start----------//
-
-        //Set isDigging to false
-        if (!player.isDigging === true)
-        {
-           player.isDigging = false;
-        }
 
         //Delay Camera Move Until Animation is Done
         if (player.isDigging === true)
@@ -325,7 +328,7 @@ chapter1.prototype = {
                     }
 
                     //Dig Right Animation
-                    if (player.movingRight === true)
+                    else if (player.movingRight === true)
                     {
                         player.scale.x = 4;
                     }    
@@ -343,7 +346,7 @@ chapter1.prototype = {
                     }
 
                     //Dig Right Animation
-                    if (player.movingRight === true)
+                    else if (player.movingRight === true)
                     {
                         player.scale.x = 4;
                     }    
@@ -353,8 +356,14 @@ chapter1.prototype = {
         //Down
         if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
         {
-            mudTile = 13;
-            playerFunctions.prototype.digDelayFunc();
+            if (player.layer < 2 && playerFunctions.prototype.onTile())
+            {
+                playerFunctions.prototype.digDown();
+            }
+            else if (player.layer > 1)
+            {
+                playerFunctions.prototype.digDown();
+            }
         }
 
         //Up
@@ -466,7 +475,6 @@ chapter1.prototype = {
                 //Jump
                 if (croc1.getAt(i).body.blocked.down && croc1.getAt(i).body.blocked.left || croc1.getAt(i).body.blocked.right)
                 {
-                    //croc1.getAt(i).body.velocity.y = -350;
                     croc1.getAt(i).y -= 20;
                     console.log("Croc1 " + i + " is jumping");
                 }
@@ -528,7 +536,7 @@ chapter1.prototype = {
         if (debugShow === true)
         {
             game.debug.cameraInfo(game.camera, 32, 32);
-            game.debug.text('FPS: ' + game.time.fps, 256, 32);
+            game.debug.text('FPS: ' + game.time.fps, 200, 32);
             game.debug.text('isDigging: ' + player.isDigging, 32, 128);
             game.debug.text('AnimationFrame: ' + player.animations.currentFrame.index, 32, 160);
             game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
@@ -536,7 +544,7 @@ chapter1.prototype = {
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
-            game.debug.body(player);
+            //game.debug.body(player);
         }
     },
 

@@ -27,6 +27,8 @@ croc11Functions.prototype = {
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
+        croc1.getAt(1).scale.x = -2.5;
+
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
         croc1.callAll('animations.play', 'animations', 'spin');

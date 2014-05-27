@@ -25,18 +25,18 @@ pauseMenu.prototype = {
 	pauseGame : function(){      
 
         //Menu
-        if (game.paused === true)
+        if (game.paused === true && text.loaded === true)
         {
             //Selectors
-            if (menuSelect == 1 && text.loaded === true)
+            if (menuSelect == 1)
             {
                 gobalFunctions.prototype.highlight1();
             }
-            if (menuSelect == 2 && text.loaded === true)
+            if (menuSelect == 2)
             {
                 gobalFunctions.prototype.highlight2();
             }
-            if (menuSelect == 3 && text.loaded === true)
+            if (menuSelect == 3)
             {
                 gobalFunctions.prototype.highlight3();
             }
@@ -205,7 +205,7 @@ pauseMenu.prototype = {
             {
                 menuSelect = 1;
             }
-            if (menuSelect < 1)
+            else if (menuSelect < 1)
             {
                 menuSelect = 3;
             }
