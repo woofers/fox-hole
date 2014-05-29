@@ -9,7 +9,9 @@ var player = {
                 isDigging: false,
                 directX: 0,
                 layer: 1,
-                onTile: null
+                onTile: null,
+                tileAbove: null,
+                tileBelow: null
             };
 
 //Settings
@@ -84,5 +86,7 @@ var currentTime;
 
 //Game Stuff
 var mudTile;
+var checkpoint;
+var activate;
 
 //Jaxson C. Van Doorn, 2014

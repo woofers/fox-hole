@@ -18,11 +18,13 @@
 
 	Bugs:
 
-		Dig Bug
+		Empty
 
 	Graphics:
 	
-		Hills
+		Game Mehcainics
+		Checkpoint (Totem Appering Out of Smoke)
+		Hills | More Tiles
 		Crawl Idle
 		Pounce
 		Tail Wip

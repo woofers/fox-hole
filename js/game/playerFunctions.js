@@ -51,33 +51,40 @@ playerFunctions.prototype = {
 
     digDown : function(){
 
-        mudTile = 13;
+        mudTile = 49;
         playerFunctions.prototype.digDelayFunc();
         playerFunctions.prototype.onTile();
     },
 
     digDelayFunc : function(){
 
-        digDelay = game.time.now; 
+        digDelay = game.time.now;
         player.isDigging = true;
+    },
+
+    objectsLayer : function(){
+        
+        player.layer = 0;
+        player.body.velocity.x = 0;
     },
 
     topLayer : function(){
         
         player.layer = 1;
+        player.dig = false;
         player.body.velocity.x = 0;
     },
 
     tunnel1 : function(){
 
         player.layer = 2;
-        tunnel1.fill(8, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
+        tunnel1.fill(51, layerTunnel1.getTileX(player.x - player.directX), layerTunnel1.getTileY(player.y - 128), 3, 1);
     },
 
     tunnel2 : function(){
 
         player.layer = 3;
-        tunnel2.fill(8, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
+        tunnel2.fill(51, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
     },
 
     onTile : function() {
@@ -101,15 +108,58 @@ playerFunctions.prototype = {
         }
     },
 
+    tileAbove : function() {
+
+        if (player.layer == 3)
+        {
+            player.tileAbove = objectsMap.getTileWorldXY(player.x, player.y - 129);   
+        }
+        else if (player.layer == 2)
+        {
+            player.tileAbove = objectsMap.getTileWorldXY(player.x, player.y - 257);   
+        }
+
+        if (player.tileAbove === null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    },
+
+    tileBelow : function() {
+
+        if (player.layer == 2)
+        {
+            player.tileBelow = objectsMap.getTileWorldXY(player.x, player.y);   
+        }
+        else if (player.layer == 1)
+        {
+            player.tileBelow = objectsMap.getTileWorldXY(player.x, player.y + 129);   
+        }
+
+        if (player.tileBelow === null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    },
+
     kill : function(){
         
         //Player
-        mudTile = 8;
+        mudTile = 51;
         player.x = sav.x;
         player.y = 700;
         player.movingLeft = false;
         player.movingRight = true;
         digDelay = null;
+        player.dig = false;
 
         //Enemy
         follow = false;

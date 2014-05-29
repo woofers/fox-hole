@@ -12,7 +12,7 @@ croc11Functions.prototype = {
         croc1 = game.add.group(); 
         
         //Create Croc1 From Tilemap
-        croc1Chilldren = topMap.createFromObjects('enemy1', 7, 'croc1Sprite', 0, true, false, croc1);
+        croc1Chilldren = objectsMap.createFromObjects('objects', 50, 'croc1Sprite', 0, true, false, croc1);
 
         //Enable Body and Physics
         croc1.enableBody = true;
@@ -27,7 +27,7 @@ croc11Functions.prototype = {
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
-        croc1.getAt(1).scale.x = -2.5;
+        //croc1.getAt(0).scale.x = -2.5;
 
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);

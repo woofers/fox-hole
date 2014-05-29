@@ -29,13 +29,17 @@ chapter1.prototype = {
         game.load.tilemap('tunnel1', 'assets/levels/level1/tunnel1.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('tunnel2', 'assets/levels/level1/tunnel2.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('top', 'assets/levels/level1/top.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('tiles', 'assets/levels/level1/grass.png');
+        game.load.tilemap('objects', 'assets/levels/level1/objects.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('tiles', 'assets/levels/level1/tiles.png');
 
         //Player
         game.load.atlasXML('playerSprite', 'assets/images/sprites/fox.png', 'assets/images/sprites/fox.xml');
         
         //Enemy
         game.load.atlasXML('croc1Sprite', 'assets/images/sprites/croc1.png', 'assets/images/sprites/croc1.xml');
+
+        //Checkpoint
+        game.load.atlasXML('checkpointSprite', 'assets/images/sprites/checkpoint.png', 'assets/images/sprites/checkpoint.xml');
 
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
@@ -53,6 +57,7 @@ chapter1.prototype = {
         chapter1.prototype.loadMap();
         croc11Functions.prototype.loadCroc1();
         playerFunctions.prototype.loadPlayer();
+        checkpoint.prototype.loadCheckpoint();
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
@@ -62,9 +67,10 @@ chapter1.prototype = {
         player.movingLeft = false;
         player.directX = 80;
         player.isDigging = false;
+        player.dig = false;
 
         //Set camera boundaries
-        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+        camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
 
         //Camera follow player
         cameraFollow = game.camera.follow(player);
@@ -95,12 +101,14 @@ chapter1.prototype = {
         tunnel1 = game.add.tilemap('tunnel1');
         tunnel2 = game.add.tilemap('tunnel2');
         topMap = game.add.tilemap('top');
+        objectsMap = game.add.tilemap('objects');
 
-        dug.addTilesetImage('block', 'tiles');
-        map.addTilesetImage('block', 'tiles');
-        tunnel1.addTilesetImage('block', 'tiles');
-        tunnel2.addTilesetImage('block', 'tiles');
-        topMap.addTilesetImage('block', 'tiles');
+        dug.addTilesetImage('tiles', 'tiles');
+        map.addTilesetImage('tiles', 'tiles');
+        tunnel1.addTilesetImage('tiles', 'tiles');
+        tunnel2.addTilesetImage('tiles', 'tiles');
+        topMap.addTilesetImage('tiles', 'tiles');
+        objectsMap.addTilesetImage('tiles', 'tiles');
 
         //Draws map to screen        
         layerDug = dug.createLayer('dug');
@@ -108,12 +116,14 @@ chapter1.prototype = {
         layerTunnel2 = tunnel2.createLayer('collisionLayer');
         layerMaster = map.createLayer('collisionLayer');
         layerTop = topMap.createLayer('collisionLayer');
+        layerObjects = objectsMap.createLayer('collisionLayer');
 
         //Map collision
-        map.setCollisionBetween(0, 6);
-        tunnel1.setCollisionBetween(0, 6);
-        tunnel2.setCollisionBetween(0, 6);
-        topMap.setCollisionBetween(0, 6);
+        map.setCollisionBetween(0, 47);
+        tunnel1.setCollisionBetween(0, 47);
+        tunnel2.setCollisionBetween(0, 47);
+        topMap.setCollisionBetween(0, 47);
+        objectsMap.setCollisionBetween(0, 47);
     },
 
     playMusic : function(){
@@ -130,10 +140,15 @@ chapter1.prototype = {
         game.physics.arcade.collide(player, layerTunnel1);
         game.physics.arcade.collide(player, layerTunnel2, playerFunctions.prototype.tunnel1);
         game.physics.arcade.collide(player, layerMaster, playerFunctions.prototype.tunnel2);
+        game.physics.arcade.collide(player, layerObjects, playerFunctions.prototype.objectsLayer);
 
         //Enemy
         game.physics.arcade.overlap(player, croc1, croc11Functions.prototype.killCheck, null, this);
         game.physics.arcade.collide(croc1, layerTop);
+        game.physics.arcade.collide(croc1, layerObjects);
+
+        //Checkpoint
+        game.physics.arcade.overlap(player, checkpointGroup, checkpoint.prototype.activate, null, this);
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -242,7 +257,7 @@ chapter1.prototype = {
                         if (player.movingRight === true)
                         {
                             player.scale.x = 4;
-                        } 
+                        }
                 }
 
                 //Underground
@@ -272,7 +287,7 @@ chapter1.prototype = {
             if (player.body.blocked.down && player.isDigging === false && player.dig === false && keyDebouncing.spacePressed === false)
             {
                 keyDebouncing.spacePressed = true;
-                player.body.velocity.y = -350;
+                player.body.velocity.y = -450;
             }
 
             //Double Jump
@@ -280,7 +295,7 @@ chapter1.prototype = {
             {
                 keyDebouncing.spacePressed = true;
                 player.dobuleJump = true;
-                player.body.velocity.y = -350;
+                player.body.velocity.y = -450;
             }
         }
 
@@ -288,6 +303,10 @@ chapter1.prototype = {
         if (player.body.blocked.down)
         {
             player.dobuleJump = false;
+        }
+        else if (!player.body.blocked.down)
+        {
+            player.dig = false;
         }
 
         //----------Dig Start----------//
@@ -302,6 +321,7 @@ chapter1.prototype = {
                 keyDebouncing.downPressed = true;
                 topMap.putTileWorldXY(mudTile, player.x, player.y - 100, 128, 128, layerTop);
                 player.y = player.y + 256;
+                player.dig = true;
             }
 
             //Tunnel 2
@@ -354,7 +374,7 @@ chapter1.prototype = {
         }
 
         //Down
-        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3)
+        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3 && playerFunctions.prototype.tileBelow())
         {
             if (player.layer < 2 && playerFunctions.prototype.onTile())
             {
@@ -367,14 +387,15 @@ chapter1.prototype = {
         }
 
         //Up
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false)
+        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false && playerFunctions.prototype.tileAbove())
         {
             if (player.layer == 2)
             {
                 keyDebouncing.spacePressed = true;
-                player.y = player.y - 256;
+                player.y = player.y - 260;
                 
                 chapter1.prototype.killLevel();
+                player.dig = false;
             }
 
             if (player.layer == 3)
@@ -383,28 +404,18 @@ chapter1.prototype = {
                 player.y = player.y - 128;
             }
         }
-
-        //Dig Check
-        if (player.layer > 1)
-        {
-            player.dig = true;
-        }
-        else
-        {
-            player.dig = false;
-        }
         
         //----------Dig End----------//
 
         //Camera
         sav.cameraY = 184 + player.y;
-        camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+        camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
 
         //Camera Max out
         if (sav.cameraY > 1536)
         {
             sav.cameraY = 1536;
-            camera = game.world.setBounds(0.5, 0, 7600, sav.cameraY);
+            camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
         }
 
         //Stop the anmation
@@ -473,7 +484,7 @@ chapter1.prototype = {
                 }
 
                 //Jump
-                if (croc1.getAt(i).body.blocked.down && croc1.getAt(i).body.blocked.left || croc1.getAt(i).body.blocked.right)
+                if (croc1.getAt(i).body.blocked.right || croc1.getAt(i).body.blocked.left)
                 {
                     croc1.getAt(i).y -= 20;
                     console.log("Croc1 " + i + " is jumping");
@@ -553,6 +564,7 @@ chapter1.prototype = {
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
+        layerObjects.kill();
 
         chapter1.prototype.resetLevel();
     },
@@ -563,26 +575,30 @@ chapter1.prototype = {
         tunnel1 = game.add.tilemap('tunnel1');
         tunnel2 = game.add.tilemap('tunnel2');
         topMap = game.add.tilemap('top');
+        objectsMap = game.add.tilemap('objects');
 
-        tunnel1.addTilesetImage('block', 'tiles');
-        tunnel2.addTilesetImage('block', 'tiles');
-        topMap.addTilesetImage('block', 'tiles');
+        tunnel1.addTilesetImage('tiles', 'tiles');
+        tunnel2.addTilesetImage('tiles', 'tiles');
+        topMap.addTilesetImage('tiles', 'tiles');
+        objectsMap.addTilesetImage('tiles', 'tiles');
 
         //Draws map to screen        
         layerTunnel1 = tunnel1.createLayer('collisionLayer');
         layerTunnel2 = tunnel2.createLayer('collisionLayer');
         layerTop = topMap.createLayer('collisionLayer');
+        layerObjects = objectsMap.createLayer('collisionLayer');
 
         //Map collision
-        tunnel1.setCollisionBetween(0, 6);
-        tunnel2.setCollisionBetween(0, 6);
-        topMap.setCollisionBetween(0, 6);
+        tunnel1.setCollisionBetween(0, 47);
+        tunnel2.setCollisionBetween(0, 47);
+        topMap.setCollisionBetween(0, 47);
+        objectsMap.setCollisionBetween(0, 47);
     },
 
     save : function(){
 
         //Save
-        store.set("save.x", player.x);
+        store.set("save.x", sav.x);
         store.set("save.chapterString", "The Forest");
         store.set("save.chapter", sav.chapter);
     },
