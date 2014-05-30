@@ -6,7 +6,7 @@ tree = function(game){};
 
 tree.prototype = {
 
-    loadTree: function(){
+    load: function(){
 
         //Create Checkpoint Group
         treeGroup = game.add.group(); 
@@ -23,8 +23,24 @@ tree.prototype = {
         treeGroup.setAll('anchor.y', 1);
         treeGroup.setAll('body.bounce', 0);
         treeGroup.setAll('body.gravity.y', 700);
-        //treeGroup.setAll('rotation', -90);
         treeGroup.setAll('smoothed', false);
+    },
+
+    touched : function(){
+
+        return true;
+    },
+
+    touching : function(){
+
+        if (tree.prototype.touched())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 };
 

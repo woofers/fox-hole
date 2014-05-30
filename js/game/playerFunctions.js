@@ -6,7 +6,7 @@ playerFuntions = function(game){};
 
 playerFunctions.prototype = {
 
-    loadPlayer : function(){
+    load : function(){
 
         //Draw Player
         player = game.add.sprite(sav.x, 700, 'playerSprite');
@@ -62,6 +62,27 @@ playerFunctions.prototype = {
         player.isDigging = true;
     },
 
+    onTile : function() {
+
+        if (player.movingLeft === true)
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+        else if (player.movingRight === true)
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+
+        if (player.onTile === null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    },
+
     objectsLayer : function(){
         
         player.layer = 0;
@@ -85,27 +106,6 @@ playerFunctions.prototype = {
 
         player.layer = 3;
         tunnel2.fill(51, layerTunnel2.getTileX(player.x - player.directX), layerTunnel2.getTileY(player.y - 128), 3, 1);
-    },
-
-    onTile : function() {
-
-        if (player.movingLeft === true)
-        {
-            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
-        }
-        else if (player.movingRight === true)
-        {
-            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
-        }
-
-        if (player.onTile === null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     },
 
     tileAbove : function() {
@@ -155,16 +155,20 @@ playerFunctions.prototype = {
         //Player
         mudTile = 51;
         player.x = sav.x;
-        player.y = 700;
+        player.y = 1022;
         player.movingLeft = false;
         player.movingRight = true;
-        digDelay = null;
         player.dig = false;
+        player.isDigging = false;
+        digDelay = null;
 
         //Enemy
-        follow = false;
         croc1.destroy();
-        croc1Functions.prototype.loadCroc1();
+        croc1Functions.prototype.load();
+
+        //Tree
+        treeGroup.destroy();
+        tree.prototype.load();
 
         //Level
         chapter1.prototype.killLevel();

@@ -83,11 +83,10 @@ var debugShow;
 var digDelay;
 var jumpDelay;
 var currentTime;
+var delay;
 
 //Game Stuff
 var mudTile;
-var checkpoint;
-var activate;
-var title;
+var treeFall;
 
 //Jaxson C. Van Doorn, 2014

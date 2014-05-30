@@ -6,7 +6,7 @@ croc1Funtions = function(game){};
 
 croc1Functions.prototype = {
 
-    loadCroc1 : function(){
+    load : function(){
 
         //Create Croc1 Group
         croc1 = game.add.group(); 
@@ -27,6 +27,7 @@ croc1Functions.prototype = {
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
+        //Flip
         croc1.getAt(2).scale.x = -2.5;
 
         //Walk

@@ -6,7 +6,7 @@ checkpoint = function(game){};
 
 checkpoint.prototype = {
 
-    loadCheckpoint: function(){
+    load: function(){
 
         //Create Checkpoint Group
         checkpointGroup = game.add.group(); 

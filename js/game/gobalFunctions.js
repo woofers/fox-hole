@@ -72,7 +72,12 @@ gobalFunctions.prototype = {
 
         //Refreshs function 60 times a second
         setTimeout(gobalFunctions.prototype.soundAdjust, 250);
-    }
+    },
+
+    generalDelay : function(){
+
+        delay = game.time.now;
+    },
 };
 
 //Jaxson C. Van Doorn, 2014

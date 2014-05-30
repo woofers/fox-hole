@@ -52,17 +52,16 @@ chapter1.prototype = {
 
         //Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.startSystem(Phaser.Physics.P2JS);
 
         //Draw Background
         bg = game.add.sprite(0, 0, 'bg');
 
         //Load Functions
         chapter1.prototype.loadMap();
-        croc1Functions.prototype.loadCroc1();
-        checkpoint.prototype.loadCheckpoint();
-        tree.prototype.loadTree();
-        playerFunctions.prototype.loadPlayer();
+        croc1Functions.prototype.load();
+        checkpoint.prototype.load();
+        tree.prototype.load();
+        playerFunctions.prototype.load();
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
@@ -158,6 +157,7 @@ chapter1.prototype = {
 
         //Tree
         game.physics.arcade.collide(treeGroup, layerTop);
+
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -383,7 +383,7 @@ chapter1.prototype = {
         }
 
         //Down
-        if (downButton.isDown && keyDebouncing.downPressed === false && player.body.blocked.down && !player.isDigging === true && player.layer < 3 && playerFunctions.prototype.tileBelow())
+        if (downButton.isDown && player.body.blocked.down && !player.isDigging === true && player.layer < 3 && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
         {
             if (player.layer < 2 && playerFunctions.prototype.onTile())
             {
@@ -396,7 +396,7 @@ chapter1.prototype = {
         }
 
         //Up
-        if (jumpButton.isDown && keyDebouncing.spacePressed === false && player.isDigging === false && playerFunctions.prototype.tileAbove())
+        if (jumpButton.isDown && player.isDigging === false && playerFunctions.prototype.tileAbove() && keyDebouncing.spacePressed === false)
         {
             if (player.layer == 2)
             {
@@ -518,7 +518,7 @@ chapter1.prototype = {
             }
             
             //Stop Follow
-            if (player.dig === true) 
+            else if (player.dig === true) 
             {
                 croc1.getAt(i).follow = false;
                 game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
@@ -533,14 +533,24 @@ chapter1.prototype = {
                 checkpointGroup.getAt(i).alpha  = 1;
             }
         }
+/*
 
-        if (treeGroup.getAt(0).angle > -110)
+        //Kill Player when the Tree Falls
+        if (treeGroup.getAt(0).angle < -81 && treeGroup.getAt(0).angle > -95 && tree.prototype.touching() && player.dig == false)
         {
-            if (treeGroup.getAt(0).body.blocked.down || title === true)
-            {
-                title = true;
-                treeGroup.getAt(0).angle -= 1;
-            }
+            playerFunctions.prototype.kill();
+        }
+*/
+        if (player.x + 400 > treeGroup.getAt(0).x)
+        {
+            treeGroup.getAt(0).tilt = true;
+            console.log("test");
+        }
+
+        if (treeGroup.getAt(0).tilt === true && treeGroup.getAt(0).angle > -95)
+        {
+            treeGroup.getAt(0).angle -= 0.5;
+            console.log("Tree is falling");
         }
 
         //Key Debouncing
@@ -648,11 +658,14 @@ chapter1.prototype = {
         bg.kill();
         player.kill();
         croc1.destroy();
+        checkpointGroup.destroy();
+        treeGroup.destroy();
         layerDug.kill();
         layerMaster.kill();
         layerTunnel1.kill();
         layerTunnel2.kill();
         layerTop.kill();
+        layerObjects.kill();
         music.stop();
 
         //Start Menu
