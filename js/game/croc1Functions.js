@@ -1,10 +1,10 @@
 //Jaxson C. Van Doorn, 2014
 
-var croc11Functions = {};
+var croc1Functions = {};
 
-croc11Funtions = function(game){};
+croc1Funtions = function(game){};
 
-croc11Functions.prototype = {
+croc1Functions.prototype = {
 
     loadCroc1 : function(){
 
@@ -27,7 +27,7 @@ croc11Functions.prototype = {
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
-        //croc1.getAt(0).scale.x = -2.5;
+        croc1.getAt(2).scale.x = -2.5;
 
         //Walk
         croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);

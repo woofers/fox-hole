@@ -164,7 +164,7 @@ playerFunctions.prototype = {
         //Enemy
         follow = false;
         croc1.destroy();
-        croc11Functions.prototype.loadCroc1();
+        croc1Functions.prototype.loadCroc1();
 
         //Level
         chapter1.prototype.killLevel();

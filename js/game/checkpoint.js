@@ -14,22 +14,23 @@ checkpoint.prototype = {
         //Create Checkpoint From Tilemap
         checkpointGroupChilldren = objectsMap.createFromObjects('objects', 52, 'checkpointSprite', 0, true, false, checkpointGroup);
 
-        //Enable Body
+        //Enable Body and Physics
         checkpointGroup.enableBody = true;
         game.physics.arcade.enable(checkpointGroup);
 
         //Set Properties
-        //croc1.setAll('anchor.x', 0.5);
-        //croc1.setAll('scale.x', 2.5);
-        //croc1.setAll('scale.y', 2.5);
-        //croc1.setAll('smoothed', false);
-
-        //croc1.getAt(0).scale.x = -2.5;
+        checkpointGroup.setAll('anchor.x', 0.5);
+        checkpointGroup.setAll('scale.x', 2.5);
+        checkpointGroup.setAll('scale.y', 2.5);
+        checkpointGroup.setAll('body.bounce', 0);
+        checkpointGroup.setAll('body.gravity.y', 700);
+        checkpointGroup.setAll('smoothed', false);
+        checkpointGroup.setAll('alpha', 0);
     },
 
     activate : function(){
 
-        sav.x = player.x;
+        sav.x = player.x - 400;
     }
 };
 

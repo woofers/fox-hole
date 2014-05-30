@@ -41,6 +41,9 @@ chapter1.prototype = {
         //Checkpoint
         game.load.atlasXML('checkpointSprite', 'assets/images/sprites/checkpoint.png', 'assets/images/sprites/checkpoint.xml');
 
+        //Tree
+        game.load.image('treeSprite', 'assets/images/sprites/tree.png');
+
         //Music
         game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
 	},
@@ -49,15 +52,17 @@ chapter1.prototype = {
 
         //Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.startSystem(Phaser.Physics.P2JS);
 
         //Draw Background
         bg = game.add.sprite(0, 0, 'bg');
 
         //Load Functions
         chapter1.prototype.loadMap();
-        croc11Functions.prototype.loadCroc1();
-        playerFunctions.prototype.loadPlayer();
+        croc1Functions.prototype.loadCroc1();
         checkpoint.prototype.loadCheckpoint();
+        tree.prototype.loadTree();
+        playerFunctions.prototype.loadPlayer();
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
@@ -143,17 +148,21 @@ chapter1.prototype = {
         game.physics.arcade.collide(player, layerObjects, playerFunctions.prototype.objectsLayer);
 
         //Enemy
-        game.physics.arcade.overlap(player, croc1, croc11Functions.prototype.killCheck, null, this);
+        game.physics.arcade.overlap(player, croc1, croc1Functions.prototype.killCheck, null, this);
         game.physics.arcade.collide(croc1, layerTop);
         game.physics.arcade.collide(croc1, layerObjects);
 
         //Checkpoint
         game.physics.arcade.overlap(player, checkpointGroup, checkpoint.prototype.activate, null, this);
+        game.physics.arcade.collide(checkpointGroup, layerTop);
+
+        //Tree
+        game.physics.arcade.collide(treeGroup, layerTop);
 
         //Reset Velocity
         player.body.velocity.x = 0;
         
-        //Create Time Counter
+        //sCreate Time Counter
         currentTime = game.time.now;
 
         //Moving
@@ -437,6 +446,7 @@ chapter1.prototype = {
                     {
                         croc1.getAt(i).scale.x = 2.5;
                         croc1.getAt(i).follow = true;
+                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x + 128, player.y - 128);   
                         console.log("Croc1 Facing Right " + i + " is following you");
                     }
                     
@@ -448,7 +458,7 @@ chapter1.prototype = {
                     }
 
                     //Stop Follow Right
-                    if (player.x - 1000 > croc1.getAt(i).x && player.x > croc1.getAt(i).x)
+                    if (player.x - 1000 > croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
                     {
                         croc1.getAt(i).follow = false;
                         game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
@@ -464,6 +474,7 @@ chapter1.prototype = {
                     {
                         croc1.getAt(i).scale.x = -2.5;
                         croc1.getAt(i).follow = true;
+                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x - 128, player.y - 128);
                         console.log("Croc1 Facing Left " + i + " is following you");
                     }
                     
@@ -475,7 +486,7 @@ chapter1.prototype = {
                     }
 
                     //Stop Follow Left
-                    if (player.x + 1000 < croc1.getAt(i).x && player.x < croc1.getAt(i).x)
+                    if (player.x + 1000 < croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
                     {
                         croc1.getAt(i).follow = false;
                         game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
@@ -483,11 +494,14 @@ chapter1.prototype = {
                     }
                 }
 
-                //Jump
-                if (croc1.getAt(i).body.blocked.right || croc1.getAt(i).body.blocked.left)
+                if (!croc1.getAt(i).tileBeside === null)
                 {
-                    croc1.getAt(i).y -= 20;
-                    console.log("Croc1 " + i + " is jumping");
+                    //Jump
+                    if (croc1.getAt(i).body.blocked.right || croc1.getAt(i).body.blocked.left)
+                    {
+                        croc1.getAt(i).y -= 20;
+                        console.log("Croc1 " + i + " is jumping");
+                    }
                 }
 
                 //Follow
@@ -508,6 +522,24 @@ chapter1.prototype = {
             {
                 croc1.getAt(i).follow = false;
                 game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
+            }
+        }
+
+        //Checkpoint Visible
+        for (i = 0; i < checkpointGroup.length; i++)
+        {
+            if (checkpointGroup.getAt(i).body.blocked.down)
+            {
+                checkpointGroup.getAt(i).alpha  = 1;
+            }
+        }
+
+        if (treeGroup.getAt(0).angle > -110)
+        {
+            if (treeGroup.getAt(0).body.blocked.down || title === true)
+            {
+                title = true;
+                treeGroup.getAt(0).angle -= 1;
             }
         }
 

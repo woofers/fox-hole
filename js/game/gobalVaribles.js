@@ -88,5 +88,6 @@ var currentTime;
 var mudTile;
 var checkpoint;
 var activate;
+var title;
 
 //Jaxson C. Van Doorn, 2014
