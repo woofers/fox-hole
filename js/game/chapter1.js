@@ -156,13 +156,14 @@ chapter1.prototype = {
         game.physics.arcade.collide(checkpointGroup, layerTop);
 
         //Tree
-        game.physics.arcade.collide(treeGroup, layerTop);
+        //game.physics.arcade.collide(treeGroup, layerTop);
+        //game.physics.arcade.overlap(player, treeGroup, croc1Functions.prototype.killCheck, null, this);
 
 
         //Reset Velocity
         player.body.velocity.x = 0;
         
-        //sCreate Time Counter
+        //Create Time Counter
         currentTime = game.time.now;
 
         //Moving
@@ -533,25 +534,6 @@ chapter1.prototype = {
                 checkpointGroup.getAt(i).alpha  = 1;
             }
         }
-/*
-
-        //Kill Player when the Tree Falls
-        if (treeGroup.getAt(0).angle < -81 && treeGroup.getAt(0).angle > -95 && tree.prototype.touching() && player.dig == false)
-        {
-            playerFunctions.prototype.kill();
-        }
-*/
-        if (player.x + 400 > treeGroup.getAt(0).x)
-        {
-            treeGroup.getAt(0).tilt = true;
-            console.log("test");
-        }
-
-        if (treeGroup.getAt(0).tilt === true && treeGroup.getAt(0).angle > -95)
-        {
-            treeGroup.getAt(0).angle -= 0.5;
-            console.log("Tree is falling");
-        }
 
         //Key Debouncing
         if (!jumpButton.isDown)
@@ -598,6 +580,7 @@ chapter1.prototype = {
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
             //game.debug.body(player);
+            //game.debug.body(treeGroup.getAt(0));
         }
     },
 
@@ -656,6 +639,7 @@ chapter1.prototype = {
         //Cleanup      
         pauseMenu.prototype.textKill();
         bg.kill();
+        pauseMenuBg.kill();
         player.kill();
         croc1.destroy();
         checkpointGroup.destroy();

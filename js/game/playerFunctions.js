@@ -85,8 +85,11 @@ playerFunctions.prototype = {
 
     objectsLayer : function(){
         
-        player.layer = 0;
-        player.body.velocity.x = 0;
+        if (!player.body.blocked.left && !player.body.blocked.right)
+        {
+            player.layer = 0;
+            player.body.velocity.x = 0;
+        }
     },
 
     topLayer : function(){

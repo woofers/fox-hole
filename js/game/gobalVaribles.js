@@ -87,6 +87,5 @@ var delay;
 
 //Game Stuff
 var mudTile;
-var treeFall;
 
 //Jaxson C. Van Doorn, 2014
