@@ -24,23 +24,6 @@ tree.prototype = {
         treeGroup.setAll('body.bounce', 0);
         treeGroup.setAll('body.gravity.y', 700);
         treeGroup.setAll('smoothed', false);
-    },
-
-    touched : function(){
-
-        return true;
-    },
-
-    touching : function(){
-
-        if (tree.prototype.touched())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 };
 

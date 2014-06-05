@@ -21,13 +21,14 @@
 		Empty
 
 	Graphics:
-	
-		Game Mehcainics
-		Checkpoint (Totem Appering Out of Smoke)
+
+		Totem
+		Tree
 		Hills | More Tiles
 		Crawl Idle
-		Pounce
 		Tail Wip
+		Fix Croc
+		Croc Charge
 		Lose Animation
 
 	Resultions:

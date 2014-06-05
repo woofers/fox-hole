@@ -45,7 +45,7 @@ chapter1.prototype = {
         game.load.image('treeSprite', 'assets/images/sprites/tree.png');
 
         //Music
-        game.load.audio('music', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
+        game.load.audio('gameMusic', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
 	},
 
 	create : function(){
@@ -133,7 +133,7 @@ chapter1.prototype = {
     playMusic : function(){
 
         //Play Music
-        music = game.add.audio('music', 1, true);
+        music = game.add.audio('gameMusic', 1, true);
         music.play('', 0, 1, true);
     },
 
@@ -447,23 +447,20 @@ chapter1.prototype = {
                     {
                         croc1.getAt(i).scale.x = 2.5;
                         croc1.getAt(i).follow = true;
-                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x + 128, player.y - 128);   
-                        console.log("Croc1 Facing Right " + i + " is following you");
+                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x + 128, player.y - 128);
                     }
                     
                     //Flip to Left
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
                         croc1.getAt(i).scale.x = -2.5;
-                        console.log("Croc1 Is Facing Left " + i);
                     }
 
                     //Stop Follow Right
-                    if (player.x - 1000 > croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
+                    if (player.x - 1200 > croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
                     {
                         croc1.getAt(i).follow = false;
                         game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
-                        console.log("Croc1 Facing Right " + i + " stoped following you");
                     }
                 }
                 
@@ -476,22 +473,19 @@ chapter1.prototype = {
                         croc1.getAt(i).scale.x = -2.5;
                         croc1.getAt(i).follow = true;
                         croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x - 128, player.y - 128);
-                        console.log("Croc1 Facing Left " + i + " is following you");
                     }
                     
                     //Flip to Right
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
                         croc1.getAt(i).scale.x = 2.5;
-                        console.log("Croc1 Is Facing Right " + i);
                     }
 
                     //Stop Follow Left
-                    if (player.x + 1000 < croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
+                    if (player.x + 1200 < croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).body.blocked.down)
                     {
                         croc1.getAt(i).follow = false;
                         game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
-                        console.log("Croc1 Facing Left " + i + " stoped following you");
                     }
                 }
 
@@ -501,14 +495,13 @@ chapter1.prototype = {
                     if (croc1.getAt(i).body.blocked.right || croc1.getAt(i).body.blocked.left)
                     {
                         croc1.getAt(i).y -= 20;
-                        console.log("Croc1 " + i + " is jumping");
                     }
                 }
 
                 //Follow
                 if (croc1.getAt(i).follow === true)
                 {
-                    game.physics.arcade.moveToObject(croc1.getAt(i), player, 300, 0); 
+                    game.physics.arcade.moveToObject(croc1.getAt(i), player, 375, 0); 
                 }
                 
                 //Set follow to false
@@ -523,15 +516,6 @@ chapter1.prototype = {
             {
                 croc1.getAt(i).follow = false;
                 game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
-            }
-        }
-
-        //Checkpoint Visible
-        for (i = 0; i < checkpointGroup.length; i++)
-        {
-            if (checkpointGroup.getAt(i).body.blocked.down)
-            {
-                checkpointGroup.getAt(i).alpha  = 1;
             }
         }
 

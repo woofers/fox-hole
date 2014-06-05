@@ -31,8 +31,8 @@ croc1Functions.prototype = {
         croc1.getAt(2).scale.x = -2.5;
 
         //Walk
-        croc1.callAll('animations.add', 'animations', 'spin', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
-        croc1.callAll('animations.play', 'animations', 'spin');
+        croc1.callAll('animations.add', 'animations', 'walk', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
+        croc1.callAll('animations.play', 'animations', 'walk');
     },
 
     killCheck : function(player, croc1){
