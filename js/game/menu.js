@@ -62,11 +62,7 @@ mainMenu.prototype = {
             
         if (mainMenu.prototype.checkSave())
         {
-            store.set("save.loaded", true);
-            store.set("save.settings.sound", 10);
-            store.set("save.chapter", 1);
-            store.set("save.chapterString", "New File");
-            store.set("save.x", 400);
+            mainMenu.prototype.eraseSave();
         }
     },
 
@@ -84,7 +80,7 @@ mainMenu.prototype = {
         store.set("save.settings.sound", 10);
         store.set("save.chapter", 1);
         store.set("save.chapterString", "New File");
-        store.set("save.x", 400);
+        store.set("save.x", 1412);
     },
 
     create : function(){

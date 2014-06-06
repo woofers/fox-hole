@@ -20,17 +20,25 @@ checkpoint.prototype = {
 
         //Set Properties
         checkpointGroup.setAll('anchor.x', 0.5);
-        checkpointGroup.setAll('scale.x', 2.5);
-        checkpointGroup.setAll('scale.y', 2.5);
+        checkpointGroup.setAll('scale.x', 4);
+        checkpointGroup.setAll('scale.y', 4);
         checkpointGroup.setAll('body.bounce', 0);
         checkpointGroup.setAll('body.gravity.y', 700);
         checkpointGroup.setAll('smoothed', false);
-        checkpointGroup.setAll('alpha', 0);
+
+        //Activate
+        checkpointGroup.callAll('animations.add', 'animations', 'activate', Phaser.Animation.generateFrameNames('checkpoint', 0, 16, '', 4), 12, false);
     },
 
-    activate : function(){
+    activate : function(player, checkpointGroup){
 
-        sav.x = player.x - 400;
+        sav.x = checkpointGroup.x - 300;
+
+        if (!checkpointGroup.activate === true)
+        {
+            checkpointGroup.activate = true;
+            checkpointGroup.animations.play('activate');
+        }
     }
 };
 

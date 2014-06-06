@@ -11,7 +11,9 @@ var player = {
                 layer: 1,
                 onTile: null,
                 tileAbove: null,
-                tileBelow: null
+                tileBelow: null,
+                tailWhip: false,
+                hit: false
             };
 
 //Settings
@@ -47,7 +49,8 @@ var keyDebouncing = {
                         rightPressed: false,
                         leftPressed: false,
                         enterPressed: false,
-                        backPressed: false
+                        backPressed: false,
+                        attackPressed: false
                     };
 //Text Style
 var titleStyle = {

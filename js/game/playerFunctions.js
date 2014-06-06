@@ -47,6 +47,8 @@ playerFunctions.prototype = {
         //Diging
         player.animations.add('dig', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
         player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 24, '', 4), 13, false);
+
+        player.animations.add('tailWhip', Phaser.Animation.generateFrameNames('foxTail', 0, 12, '', 4), 10, false);
     },
 
     digDown : function(){
@@ -63,12 +65,12 @@ playerFunctions.prototype = {
     },
 
     onTile : function() {
-
-        if (player.movingLeft === true)
+        
+        if (player.movingRight === true)
         {
             player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
         }
-        else if (player.movingRight === true)
+        else 
         {
             player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
         }
@@ -159,10 +161,11 @@ playerFunctions.prototype = {
         mudTile = 51;
         player.x = sav.x;
         player.y = 1022;
-        player.movingLeft = false;
         player.movingRight = true;
         player.dig = false;
         player.isDigging = false;
+        player.dobuleJump = false;
+        player.tailWhip = false;
         digDelay = null;
 
         //Enemy
