@@ -69,9 +69,70 @@ gobalFunctions.prototype = {
 
         //Auto Save
         store.set("save.settings.sound", settings.sound);
+    },
 
-        //Refreshs function 60 times a second
-        setTimeout(gobalFunctions.prototype.soundAdjust, 250);
+    camera : function(){
+        
+        //Camera
+        sav.cameraY = 184 + player.y;
+        camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
+
+        //Camera Max out
+        if (sav.cameraY > 1536)
+        {
+            sav.cameraY = 1536;
+            camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
+        }
+    },
+
+    keyDebouncing : function(){
+
+        //Key Debouncing
+        if (!jumpButton.isDown)
+        {
+            keyDebouncing.spacePressed = false;
+        }
+        if (!downButton.isDown)
+        {
+            keyDebouncing.downPressed = false;
+        }
+        if (!cursors.down.isDown)
+        {
+            keyDebouncing.enterPressed = false;
+        }
+        if (!attackButton.isDown)
+        {
+            keyDebouncing.attackPressed = false;
+        }
+    },
+
+    menuKeyDebouncing : function(){
+            
+        //Key Deboucing
+        if (!cursors.up.isDown)
+        {
+            keyDebouncing.upPressed = false;
+        }
+        if (!cursors.down.isDown)
+        {
+            keyDebouncing.downPressed = false;
+        }
+        if (!cursors.right.isDown)
+        {
+            keyDebouncing.rightPressed = false;
+        }
+        if (!cursors.left.isDown)
+        {
+            keyDebouncing.leftPressed = false;
+        }
+        if (!select.isDown)
+        {
+            keyDebouncing.enterPressed = false;
+        }
+        if (!backSelect.isDown)
+        {
+            keyDebouncing.backPressed = false;
+        }
     }
 };
 

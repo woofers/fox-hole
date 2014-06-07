@@ -14,7 +14,7 @@
 
 	To do:
 
-		Attacks | Pounce and Tail Wip
+		Clean Up
 
 	Bugs:
 
@@ -22,11 +22,8 @@
 
 	Graphics:
 
-		Totem
 		Tree
-		Hills | More Tiles
 		Crawl Idle
-		Tail Wip
 		Fix Croc
 		Croc Charge
 		Lose Animation

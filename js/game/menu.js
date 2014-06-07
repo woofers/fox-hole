@@ -358,31 +358,7 @@ mainMenu.prototype = {
             menuSelect = menuSelect + 1;
         }
 
-        //Key Deboucing
-        if (!cursors.up.isDown)
-        {
-            keyDebouncing.upPressed = false;
-        }
-        if (!cursors.down.isDown)
-        {
-            keyDebouncing.downPressed = false;
-        }
-        if (!cursors.right.isDown)
-        {
-            keyDebouncing.rightPressed = false;
-        }
-        if (!cursors.left.isDown)
-        {
-            keyDebouncing.leftPressed = false;
-        }
-        if (!select.isDown)
-        {
-            keyDebouncing.enterPressed = false;
-        }
-        if (!backSelect.isDown)
-        {
-            keyDebouncing.backPressed = false;
-        }
+        gobalFunctions.prototype.menuKeyDebouncing();
 
         //Looping
         if (menuSelect > 3)

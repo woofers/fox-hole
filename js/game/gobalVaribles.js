@@ -3,7 +3,6 @@
 //Player
 var player = {
                 movingRight: false,
-                movingLeft: false,
                 dobuleJump: false,
                 dig: false,
                 isDigging: false,
@@ -13,7 +12,10 @@ var player = {
                 tileAbove: null,
                 tileBelow: null,
                 tailWhip: false,
-                hit: false
+                tailWhipJump: false,
+                hit: false,
+                killCheck: false,
+                killAnim: false
             };
 
 //Settings

@@ -48,7 +48,7 @@ pauseMenu.prototype = {
                 if (menuSelect == 1)
                 {
                     //Unpause
-                    if (pauseButton.isDown && keyDebouncing.enterPressed === false)
+                    if (select.isDown && keyDebouncing.enterPressed === false)
                     {
                         keyDebouncing.enterPressed = false;
 
@@ -65,7 +65,7 @@ pauseMenu.prototype = {
                 if (menuSelect == 2)
                 {
                     //Enter
-                    if (pauseButton.isDown && keyDebouncing.enterPressed === false)
+                    if (select.isDown && keyDebouncing.enterPressed === false)
                     {
                         keyDebouncing.enterPressed = false;
                         currentScreen = 2;
@@ -77,7 +77,7 @@ pauseMenu.prototype = {
                 if (menuSelect == 3)
                 {
                     //To Menu
-                    if (pauseButton.isDown && keyDebouncing.enterPressed === false)
+                    if (select.isDown && keyDebouncing.enterPressed === false)
                     {
                         keyDebouncing.enterPressed = true;
                         
@@ -209,33 +209,11 @@ pauseMenu.prototype = {
             {
                 menuSelect = 3;
             }
-
-            //Key Deboucing
-            if (!cursors.up.isDown)
-            {
-                keyDebouncing.upPressed = false;
-            }
-            if (!cursors.down.isDown)
-            {
-                keyDebouncing.downPressed = false;
-            }
-            if (!cursors.right.isDown)
-            {
-                keyDebouncing.rightPressed = false;
-            }
-            if (!cursors.left.isDown)
-            {
-                keyDebouncing.leftPressed = false;
-            }
-            if (!pauseButton.isDown)
-            {
-                keyDebouncing.enterPressed = false;
-            }
-            if (!backSelect.isDown)
-            {
-                keyDebouncing.backPressed = false;
-            }
+            
+            gobalFunctions.prototype.menuKeyDebouncing();
         }
+
+        gobalFunctions.prototype.soundAdjust();
 
         //Refreshs function 60 times a second
         setTimeout(pauseMenu.prototype.pauseGame, 16);
