@@ -1,0 +1,13 @@
+checkpoint.mp3 || checkpoint.ogg
+?
+
+death.mp3 || death.ogg
+?
+
+tailWhip.mp3 || tailWhip.ogg
+Sampling Plus 1.0
+http://soundbible.com/706-Swoosh-3.html
+
+hit.mp3 || hit.ogg
+Attribution 3.0
+http://soundbible.com/991-Left-Hook.html

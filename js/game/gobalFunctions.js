@@ -66,9 +66,18 @@ gobalFunctions.prototype = {
         
         //Volume Controll
         music.volume = settings.sound / 10;
+        checkpointSfx.volume = settings.sound / 10;
+        deathSfx.volume = settings.sound / 10;
+        hitSfx.volume = settings.sound / 10;
+        tailWhipSfx.volume = settings.sound / 10;
 
         //Auto Save
         store.set("save.settings.sound", settings.sound);
+    },
+
+    sfxDelay : function(){
+
+        soundDelay = game.time.now;
     },
 
     camera : function(){

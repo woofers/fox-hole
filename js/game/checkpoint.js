@@ -39,6 +39,11 @@ checkpoint.prototype = {
             sav.x = checkpointGroup.x - 300;
             checkpointGroup.activate = true;
             checkpointGroup.animations.play('activate');
+
+                if (soundPlay === true)
+                {
+                    checkpointSfx.play('', 0, 1, false);
+                }
         }
     }
 };

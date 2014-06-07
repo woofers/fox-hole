@@ -92,5 +92,7 @@ var delay;
 
 //Game Stuff
 var mudTile;
+var soundDelay;
+var soundPlay;
 
 //Jaxson C. Van Doorn, 2014

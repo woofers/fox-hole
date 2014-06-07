@@ -13,6 +13,7 @@ chapter1.prototype = {
         currentScreen = 1;
         sav.cameraY = 1208;
         game.time.advancedTiming = true;
+        soundPlay = false;
 
         //Loading Screen
         game.add.sprite(0, 0, 'loadingScreen');
@@ -45,7 +46,14 @@ chapter1.prototype = {
         game.load.image('treeSprite', 'assets/images/sprites/tree.png');
 
         //Music
-        game.load.audio('gameMusic', ['assets/music/PeacefulIsland.mp3', 'assets/music/PeacefulIsland.ogg']);
+        game.load.audio('gameMusic', ['assets/music/chapter1.mp3', 'assets/music/chapter1.ogg']);
+
+        //SFX
+        game.load.audio('checkpointSound', ['assets/sfx/checkpoint.mp3', 'assets/sfx/checkpoint.ogg']);
+        game.load.audio('deathSound', ['assets/sfx/death.mp3', 'assets/sfx/death.ogg']);
+        game.load.audio('tailWhipSound', ['assets/sfx/tailWhip.mp3', 'assets/sfx/tailWhip.ogg']);
+        game.load.audio('walkSound', ['assets/sfx/walk.mp3', 'assets/sfx/walk.ogg']);
+        game.load.audio('hitSound', ['assets/sfx/hit.mp3', 'assets/sfx/hit.ogg']);
 	},
 
 	create : function(){
@@ -65,6 +73,7 @@ chapter1.prototype = {
         chapter1.prototype.playMusic();
         pauseMenu.prototype.pauseGame();
         pauseMenu.prototype.loadPauseBg();
+        gobalFunctions.prototype.sfxDelay();
         
         //Set Varible Values
         playerFunctions.prototype.varibleSet();
@@ -131,6 +140,11 @@ chapter1.prototype = {
 
         //Play Music
         music = game.add.audio('gameMusic', 1, true);
+        checkpointSfx = game.add.audio('checkpointSound', 1, true);
+        deathSfx = game.add.audio('deathSound', 1, true);
+        tailWhipSfx = game.add.audio('tailWhipSound', 1, true);
+        walkSfx = game.add.audio('walkSound', 1, true);
+        hitSfx = game.add.audio('hitSound', 1, true);
         music.play('', 0, 1, true);
     },
 
@@ -168,8 +182,14 @@ chapter1.prototype = {
         croc1Functions.prototype.ai();
         gobalFunctions.prototype.keyDebouncing();
 
+        //Fix Sound Offset Bug
+        if (currentTime - soundDelay > 2000)
+        {
+            soundPlay = true;
+        }
+
         //Pause
-        if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false)
+        if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false && player.killCheck === false && player.tailWhip === false)
         {
             keyDebouncing.enterPressed = true;
 

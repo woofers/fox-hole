@@ -25,10 +25,6 @@ playerFunctions.prototype = {
         player.body.gravity.y = 700;
         player.body.collideWorldBounds = true;
 
-        //Create Group
-        playerGroup = game.add.group();
-        playerGroup.add(player);
-
         //Player Animations
 
         //Walk
@@ -49,7 +45,7 @@ playerFunctions.prototype = {
         player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 24, '', 4), 13, false);
 
         //Attack
-        player.animations.add('tailWhip', Phaser.Animation.generateFrameNames('foxTail', 0, 12, '', 4), 12, false);
+        player.animations.add('tailWhip', Phaser.Animation.generateFrameNames('foxTail', 0, 12, '', 4), 14, false);
 
         player.animations.add('flip', Phaser.Animation.generateFrameNames('foxFlip', 0, 9, '', 4), 8, false);
     },
@@ -340,6 +336,11 @@ playerFunctions.prototype = {
             keyDebouncing.attackPressed = true;
             player.tailWhip = true;
             player.tailWhipJump = true;
+                
+                if (soundPlay === true)
+                {
+                    tailWhipSfx.play('', 0, 1, false);
+                }
         }
         if (player.tailWhip === true)
         {
@@ -505,6 +506,11 @@ playerFunctions.prototype = {
     },
 
     kill : function(){
+
+        if (soundPlay === true)
+        {
+            deathSfx.play('', 0, 1, false);
+        }
 
         //Enemy
         croc1.destroy();

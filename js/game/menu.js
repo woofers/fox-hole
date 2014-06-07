@@ -20,9 +20,6 @@ mainMenu.prototype = {
         mainMenu.prototype.createSave();
         mainMenu.prototype.readSave();
 
-        //Souund Adjustor
-        gobalFunctions.prototype.soundAdjust();
-
         //Menu
         game.load.image('aboutScreen', 'assets/images/ui/about.png');
         game.load.image('menuBg', 'assets/images/ui/orange.png');
