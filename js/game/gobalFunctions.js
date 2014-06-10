@@ -70,6 +70,8 @@ gobalFunctions.prototype = {
         deathSfx.volume = settings.sound / 10;
         hitSfx.volume = settings.sound / 10;
         tailWhipSfx.volume = settings.sound / 10;
+        digSfx.volume = settings.sound / 10;
+        digDelaySfx.volume = settings.sound / 10;
 
         //Auto Save
         store.set("save.settings.sound", settings.sound);
@@ -141,6 +143,10 @@ gobalFunctions.prototype = {
         if (!backSelect.isDown)
         {
             keyDebouncing.backPressed = false;
+        }
+        if (!pauseButton.isDown)
+        {
+            keyDebouncing.escPressed = false;
         }
     }
 };

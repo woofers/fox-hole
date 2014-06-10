@@ -129,7 +129,7 @@ croc1Functions.prototype = {
         {
             croc1.kill();
         }
-        else if (player.tailWhip === false && player.body.blocked.down)
+        else if (player.tailWhip === false && player.body.blocked.down && player.isDigging === false)
         {
             player.killCheck = true;
             player.isDigging = false;

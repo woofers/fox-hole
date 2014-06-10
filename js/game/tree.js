@@ -20,9 +20,9 @@ tree.prototype = {
 
         //Set Properties
         treeGroup.setAll('anchor.x', 0.5);
-        treeGroup.setAll('scale.x', 4);
-        treeGroup.setAll('scale.y', 4);
-        treeGroup.setAll('body.offset.y', -76);
+        treeGroup.setAll('scale.x', 5);
+        treeGroup.setAll('scale.y', 5);
+        treeGroup.setAll('body.offset.y', -95);
         treeGroup.setAll('body.bounce', 0);
         treeGroup.setAll('body.gravity.y', 700);
         treeGroup.setAll('smoothed', false);

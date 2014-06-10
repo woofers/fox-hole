@@ -95,6 +95,7 @@ mainMenu.prototype = {
         cursors = game.input.keyboard.createCursorKeys();
         select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
@@ -234,9 +235,10 @@ mainMenu.prototype = {
                     }
 
                     //Go Back
-                    if (backSelect.isDown && keyDebouncing.backPressed === false)
+                    if (backSelect.isDown && keyDebouncing.backPressed === false || pauseButton.isDown && keyDebouncing.escPressed === false)
                     {
                         keyDebouncing.backPressed = true;
+                        keyDebouncing.escPressed = true;
                         currentScreen = 1;
                         menuSelect = 1;
                         mainMenu.prototype.mainText();
@@ -265,7 +267,7 @@ mainMenu.prototype = {
                                 if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                                 {
                                     keyDebouncing.leftPressed = true;
-                                    win.isFullscreen = false;
+                                    win.leaveFullscreen();
                                     settings.fullscreenString = "Off";
                                 }
 
@@ -273,7 +275,7 @@ mainMenu.prototype = {
                                 if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                                 {
                                     keyDebouncing.rightPressed = true;
-                                    win.isFullscreen = false;
+                                    win.leaveFullscreen();
                                     settings.fullscreenString = "Off";
                                 }
                             }
@@ -285,7 +287,7 @@ mainMenu.prototype = {
                                 if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                                 {
                                     keyDebouncing.leftPressed = true;
-                                    win.isFullscreen = true;
+                                    win.enterFullscreen();
                                     settings.fullscreenString = "On";
                                 }
 
@@ -293,7 +295,7 @@ mainMenu.prototype = {
                                 if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                                 {
                                     keyDebouncing.rightPressed = true;
-                                    win.isFullscreen = true;
+                                    win.enterFullscreen();
                                     settings.fullscreenString = "On";
                                 }
                             }
@@ -318,9 +320,11 @@ mainMenu.prototype = {
                         }
 
                         //Go Back
-                        if (backSelect.isDown && keyDebouncing.backPressed === false)
+                        if (backSelect.isDown && keyDebouncing.backPressed === false || pauseButton.isDown && keyDebouncing.escPressed === false)
                         {
                             keyDebouncing.backPressed = true;
+                            keyDebouncing.escPressed = true;
+
                             currentScreen = 1;
                             menuSelect = 2;
                             mainMenu.prototype.mainText();
@@ -331,9 +335,11 @@ mainMenu.prototype = {
             if (currentScreen == 4)
             {
                 //Go Back
-                if (backSelect.isDown && keyDebouncing.backPressed === false)
+                if (backSelect.isDown && keyDebouncing.backPressed === false || pauseButton.isDown && keyDebouncing.escPressed === false)
                 {
                     keyDebouncing.backPressed = true;
+                    keyDebouncing.escPressed = true;
+
                     aboutMenu.visible =! aboutMenu.visible;
                     currentScreen = 2;
                     menuSelect = 3;

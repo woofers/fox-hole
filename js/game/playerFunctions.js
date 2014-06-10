@@ -80,21 +80,18 @@ playerFunctions.prototype = {
                             player.body.velocity.x = -350;
                         }
 
-                        if (player.hit === false)
+                        if (player.tailWhip === false)
                         {
-                            if (player.tailWhip === false)
+                            //Walk Left Animation
+                            if (player.body.blocked.down)
                             {
-                                //Walk Left Animation
-                                if (player.body.blocked.down)
-                                {
-                                    player.animations.play('walking');
-                                }
+                                player.animations.play('walking');
+                            }
 
-                                //Jump Left Animation
-                                else if (player.tailWhip === false)
-                                {
-                                    player.animations.play('jumping');
-                                }
+                            //Jump Left Animation
+                            else if (player.tailWhip === false)
+                            {
+                                player.animations.play('jumping');
                             }
                         }
                     }
@@ -139,19 +136,16 @@ playerFunctions.prototype = {
                             
                         if (player.tailWhip === false)
                         {
-                            if (player.hit === false)
+                            //Walk Right Animation
+                            if (player.body.blocked.down)
                             {
-                                //Walk Right Animation
-                                if (player.body.blocked.down)
-                                {
-                                    player.animations.play('walking');
-                                }
+                                player.animations.play('walking');
+                            }
 
-                                //Jump Right Animation
-                                else
-                                {
-                                    player.animations.play('jumping'); 
-                                }
+                            //Jump Right Animation
+                            else
+                            {
+                                player.animations.play('jumping'); 
                             }
                         }
                     }
@@ -280,13 +274,24 @@ playerFunctions.prototype = {
         //Down
         if (downButton.isDown && player.body.blocked.down && !player.isDigging === true && player.layer < 3 && player.tailWhip === false && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
         {
+
             if (player.layer < 2 && playerFunctions.prototype.onTile())
             {
                 playerFunctions.prototype.digDown();
+
+                    if (soundPlay === true)
+                    {
+                        digDelaySfx.play('', 0, 1, false);
+                    }
             }
             else if (player.layer > 1)
             {
                 playerFunctions.prototype.digDown();
+
+                    if (soundPlay === true)
+                    {
+                        digSfx.play('', 0, 1, false);
+                    }
             }
         }
 
@@ -322,13 +327,15 @@ playerFunctions.prototype = {
         }
 
         //Stop the anmation
-        if (player.body.blocked.right || player.body.blocked.left)
+        if (player.body.blocked.right && player.tailWhip === false || player.body.blocked.left && player.tailWhip === false)
         {
-            //player.hit = true;
-            player.animations.stop();
-            player.tailWhip = false;
+            player.animations.stop(null, false);
+                
+                if (player.dig === false)
+                {
+                    player.frame = 1;
+                }
         }
-
 
         //Tail Whip
         if (attackButton.isDown && player.isDigging === false && player.dig === false && player.body.blocked.down && keyDebouncing.attackPressed === false)
@@ -395,7 +402,6 @@ playerFunctions.prototype = {
         player.isDigging = false;
         player.dobuleJump = false;
         player.tailWhip = false;
-        player.hit = false;
         player.killCheck = false;
         player.killAnim = false;
         digDelay = null;

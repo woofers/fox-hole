@@ -9,7 +9,7 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = true;
+        debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
         game.time.advancedTiming = true;
@@ -54,6 +54,8 @@ chapter1.prototype = {
         game.load.audio('tailWhipSound', ['assets/sfx/tailWhip.mp3', 'assets/sfx/tailWhip.ogg']);
         game.load.audio('walkSound', ['assets/sfx/walk.mp3', 'assets/sfx/walk.ogg']);
         game.load.audio('hitSound', ['assets/sfx/hit.mp3', 'assets/sfx/hit.ogg']);
+        game.load.audio('digSound', ['assets/sfx/dig.mp3', 'assets/sfx/dig.ogg']);
+        game.load.audio('digDelaySound', ['assets/sfx/digDelay.mp3', 'assets/sfx/digDelay.ogg']);
 	},
 
 	create : function(){
@@ -62,7 +64,7 @@ chapter1.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //Draw Background
-        bg = game.add.sprite(0, 0, 'bg');
+        bg = game.add.sprite(0, -40, 'bg');
 
         //Load Functions
         chapter1.prototype.loadMap();
@@ -93,7 +95,8 @@ chapter1.prototype = {
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.R);
         attackButton2 = game.input.keyboard.addKey(Phaser.Keyboard.T);
         jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fixies Clipping
@@ -145,6 +148,8 @@ chapter1.prototype = {
         tailWhipSfx = game.add.audio('tailWhipSound', 1, true);
         walkSfx = game.add.audio('walkSound', 1, true);
         hitSfx = game.add.audio('hitSound', 1, true);
+        digSfx = game.add.audio('digSound', 1, true);
+        digDelaySfx = game.add.audio('digDelaySound', 1, true);
         music.play('', 0, 1, true);
     },
 
@@ -191,7 +196,7 @@ chapter1.prototype = {
         //Pause
         if (pauseButton.isDown && keyDebouncing.enterPressed === false && player.body.blocked.down && player.isDigging === false && player.killCheck === false && player.tailWhip === false)
         {
-            keyDebouncing.enterPressed = true;
+            keyDebouncing.escPressed = true;
 
             pauseMenuBg.bringToTop();
             pauseMenuBg.visible =! pauseMenuBg.visible;

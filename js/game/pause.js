@@ -87,12 +87,13 @@ pauseMenu.prototype = {
                 }
                     
                 //Go Back
-                if (backSelect.isDown && keyDebouncing.backPressed === false)
+                if (backSelect.isDown && keyDebouncing.backPressed === false || pauseButton.isDown && keyDebouncing.escPressed === false)
                 {
                     //Unpauses Game
                     game.paused = false;
 
                     keyDebouncing.backPressed = true;
+                    keyDebouncing.escPressed = true;
 
                     //Reset Selector
                     menuSelect = 1;
@@ -177,9 +178,10 @@ pauseMenu.prototype = {
                 }
 
                 //Go Back
-                if (backSelect.isDown && keyDebouncing.backPressed === false)
+                if (backSelect.isDown && keyDebouncing.backPressed === false || pauseButton.isDown && keyDebouncing.escPressed === false)
                 {
                     keyDebouncing.backPressed = true;
+                    keyDebouncing.escPressed = true;
                     currentScreen = 1;
                     menuSelect = 2;
                     pauseMenu.prototype.pauseText();

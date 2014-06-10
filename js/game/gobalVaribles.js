@@ -52,7 +52,8 @@ var keyDebouncing = {
                         leftPressed: false,
                         enterPressed: false,
                         backPressed: false,
-                        attackPressed: false
+                        attackPressed: false,
+                        escPressed: false
                     };
 //Text Style
 var titleStyle = {
