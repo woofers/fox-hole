@@ -29,10 +29,17 @@ croc1Functions.prototype = {
 
         //Flip
         croc1.getAt(2).scale.x = -2.5;
+        croc1.getAt(3).scale.x = -2.5;
 
         //Walk
         croc1.callAll('animations.add', 'animations', 'walk', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
         croc1.callAll('animations.play', 'animations', 'walk');
+    },
+
+    jumpDelay : function(){
+
+        croc1.getAt(i).jumpDelay = game.time.now;
+        croc1.getAt(i).jump = true;
     },
 
     ai : function(){
@@ -50,7 +57,6 @@ croc1Functions.prototype = {
                     {
                         croc1.getAt(i).scale.x = 2.5;
                         croc1.getAt(i).follow = true;
-                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x + 128, player.y - 128);
                     }
                     
                     //Flip to Left
@@ -75,7 +81,6 @@ croc1Functions.prototype = {
                     {
                         croc1.getAt(i).scale.x = -2.5;
                         croc1.getAt(i).follow = true;
-                        croc1.getAt(i).tileBeside = topMap.getTileWorldXY(player.x - 128, player.y - 128);
                     }
                     
                     //Flip to Right
@@ -92,13 +97,32 @@ croc1Functions.prototype = {
                     }
                 }
 
-                if (!croc1.getAt(i).tileBeside === null)
+                //Start Jump
+                if (croc1.getAt(i).body.blocked.down)
                 {
-                    //Jump
-                    if (croc1.getAt(i).body.blocked.right || croc1.getAt(i).body.blocked.left)
+                    if (croc1.getAt(i).body.blocked.left || croc1.getAt(i).body.blocked.right)
                     {
-                        croc1.getAt(i).y -= 20;
+                        croc1.getAt(i).isJumping = true;
                     }
+                }
+
+                //Jump
+                if (croc1.getAt(i).isJumping === true)
+                {
+                    croc1.getAt(i).y -= 20;
+                }
+
+                //Jump Delay
+                if (!croc1.getAt(i).body.blocked.down && croc1.getAt(i).isJumping === true && !croc1.getAt(i).jump === true)
+                {
+                    croc1Functions.prototype.jumpDelay();
+                }
+
+                //Rest Jump
+                if (currentTime - croc1.getAt(i).jumpDelay > 150)
+                {
+                    croc1.getAt(i).isJumping = false;
+                    croc1.getAt(i).jump = false;
                 }
 
                 //Follow
@@ -125,7 +149,7 @@ croc1Functions.prototype = {
 
     killCheck : function(player, croc1){
 
-        if (player.animations.currentFrame.index > 76 && player.animations.currentFrame.index < 79 || attackButton2.isDown)
+        if (player.animations.currentFrame.index > 76 && player.animations.currentFrame.index < 79 || player.isAnim === true)
         {
             croc1.kill();
         }

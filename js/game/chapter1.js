@@ -9,7 +9,7 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = false;
+        debugShow = true;
         currentScreen = 1;
         sav.cameraY = 1208;
         game.time.advancedTiming = true;
@@ -100,7 +100,7 @@ chapter1.prototype = {
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
 
         //Fixies Clipping
-        game.physics.arcade.TILE_BIAS = 128;
+        game.physics.arcade.TILE_BIAS = 120;
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
@@ -297,6 +297,7 @@ chapter1.prototype = {
         layerTop.kill();
         layerObjects.kill();
         music.stop();
+        music.volume = 0;
 
         //Start Menu
         game.state.start('Menu');

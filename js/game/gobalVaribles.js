@@ -6,6 +6,8 @@ var player = {
                 dobuleJump: false,
                 dig: false,
                 isDigging: false,
+                isDiggingUp: false,
+                isAnim: false,
                 directX: 0,
                 layer: 1,
                 onTile: null,
@@ -15,7 +17,8 @@ var player = {
                 tailWhipJump: false,
                 hit: false,
                 killCheck: false,
-                killAnim: false
+                killAnim: false,
+                killUnderground: false
             };
 
 //Settings

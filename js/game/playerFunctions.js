@@ -43,17 +43,20 @@ playerFunctions.prototype = {
         //Diging
         player.animations.add('dig', Phaser.Animation.generateFrameNames('foxDig', 0, 17, '', 4), 10, false);
         player.animations.add('digSmall', Phaser.Animation.generateFrameNames('foxDigSmall', 0, 24, '', 4), 13, false);
+        player.animations.add('digUp', Phaser.Animation.generateFrameNames('foxDigUp', 0, 6, '', 4), 10, false);
+        player.animations.add('digUpAbove', Phaser.Animation.generateFrameNames('foxDigUpAbove', 0, 11, '', 4), 10, false);
 
         //Attack
         player.animations.add('tailWhip', Phaser.Animation.generateFrameNames('foxTail', 0, 12, '', 4), 14, false);
 
+        //Death
         player.animations.add('flip', Phaser.Animation.generateFrameNames('foxFlip', 0, 9, '', 4), 8, false);
     },
 
     main : function(){
         
         //Moving
-        if (player.isDigging === false && player.killCheck === false)
+        if (player.isDigging === false && player.isDiggingUp === false && player.killCheck === false && player.isAnim === false)
         {
             //Walk Left
             if (leftButton.isDown)
@@ -204,7 +207,7 @@ playerFunctions.prototype = {
         if (jumpButton.isDown && player.tailWhip === false)
         {
             //Single Jump
-            if (player.body.blocked.down && player.isDigging === false && player.dig === false && keyDebouncing.spacePressed === false)
+            if (player.body.blocked.down && player.isDigging === false && player.isDiggingUp === false && player.dig === false && keyDebouncing.spacePressed === false)
             {
                 keyDebouncing.spacePressed = true;
                 player.body.velocity.y = -450;
@@ -230,6 +233,7 @@ playerFunctions.prototype = {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
                 keyDebouncing.spacePressed = true;
+
                 topMap.putTileWorldXY(mudTile, player.x, player.y - 100, 128, 128, layerTop);
                 player.y = player.y + 256;
                 player.dig = true;
@@ -241,8 +245,36 @@ playerFunctions.prototype = {
                 player.isDigging = false;
                 keyDebouncing.downPressed = true;
                 keyDebouncing.spacePressed = true;
+
                 player.y = player.y + 128;
             }  
+        }
+        else if (player.isDiggingUp === true)
+        {
+            //Tunnel 1
+            if (currentTime - digDelay > 600 && player.layer === 2)
+            {
+                player.isDiggingUp = false;
+                keyDebouncing.downPressed = true;
+                keyDebouncing.spacePressed = true;
+
+                chapter1.prototype.killLevel();
+
+                player.y = player.y - 256;
+                player.dig = false;
+                player.animations.play('digUpAbove');
+                player.isAnim = true;
+            }
+
+            //Tunnel 2
+            if (currentTime - digDelay > 600 && player.layer === 3)
+            {
+                player.isDiggingUp = false;
+                keyDebouncing.downPressed = true;
+                keyDebouncing.spacePressed = true;
+
+                player.y = player.y - 128;
+            }
         }
 
         //Digging Animations
@@ -270,11 +302,24 @@ playerFunctions.prototype = {
                 player.scale.x = -4;
             }  
         }
+        else if (player.isDiggingUp === true)
+        {
+            player.animations.play('digUp');
+
+            //Dig Right Animation
+            if (player.movingRight === true)
+            {
+                player.scale.x = 4;
+            }
+            else 
+            {
+                player.scale.x = -4;
+            }  
+        }
 
         //Down
-        if (downButton.isDown && player.body.blocked.down && !player.isDigging === true && player.layer < 3 && player.tailWhip === false && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
+        if (downButton.isDown && player.body.blocked.down && player.killAnim === false && !player.isDigging === true && player.layer < 3 && player.tailWhip === false && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
         {
-
             if (player.layer < 2 && playerFunctions.prototype.onTile())
             {
                 playerFunctions.prototype.digDown();
@@ -296,22 +341,16 @@ playerFunctions.prototype = {
         }
 
         //Up
-        if (jumpButton.isDown && player.isDigging === false && playerFunctions.prototype.tileAbove() && keyDebouncing.spacePressed === false)
+        if (jumpButton.isDown && player.isDigging === false && player.isDiggingUp === false && playerFunctions.prototype.tileAbove() && keyDebouncing.spacePressed === false)
         {
-            if (player.layer == 2)
-            {
-                keyDebouncing.spacePressed = true;
-                player.y = player.y - 260;
-                
-                chapter1.prototype.killLevel();
-                player.dig = false;
-            }
+            keyDebouncing.spacePressed = true;
 
-            if (player.layer == 3)
-            {
-                keyDebouncing.spacePressed = true;
-                player.y = player.y - 128;
-            }
+            playerFunctions.prototype.digUp();
+        }
+
+        if (player.animations.currentFrame.index === 111)
+        {
+            player.isAnim = false;
         }
         
         //----------Dig End----------//
@@ -338,7 +377,7 @@ playerFunctions.prototype = {
         }
 
         //Tail Whip
-        if (attackButton.isDown && player.isDigging === false && player.dig === false && player.body.blocked.down && keyDebouncing.attackPressed === false)
+        if (attackButton.isDown && player.isDigging === false && player.isDiggingUp === false && player.dig === false && player.body.blocked.down && keyDebouncing.attackPressed === false)
         {
             keyDebouncing.attackPressed = true;
             player.tailWhip = true;
@@ -400,16 +439,27 @@ playerFunctions.prototype = {
         player.movingRight = true;
         player.dig = false;
         player.isDigging = false;
+        player.isDiggingUp = false;
         player.dobuleJump = false;
         player.tailWhip = false;
         player.killCheck = false;
         player.killAnim = false;
+        player.killUnderground = false;
+        player.isAnim = false;
         digDelay = null;
     },
 
     digDown : function(){
 
         mudTile = 49;
+        player.isDigging = true;
+        playerFunctions.prototype.digDelayFunc();
+        playerFunctions.prototype.onTile();
+    },
+
+    digUp : function(){
+
+        player.isDiggingUp = true;
         playerFunctions.prototype.digDelayFunc();
         playerFunctions.prototype.onTile();
     },
@@ -417,7 +467,6 @@ playerFunctions.prototype = {
     digDelayFunc : function(){
 
         digDelay = game.time.now;
-        player.isDigging = true;
     },
 
     onTile : function() {
