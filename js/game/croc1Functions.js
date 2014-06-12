@@ -109,7 +109,7 @@ croc1Functions.prototype = {
                 //Jump
                 if (croc1.getAt(i).isJumping === true)
                 {
-                    croc1.getAt(i).y -= 20;
+                    croc1.getAt(i).y -= 30;
                 }
 
                 //Jump Delay
@@ -119,7 +119,7 @@ croc1Functions.prototype = {
                 }
 
                 //Rest Jump
-                if (currentTime - croc1.getAt(i).jumpDelay > 150)
+                if (currentTime - croc1.getAt(i).jumpDelay > 550)
                 {
                     croc1.getAt(i).isJumping = false;
                     croc1.getAt(i).jump = false;

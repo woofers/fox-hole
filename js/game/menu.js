@@ -16,7 +16,6 @@ mainMenu.prototype = {
         mainMenu.prototype.loadingScreenDisplay();
 
         //Manages Save Data
-        mainMenu.prototype.checkSave();
         mainMenu.prototype.createSave();
         mainMenu.prototype.readSave();
 
@@ -95,7 +94,7 @@ mainMenu.prototype = {
         cursors = game.input.keyboard.createCursorKeys();
         select = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         backSelect = game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
-        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        pauseButton = game.input.keyboard.addKey(Phaser.Keyboard.ESC);pauseButton;
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
@@ -166,6 +165,7 @@ mainMenu.prototype = {
                         if (select.isDown && keyDebouncing.enterPressed === false)
                         {
                             keyDebouncing.enterPressed = true;
+
                             currentScreen = 2;
                             menuSelect = 1;
                             mainMenu.prototype.saveText();
@@ -179,6 +179,7 @@ mainMenu.prototype = {
                         if (select.isDown && keyDebouncing.enterPressed === false)
                         {
                             keyDebouncing.enterPressed = true;
+
                             currentScreen = 3;
                             menuSelect = 1;
                         }
@@ -205,6 +206,7 @@ mainMenu.prototype = {
                         if (select.isDown && keyDebouncing.enterPressed === false)
                         {
                             keyDebouncing.enterPressed = true;
+
                             mainMenu.prototype.exit();
                         }
                     }
@@ -228,6 +230,7 @@ mainMenu.prototype = {
                         if (select.isDown && keyDebouncing.enterPressed === false)
                         {
                             keyDebouncing.enterPressed = true;
+
                             aboutMenu.visible =! aboutMenu.visible;
                             currentScreen = 4;
                             menuSelect = 1;
@@ -239,6 +242,7 @@ mainMenu.prototype = {
                     {
                         keyDebouncing.backPressed = true;
                         keyDebouncing.escPressed = true;
+
                         currentScreen = 1;
                         menuSelect = 1;
                         mainMenu.prototype.mainText();
@@ -267,6 +271,7 @@ mainMenu.prototype = {
                                 if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                                 {
                                     keyDebouncing.leftPressed = true;
+
                                     win.leaveFullscreen();
                                     settings.fullscreenString = "Off";
                                 }
@@ -275,6 +280,7 @@ mainMenu.prototype = {
                                 if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                                 {
                                     keyDebouncing.rightPressed = true;
+
                                     win.leaveFullscreen();
                                     settings.fullscreenString = "Off";
                                 }
@@ -287,6 +293,7 @@ mainMenu.prototype = {
                                 if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                                 {
                                     keyDebouncing.leftPressed = true;
+
                                     win.enterFullscreen();
                                     settings.fullscreenString = "On";
                                 }
@@ -295,6 +302,7 @@ mainMenu.prototype = {
                                 if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                                 {
                                     keyDebouncing.rightPressed = true;
+
                                     win.enterFullscreen();
                                     settings.fullscreenString = "On";
                                 }
@@ -308,6 +316,7 @@ mainMenu.prototype = {
                             if (settings.sound > 0 && cursors.left.isDown && keyDebouncing.leftPressed === false)
                             {
                                 keyDebouncing.leftPressed = true;
+
                                 gobalFunctions.prototype.soundDown(); 
                             }
 
@@ -315,6 +324,7 @@ mainMenu.prototype = {
                             if (settings.sound < 10 && cursors.right.isDown && keyDebouncing.rightPressed === false)
                             {
                                 keyDebouncing.rightPressed = true;
+
                                 gobalFunctions.prototype.soundUp();
                             }
                         }
@@ -351,6 +361,7 @@ mainMenu.prototype = {
         if (cursors.up.isDown && keyDebouncing.upPressed === false)
         {
             keyDebouncing.upPressed = true;
+
             menuSelect = menuSelect - 1;
         }
 
@@ -358,6 +369,7 @@ mainMenu.prototype = {
         else if (cursors.down.isDown && keyDebouncing.downPressed === false)
         {
             keyDebouncing.downPressed = true;
+            
             menuSelect = menuSelect + 1;
         }
 

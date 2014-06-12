@@ -64,10 +64,6 @@ var titleStyle = {
 					fill: "#ffffff", 
 					align: "center" 
 				};
-//Music
-var music = {
-                    volume: 0
-            };
 
 //Node Webbkit Import
 var gui = require('nw.gui');
@@ -82,7 +78,7 @@ var camera;
 var cameraY;
 
 //Saving and Loading
-var loadedLoadingScreen = false;
+var loadedLoadingScreen;
 var saveLoaded;
 
 //Toggle Debug Screen
@@ -94,8 +90,10 @@ var jumpDelay;
 var currentTime;
 var delay;
 
-//Game Stuff
+//Tiles
 var mudTile;
+
+//Sound
 var soundDelay;
 var soundPlay;
 

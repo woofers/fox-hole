@@ -56,7 +56,7 @@ playerFunctions.prototype = {
     main : function(){
         
         //Moving
-        if (player.isDigging === false && player.isDiggingUp === false && player.killCheck === false && player.isAnim === false)
+        if (player.isDigging === false && playerFunctions.prototype.controlLock())
         {
             //Walk Left
             if (leftButton.isDown)
@@ -92,7 +92,7 @@ playerFunctions.prototype = {
                             }
 
                             //Jump Left Animation
-                            else if (player.tailWhip === false)
+                            else
                             {
                                 player.animations.play('jumping');
                             }
@@ -173,43 +173,24 @@ playerFunctions.prototype = {
                 if (player.dig === false)
                 {
                     player.animations.play('idle');
-
-                        //Idle Right Animation
-                        if (player.movingRight === true)
-                        {
-                            player.scale.x = 4;
-                        }
-                        else 
-                        {
-                            player.scale.x = -4;
-                        }
                 }
 
                 //Underground
                 if (player.dig === true)
                 {
                     player.animations.play('crawlIdle');
-
-                        //Idle Right Animation
-                        if (player.movingRight === true)
-                        {
-                            player.scale.x = 4;
-                        }
-                        else
-                        {
-                            player.scale.x = -4;  
-                        }
                 }
             }
         }
 
         //Jump
-        if (jumpButton.isDown && player.tailWhip === false)
+        if (jumpButton.isDown && player.dig === false && playerFunctions.prototype.controlLock())
         {
             //Single Jump
-            if (player.body.blocked.down && player.isDigging === false && player.isDiggingUp === false && player.dig === false && keyDebouncing.spacePressed === false)
+            if (player.body.blocked.down && keyDebouncing.spacePressed === false)
             {
                 keyDebouncing.spacePressed = true;
+
                 player.body.velocity.y = -450;
             }
 
@@ -217,14 +198,25 @@ playerFunctions.prototype = {
             if (player.dobuleJump === false && !player.body.blocked.down && keyDebouncing.spacePressed === false)
             {
                 keyDebouncing.spacePressed = true;
+
                 player.dobuleJump = true;
                 player.body.velocity.y = -450;
             }
         }
 
+        //Reset Double Jump Varible
+        if (player.body.blocked.down)
+        {
+            player.dobuleJump = false;
+        }
+        else
+        {
+            player.dig = false;
+        }
+
         //----------Dig Start----------//
 
-        //Delay Camera Move Until Animation is Done
+        //Go Below After Animation
         if (player.isDigging === true)
         {
             //Tunnel 1
@@ -249,19 +241,22 @@ playerFunctions.prototype = {
                 player.y = player.y + 128;
             }  
         }
+        
+        //Go Above After Animations
         else if (player.isDiggingUp === true)
         {
             //Tunnel 1
-            if (currentTime - digDelay > 600 && player.layer === 2)
+            if (currentTime - digDelay > 600 && player.layer == 2)
             {
-                player.isDiggingUp = false;
                 keyDebouncing.downPressed = true;
                 keyDebouncing.spacePressed = true;
+                player.isDiggingUp = false;
 
                 chapter1.prototype.killLevel();
 
                 player.y = player.y - 256;
                 player.dig = false;
+                
                 player.animations.play('digUpAbove');
                 player.isAnim = true;
             }
@@ -291,34 +286,14 @@ playerFunctions.prototype = {
             {
                 player.animations.play('digSmall');
             }
-
-            //Dig Right Animation
-            if (player.movingRight === true)
-            {
-                player.scale.x = 4;
-            }
-            else 
-            {
-                player.scale.x = -4;
-            }  
         }
         else if (player.isDiggingUp === true)
         {
             player.animations.play('digUp');
-
-            //Dig Right Animation
-            if (player.movingRight === true)
-            {
-                player.scale.x = 4;
-            }
-            else 
-            {
-                player.scale.x = -4;
-            }  
         }
 
         //Down
-        if (downButton.isDown && player.body.blocked.down && player.killAnim === false && !player.isDigging === true && player.layer < 3 && player.tailWhip === false && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
+        if (downButton.isDown && player.body.blocked.down && player.layer < 3 && playerFunctions.prototype.controlLock() && playerFunctions.prototype.tileBelow() && keyDebouncing.downPressed === false)
         {
             if (player.layer < 2 && playerFunctions.prototype.onTile())
             {
@@ -341,29 +316,20 @@ playerFunctions.prototype = {
         }
 
         //Up
-        if (jumpButton.isDown && player.isDigging === false && player.isDiggingUp === false && playerFunctions.prototype.tileAbove() && keyDebouncing.spacePressed === false)
+        if (jumpButton.isDown && playerFunctions.prototype.controlLock() && playerFunctions.prototype.tileAbove() && keyDebouncing.spacePressed === false && player.layer > 1)
         {
             keyDebouncing.spacePressed = true;
 
             playerFunctions.prototype.digUp();
         }
 
+        //Stop Dig Above Animation When Done
         if (player.animations.currentFrame.index === 111)
         {
             player.isAnim = false;
         }
         
         //----------Dig End----------//
-
-        //Reset Double Jump Varible
-        if (player.body.blocked.down)
-        {
-            player.dobuleJump = false;
-        }
-        else
-        {
-            player.dig = false;
-        }
 
         //Stop the anmation
         if (player.body.blocked.right && player.tailWhip === false || player.body.blocked.left && player.tailWhip === false)
@@ -377,9 +343,10 @@ playerFunctions.prototype = {
         }
 
         //Tail Whip
-        if (attackButton.isDown && player.isDigging === false && player.isDiggingUp === false && player.dig === false && player.body.blocked.down && keyDebouncing.attackPressed === false)
+        if (attackButton.isDown && player.dig === false && player.body.blocked.down && playerFunctions.prototype.controlLock() && keyDebouncing.attackPressed === false)
         {
             keyDebouncing.attackPressed = true;
+
             player.tailWhip = true;
             player.tailWhipJump = true;
                 
@@ -390,8 +357,9 @@ playerFunctions.prototype = {
         }
         if (player.tailWhip === true)
         {
-            player.animations.play('tailWhip');
             keyDebouncing.spacePressed = true;
+
+            player.animations.play('tailWhip');
 
                 if (player.movingRight === true)
                 {
@@ -402,18 +370,19 @@ playerFunctions.prototype = {
                     player.body.offset.x = -10;
                 }
                 
+                //Stop Tail Whip When Done
                 if (player.animations.currentFrame.index == 81)
                 {
                     player.tailWhip = false;
 
-                    if (player.movingRight === true)
-                    {
-                        player.body.offset.x = 30;
-                    }
-                    else
-                    {
-                        player.body.offset.x = 35;
-                    }
+                        if (player.movingRight === true)
+                        {
+                            player.body.offset.x = 30;
+                        }
+                        else
+                        {
+                            player.body.offset.x = 35;
+                        }
                 }
         }
 
@@ -469,25 +438,9 @@ playerFunctions.prototype = {
         digDelay = game.time.now;
     },
 
-    onTile : function() {
-        
-        if (player.movingRight === true)
-        {
-            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
-        }
-        else 
-        {
-            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
-        }
+    controlLock : function(){
 
-        if (player.onTile === null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return player.isDigging === false && player.isDiggingUp === false && player.killAnim === false && player.isAnim === false && player.killCheck === false;
     },
 
     objectsLayer : function(){
@@ -557,6 +510,27 @@ playerFunctions.prototype = {
         else
         {
             return false;
+        }
+    },
+
+    onTile : function() {
+        
+        if (player.movingRight === true)
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+        else 
+        {
+            player.onTile = topMap.getTileWorldXY(player.x - 100, player.y);
+        }
+
+        if (player.onTile === null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     },
 
