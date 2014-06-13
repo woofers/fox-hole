@@ -86,13 +86,13 @@ gobalFunctions.prototype = {
         
         //Camera
         sav.cameraY = 184 + player.y;
-        camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
+        camera = game.world.setBounds(0.5, 0, 15806, sav.cameraY);
 
         //Camera Max out
         if (sav.cameraY > 1536)
         {
             sav.cameraY = 1536;
-            camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
+            camera = game.world.setBounds(0.5, 0, 15806, sav.cameraY);
         }
     },
 

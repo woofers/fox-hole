@@ -20,20 +20,21 @@ croc1Functions.prototype = {
 
         //Set Properties
         croc1.setAll('anchor.x', 0.5);
-        croc1.setAll('scale.x', 2.5);
-        croc1.setAll('scale.y', 2.5);
+        croc1.setAll('scale.x', 4);
+        croc1.setAll('scale.y', 4);
         croc1.setAll('body.bounce', 0);
         croc1.setAll('body.gravity.y', 700);
         croc1.setAll('body.collideWorldBounds', true);
         croc1.setAll('smoothed', false);
 
         //Flip
-        croc1.getAt(2).scale.x = -2.5;
-        croc1.getAt(3).scale.x = -2.5;
+        croc1.getAt(2).scale.x = -4;
+        croc1.getAt(3).scale.x = -4;
 
         //Walk
-        croc1.callAll('animations.add', 'animations', 'walk', Phaser.Animation.generateFrameNames('croc1Idle', 0, 0, '', 4), 10, true);
-        croc1.callAll('animations.play', 'animations', 'walk');
+        croc1.callAll('animations.add', 'animations', 'walk', Phaser.Animation.generateFrameNames('croc1Walk', 0, 1, '', 4), 10, true);
+        croc1.callAll('animations.add', 'animations', 'idle', Phaser.Animation.generateFrameNames('croc1Idle', 0, 1, '', 4), 5, true);
+        croc1.callAll('animations.play', 'animations', 'idle');
     },
 
     jumpDelay : function(){
@@ -50,19 +51,22 @@ croc1Functions.prototype = {
             if (player.dig === false)
             {
                 //Facing Right -->
-                if (croc1.getAt(i).scale.x == 2.5)
+                if (croc1.getAt(i).scale.x == 4)
                 {
+                    croc1.getAt(i).body.width = 150;
+                    croc1.getAt(i).body.offset.x = -20;
+
                     //Follow Right
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x)
                     {
-                        croc1.getAt(i).scale.x = 2.5;
+                        croc1.getAt(i).scale.x = 4;
                         croc1.getAt(i).follow = true;
                     }
                     
                     //Flip to Left
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
-                        croc1.getAt(i).scale.x = -2.5;
+                        croc1.getAt(i).scale.x = -4;
                     }
 
                     //Stop Follow Right
@@ -74,19 +78,22 @@ croc1Functions.prototype = {
                 }
                 
                 //Facing Left <--
-                if (croc1.getAt(i).scale.x == -2.5)
+                if (croc1.getAt(i).scale.x == -4)
                 {
+                    croc1.getAt(i).body.width = 150;
+                    croc1.getAt(i).body.offset.x = 20;
+
                     //Follow Left
                     if (player.x + 500 > croc1.getAt(i).x && player.x < croc1.getAt(i).x)
                     {
-                        croc1.getAt(i).scale.x = -2.5;
+                        croc1.getAt(i).scale.x = -4;
                         croc1.getAt(i).follow = true;
                     }
                     
                     //Flip to Right
                     if (player.x - 500 < croc1.getAt(i).x && player.x > croc1.getAt(i).x && croc1.getAt(i).follow === true)
                     {
-                        croc1.getAt(i).scale.x = 2.5;
+                        croc1.getAt(i).scale.x = 4;
                     }
 
                     //Stop Follow Left
@@ -119,7 +126,7 @@ croc1Functions.prototype = {
                 }
 
                 //Rest Jump
-                if (currentTime - croc1.getAt(i).jumpDelay > 550)
+                if (currentTime - croc1.getAt(i).jumpDelay > 125)
                 {
                     croc1.getAt(i).isJumping = false;
                     croc1.getAt(i).jump = false;
@@ -129,6 +136,7 @@ croc1Functions.prototype = {
                 if (croc1.getAt(i).follow === true)
                 {
                     game.physics.arcade.moveToObject(croc1.getAt(i), player, 375, 0); 
+                    croc1.callAll('animations.play', 'animations', 'walk');
                 }
                 
                 //Set follow to false
@@ -143,6 +151,7 @@ croc1Functions.prototype = {
             {
                 croc1.getAt(i).follow = false;
                 game.physics.arcade.moveToObject(croc1.getAt(i), player, 0, 0);
+                croc1.callAll('animations.play', 'animations', 'idle');
             }
         }
     },
@@ -155,9 +164,8 @@ croc1Functions.prototype = {
         }
         else if (player.tailWhip === false && player.body.blocked.down && player.isDigging === false)
         {
+            croc1.animations.play('idle');
             player.killCheck = true;
-            player.isDigging = false;
-            digDelay = null;
         }
         else if (!player.body.blocked.down)
         {

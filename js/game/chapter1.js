@@ -9,7 +9,7 @@ chapter1.prototype = {
     preload : function(){
 
         //Set Varible Values
-        debugShow = true;
+        debugShow = false;
         currentScreen = 1;
         sav.cameraY = 1208;
         game.time.advancedTiming = true;
@@ -81,7 +81,7 @@ chapter1.prototype = {
         playerFunctions.prototype.varibleSet();
 
         //Set camera boundaries
-        camera = game.world.setBounds(0.5, 0, 45600, sav.cameraY);
+        camera = game.world.setBounds(0.5, 0, 16000, sav.cameraY);
 
         //Camera follow player
         cameraFollow = game.camera.follow(player);
@@ -173,8 +173,6 @@ chapter1.prototype = {
 
         //Tree
         game.physics.arcade.collide(treeGroup, layerTop);
-        //game.physics.arcade.overlap(player, treeGroup, croc1Functions.prototype.killCheck, null, this);
-
 
         //Reset Velocity
         player.body.velocity.x = 0;
@@ -215,7 +213,7 @@ chapter1.prototype = {
         if (debugShow === true)
         {
             game.debug.cameraInfo(game.camera, 32, 32);
-            game.debug.text('FPS: ' + game.time.fps, 200, 32);
+            //game.debug.text('FPS: ' + game.time.fps, 200, 32);
             game.debug.text('isDigging: ' + player.isDigging, 32, 128);
             game.debug.text('AnimationFrame: ' + player.animations.currentFrame.index, 32, 160);
             game.debug.text('Animation: ' + player.animations.currentAnim.name, 32, 192);
@@ -223,8 +221,8 @@ chapter1.prototype = {
             game.debug.text('Menu Selector: ' + menuSelect, 32, 258);
             game.debug.spriteInfo(player, 32, 322);
             game.debug.soundInfo(music, 32, 400);
-            //game.debug.body(player);
-            //game.debug.body(treeGroup.getAt(0));
+            game.debug.body(croc1.getAt(1));
+            game.debug.body(player);
         }
     },
 
