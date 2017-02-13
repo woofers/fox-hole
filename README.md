@@ -1,7 +1,7 @@
 Fox
 ============
 
-Fox Game in Javascript with built with the Phaser Game Framework
+Fox Game in Javascript built with the Phaser Game Framework
 
 Code: Jaxson C. Van Doorn
 
