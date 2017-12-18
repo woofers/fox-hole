@@ -1,0 +1,32 @@
+
+#+TITLE:	Fox
+#+AUTHOR:	Jaxson Van Doorn
+#+EMAIL:	jaxson.vandoorn@gmail.com
+#+OPTIONS:  num:nil
+
+* Fox
+*Run through fox holes sneaking past robot crocodiles*
+
+/Fox/ is a 2D game built in 2014 that is very unfinished.
+** Screenshots
+
+#+CAPTION: Screenshot 1
+#+NAME:    Screenshot 1
+#+ATTR_HTML: :style margin-left: auto; margin-right: auto;
+[[./screenshots/1.png]]
+
+#+CAPTION: Screenshot 2
+#+NAME:    Screenshot 2
+#+ATTR_HTML: :style margin-left: auto; margin-right: auto;
+[[./screenshots/2.png]]
+** Acknowledgments
+**** *Built using* [[https://phaser.io/][Phaser]]
+**** *Sound Design by* /Ben Austin/
+**** *Art by* /Avery Suzuki/
+**** *Designed and Programed by* /Jaxson Van Doorn/
+**** *Copyright 2014-2017*, /Jaxson Van Doorn and Avery Suzuki/
+** Other Projects
+**** [[https://github.com/woofers/java-projects/tree/master/Woofers3D][Woofers3D]]
+**** [[https://github.com/woofers/whale][Whale]]
+**** [[https://github.com/woofers/k9-krew][K9Krew]]
+**** [[https://github.com/woofers/dotfiles][Dotfiles]]
