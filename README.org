@@ -1,10 +1,10 @@
 
-#+TITLE:	Fox
+#+TITLE:	Fox Hole
 #+AUTHOR:	Jaxson Van Doorn
 #+EMAIL:	jaxson.vandoorn@gmail.com
 #+OPTIONS:  num:nil
 
-* Fox
+* Fox Hole
 *Run through fox holes sneaking past robot crocodiles*
 
 /Fox/ is a 2D game built in 2014 that is very unfinished.
@@ -21,7 +21,7 @@
 [[./screenshots/2.png]]
 ** Acknowledgments
 **** *Built using* [[https://phaser.io/][Phaser]]
-**** *Sound Design by* /Ben Austin/
+**** *Sound Design by* /Ben Austin/ (Some sounds found online.  See [[https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE][Liscense]])
 **** *Art by* /Avery Suzuki/
 **** *Designed and Programed by* /Jaxson Van Doorn/
 **** *Copyright 2014-2017*, /Jaxson Van Doorn and Avery Suzuki/

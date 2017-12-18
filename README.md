@@ -2,7 +2,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">Fox</a>
+<li><a href="#sec-1">Fox Hole</a>
 <ul>
 <li><a href="#sec-1-1">Screenshots</a></li>
 <li><a href="#sec-1-2">Acknowledgments</a></li>
@@ -14,7 +14,7 @@
 </div>
 
 
-# Fox<a id="sec-1" name="sec-1"></a>
+# Fox Hole<a id="sec-1" name="sec-1"></a>
 
 **Run through fox holes sneaking past robot crocodiles**
 
@@ -30,7 +30,7 @@
 
 -   **Built using** [Phaser](https://phaser.io/)
 
--   **Sound Design by** *Ben Austin*
+-   **Sound Design by** *Ben Austin* (Some sounds found online.  See [Liscense](https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE))
 
 -   **Art by** *Avery Suzuki*
 
