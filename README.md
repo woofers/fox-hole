@@ -40,7 +40,7 @@
 
 ## Other Projects<a id="sec-1-3" name="sec-1-3"></a>
 
--   [Woofers3D](https://github.com/woofers/java-projects/tree/master/Woofers3D)
+-   [Woofers3D](https://github.com/woofers/woofers3d)
 
 -   [Whale](https://github.com/woofers/whale)
 
