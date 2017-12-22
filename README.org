@@ -8,6 +8,8 @@
 *Run through fox holes sneaking past robot crocodiles*
 
 /Fox/ is a 2D proof of concept game built in 2014.  You play as a fox sneaking past enemy crocodiles using underground tunnels in order to save your brother.
+** Downloads
+Latest releases for Windows can be found [[https://github.com/woofers/fox-hole/releases][here]].
 ** Screenshots
 
 #+CAPTION: Screenshot 1
