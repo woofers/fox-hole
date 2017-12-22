@@ -18,7 +18,7 @@
 
 **Run through fox holes sneaking past robot crocodiles**
 
-*Fox* is a 2D game built in 2014 that is very unfinished.
+*Fox* is a 2D proof of concept game built in 2014.  You play as a fox sneaking past enemy crocodiles using underground tunnels in order to save your brother.
 
 ## Screenshots<a id="sec-1-1" name="sec-1-1"></a>
 
