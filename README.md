@@ -35,7 +35,7 @@ Latest releases for Windows can be found [here](https://github.com/woofers/fox-h
 
 -   **Built using** [Phaser](https://phaser.io/)
 
--   **Sound Design by** *Ben Austin* (Some sounds found online.  See [Liscense](https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE))
+-   **Sound Design by** *Ben Austin* (Some sounds found online.  See [License](https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE))
 
 -   **Art by** *Avery Suzuki*
 

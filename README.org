@@ -23,7 +23,7 @@ Latest releases for Windows can be found [[https://github.com/woofers/fox-hole/r
 [[./screenshots/2.png]]
 ** Acknowledgments
 **** *Built using* [[https://phaser.io/][Phaser]]
-**** *Sound Design by* /Ben Austin/ (Some sounds found online.  See [[https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE][Liscense]])
+**** *Sound Design by* /Ben Austin/ (Some sounds found online.  See [[https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE][License]])
 **** *Art by* /Avery Suzuki/
 **** *Designed and Programed by* /Jaxson Van Doorn/
 **** *Copyright 2014-2017*, /Jaxson Van Doorn and Avery Suzuki/
