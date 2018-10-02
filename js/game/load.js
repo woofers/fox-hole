@@ -5,9 +5,6 @@ var game = new Phaser.Game(1920, 1080, Phaser.AUTO, 'canvasdiv');
 
 window.onload = function() {
 
-	//Show Dev Tools
-	win.showDevTools();
-
 	//Max Scale
 	game.scale.maxWidth = 1920;
     game.scale.maxHeight = 1080;

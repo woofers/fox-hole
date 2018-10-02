@@ -4,6 +4,7 @@ var pauseMenu = {};
 
 pauseMenu = function(game){};
 
+let init = false
 pauseMenu.prototype = {
 
     loadPauseBg : function(){
@@ -23,6 +24,22 @@ pauseMenu.prototype = {
     },
 
 	pauseGame : function(){      
+
+        if (!init) {
+            let fullscreenPause = (key) => {
+                const isSelected = currentScreen === 2 && menuSelect === 2
+                if (!settings.fullscreen && isSelected && !keyDebouncing[`${key}Pressed`]) {
+                    gobalFunctions.prototype.gofull()
+                    keyDebouncing[`${key}Pressed`] = true;
+                    settings.fullscreenString = "On";
+                    settings.fullscreen = true
+                }
+            }
+            let leftFullPause = () => fullscreenPause('left')
+            let rightFullPause = () => fullscreenPause('right')
+            cursors.left.onDown.add(leftFullPause, this);
+            cursors.right.onDown.add(rightFullPause, this);
+        }
 
         //Menu
         if (game.paused === true && text.loaded === true)
@@ -118,14 +135,14 @@ pauseMenu.prototype = {
                 //Fullscreen
                 if (menuSelect == 2)
                 {
-                        //Exit
-                        if (win.isFullscreen === true)
+                    if (settings.fullscreen === true)
                         {
                             //Left
                             if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                             {
                                 keyDebouncing.leftPressed = true;
-                                win.isFullscreen = false;
+                            settings.fullscreen = false
+                            gobalFunctions.prototype.fullExit();
                                 settings.fullscreenString = "Off";
                             }
 
@@ -133,28 +150,9 @@ pauseMenu.prototype = {
                             if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                             {
                                 keyDebouncing.rightPressed = true;
-                                win.isFullscreen = false;
+                                settings.fullscreen = false
+                                gobalFunctions.prototype.fullExit();
                                 settings.fullscreenString = "Off";
-                            }
-                        }
-                        
-                        //Enter
-                        if (win.isFullscreen === false)
-                        {
-                            //Left
-                            if (cursors.left.isDown && keyDebouncing.leftPressed === false)
-                            {
-                                keyDebouncing.leftPressed = true;
-                                win.isFullscreen = true;
-                                settings.fullscreenString = "On";
-                            }
-
-                            //Right
-                            if (cursors.right.isDown && keyDebouncing.rightPressed === false)
-                            {
-                                keyDebouncing.rightPressed = true;
-                                win.isFullscreen = true;
-                                settings.fullscreenString = "On";
                             }
                         }
                 }
@@ -232,7 +230,7 @@ pauseMenu.prototype = {
         //Draw Selector 1
         text.selector1 = game.add.text(960, 525, "Resume");
         text.selector1.anchor.setTo(0.5);
-        text.selector1.font = 'Century Gothic Bold';
+        text.selector1.font = 'Arial Bold';
         text.selector1.fontSize = 80;
         text.selector1.fill = "#ffffff";
         text.selector1.fixedToCamera = true;
@@ -240,7 +238,7 @@ pauseMenu.prototype = {
         //Draw Selector 2
         text.selector2 = game.add.text(960, 690, "Settings");
         text.selector2.anchor.setTo(0.5);
-        text.selector2.font = 'Century Gothic';
+        text.selector2.font = 'Arial';
         text.selector2.fontSize = 60;
         text.selector2.fill = "#ffffff";
         text.selector2.fixedToCamera = true;
@@ -248,7 +246,7 @@ pauseMenu.prototype = {
         //Draw Selector 3
         text.selector3 = game.add.text(960, 840, "Save and Quit");
         text.selector3.anchor.setTo(0.5);
-        text.selector3.font = 'Century Gothic';
+        text.selector3.font = 'Arial';
         text.selector3.fontSize = 60;
         text.selector3.fill = "#ffffff";
         text.selector3.fixedToCamera = true;
