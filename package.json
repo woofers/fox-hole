@@ -19,6 +19,7 @@
   "dependencies": {
     "jquery": "^2.1.0",
     "phaser": "^2.1.0",
+    "prettier": "^1.14.3",
     "storejs": "^1.0.2"
   }
 }

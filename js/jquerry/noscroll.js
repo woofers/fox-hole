@@ -1,3 +1,3 @@
-window.onkeydown = function(e) { 
-  return !(e.keyCode == 32);
-};
+window.onkeydown = function(e) {
+  return !(e.keyCode == 32)
+}
