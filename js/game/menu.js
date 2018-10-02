@@ -98,6 +98,20 @@ mainMenu.prototype = {
 
         //Name
         console.log("Copyright 2014, Jaxson C. Van Doorn and Avery M. Suzuki");
+
+        let fullscreen = (key) => {
+            const isSelected = currentScreen === 3 && menuSelect === 2
+            if (!settings.fullscreen && isSelected && !keyDebouncing[`${key}Pressed`]) {
+                gobalFunctions.prototype.gofull()
+                 keyDebouncing[`${key}Pressed`] = true;
+                 settings.fullscreenString = "On";
+                 settings.fullscreen = true
+            }
+        }
+        let leftFull = () => fullscreen('left')
+        let rightFull = () => fullscreen('right')
+        cursors.left.onDown.add(leftFull, this);
+        cursors.right.onDown.add(rightFull, this);
     },
 
     createMenuText : function(){
@@ -121,7 +135,7 @@ mainMenu.prototype = {
         text.selector2.fill = "#ffffff";
 
         //Draw Selector 3
-        text.selector3 = game.add.text(960, 840, "Exit");
+        text.selector3 = game.add.text(960, 840, "");
         text.selector3.anchor.setTo(0.5);
         text.selector3.font = 'Century Gothic';
         text.selector3.fontSize = 60;
@@ -376,13 +390,14 @@ mainMenu.prototype = {
         gobalFunctions.prototype.menuKeyDebouncing();
 
         //Looping
-        if (menuSelect > 3)
+        const offset = () => currentScreen === 1 ? 1 : 0
+        if (menuSelect > 3 - offset())
         {
             menuSelect = 1;
         }
         if (menuSelect < 1)
         {
-            menuSelect = 3;
+                menuSelect = 3 - offset();
         }
     },
 
@@ -395,7 +410,7 @@ mainMenu.prototype = {
         text.title.setText("FOX");
         text.selector1.setText("Play");
         text.selector2.setText("Settings");
-        text.selector3.setText("Exit");
+        text.selector3.setText("");
     },
 
     saveText : function(){
