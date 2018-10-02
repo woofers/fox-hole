@@ -60,14 +60,10 @@ var keyDebouncing = {
                     };
 //Text Style
 var titleStyle = {
-					font: "250px Century Gothic Bold", 
-					fill: "#ffffff", 
-					align: "center" 
-				};
-
-//Node Webbkit Import
-var gui = require('nw.gui');
-var win = gui.Window.get();
+                    font: "250px Arial",
+                    fill: "#ffffff",
+                    align: "center"
+                };
 
 //Menu and UI
 var menuSelect = 1;

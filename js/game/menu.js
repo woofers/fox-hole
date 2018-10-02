@@ -123,21 +123,21 @@ mainMenu.prototype = {
         //Draw Selector 1
         text.selector1 = game.add.text(960, 525, "Play");
         text.selector1.anchor.setTo(0.5);
-        text.selector1.font = 'Century Gothic Bold';
+        text.selector1.font = 'Arial Bold';
         text.selector1.fontSize = 80;
         text.selector1.fill = "#ffffff";
         
         //Draw Selector 2
         text.selector2 = game.add.text(960, 690, "Settings");
         text.selector2.anchor.setTo(0.5);
-        text.selector2.font = 'Century Gothic';
+        text.selector2.font = 'Arial';
         text.selector2.fontSize = 60;
         text.selector2.fill = "#ffffff";
 
         //Draw Selector 3
         text.selector3 = game.add.text(960, 840, "");
         text.selector3.anchor.setTo(0.5);
-        text.selector3.font = 'Century Gothic';
+        text.selector3.font = 'Arial';
         text.selector3.fontSize = 60;
         text.selector3.fill = "#ffffff";
 
@@ -279,14 +279,14 @@ mainMenu.prototype = {
                         {
 
                             //Exit
-                            if (win.isFullscreen === true)
+                            if (settings.fullscreen === true)
                             {
                                 //Left
                                 if (cursors.left.isDown && keyDebouncing.leftPressed === false)
                                 {
                                     keyDebouncing.leftPressed = true;
-
-                                    win.leaveFullscreen();
+                                    settings.fullscreen = false
+                                    gobalFunctions.prototype.fullExit();
                                     settings.fullscreenString = "Off";
                                 }
 
@@ -294,31 +294,9 @@ mainMenu.prototype = {
                                 if (cursors.right.isDown && keyDebouncing.rightPressed === false)
                                 {
                                     keyDebouncing.rightPressed = true;
-
-                                    win.leaveFullscreen();
+                                        settings.fullscreen = false
+                                        gobalFunctions.prototype.fullExit();
                                     settings.fullscreenString = "Off";
-                                }
-                            }
-                            
-                            //Enter
-                            if (win.isFullscreen === false)
-                            {
-                                //Left
-                                if (cursors.left.isDown && keyDebouncing.leftPressed === false)
-                                {
-                                    keyDebouncing.leftPressed = true;
-
-                                    win.enterFullscreen();
-                                    settings.fullscreenString = "On";
-                                }
-
-                                //Right
-                                if (cursors.right.isDown && keyDebouncing.rightPressed === false)
-                                {
-                                    keyDebouncing.rightPressed = true;
-
-                                    win.enterFullscreen();
-                                    settings.fullscreenString = "On";
                                 }
                             }
                         }
