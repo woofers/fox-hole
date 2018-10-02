@@ -1,63 +1,52 @@
 <!DOCTYPE HTML>
 <html>
-        <head>
+  <head>
+    <!--Jaxson C. Van Doorn, 2014-->
 
-            <!--Jaxson C. Van Doorn, 2014-->
-
-            <!--Meta-->
-            <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-            <meta content="utf-8" http-equiv="encoding">
-
-
-            <script>
-            window.addEventListener("keydown", function(e) {
-                // space and arrow keys
-                if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                    e.preventDefault();
-                }
-            }, false);
-            </script>
-
-            <style>
-            * {
-                margin: 0;
-                padding: 0;
-                overflow:hidden;
-                cursor: none;
-                background-color: #123456;
-            }
-
-             canvas {
-                 padding-left: 0;
-                 padding-right: 0;
-                 margin-left: auto;
-                 margin-right: auto;
-                 display: block;
-             }
-
-
-            </style>
-
-            <!--Import Phaser and Store.js-->
-            <script type="text/javascript" src="node_modules/phaser/dist/phaser.min.js"></script>
-            <script type="text/javascript" src="node_modules/storejs/store.js"></script>
-
-        </head>
-
-    <body oncontextmenu ="return false;">
-
-                <!--Game Cavas-->
-                <div id = "canvasdiv">
-                    <script type="text/javascript" src="js/game/gobalVaribles.js"></script>
-                    <script type="text/javascript" src="js/game/playerFunctions.js"></script>
-                    <script type="text/javascript" src="js/game/gobalFunctions.js"></script>
-                    <script type="text/javascript" src="js/game/croc1Functions.js"></script>
-                    <script type="text/javascript" src="js/game/load.js"></script>
-                    <script type="text/javascript" src="js/game/menu.js"></script>
-                    <script type="text/javascript" src="js/game/checkpoint.js"></script>
-                    <script type="text/javascript" src="js/game/tree.js"></script>
-                    <script type="text/javascript" src="js/game/pause.js"></script>
-                    <script type="text/javascript" src="js/game/chapter1.js"></script>
-                </div>
-        </body>
+    <!--Meta-->
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <script>
+      window.addEventListener("keydown", function(e) {
+          // space and arrow keys
+          if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+              e.preventDefault();
+          }
+      }, false);
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        overflow:hidden;
+        cursor: none;
+        background-color: #123456;
+      }
+      canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+    </style>
+    <!--Import Phaser and Store.js-->
+    <script type="text/javascript" src="node_modules/phaser/dist/phaser.min.js"></script>
+    <script type="text/javascript" src="node_modules/storejs/store.js"></script>
+  </head>
+  <body oncontextmenu ="return false;">
+    <!--Game Cavas-->
+    <div id = "canvasdiv">
+      <script type="text/javascript" src="js/game/gobalVaribles.js"></script>
+      <script type="text/javascript" src="js/game/playerFunctions.js"></script>
+      <script type="text/javascript" src="js/game/gobalFunctions.js"></script>
+      <script type="text/javascript" src="js/game/croc1Functions.js"></script>
+      <script type="text/javascript" src="js/game/load.js"></script>
+      <script type="text/javascript" src="js/game/menu.js"></script>
+      <script type="text/javascript" src="js/game/checkpoint.js"></script>
+      <script type="text/javascript" src="js/game/tree.js"></script>
+      <script type="text/javascript" src="js/game/pause.js"></script>
+      <script type="text/javascript" src="js/game/chapter1.js"></script>
+    </div>
+  </body>
 </html>
