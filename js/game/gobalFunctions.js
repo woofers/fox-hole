@@ -82,6 +82,28 @@ gobalFunctions.prototype = {
         soundDelay = game.time.now;
     },
 
+    fullExit : function(){
+
+        if (document.exitFullscreen)
+            {
+                document.exitFullscreen();
+            }
+        else if (document.mozCancelFullScreen)
+            {
+                document.mozCancelFullScreen();
+            }
+        else if (document.webkitCancelFullScreen)
+            {
+                document.webkitCancelFullScreen();
+            }
+    },
+
+    gofull : function(){
+        //Scale Screen To Fullscreen
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.startFullScreen();
+    },
+
     camera : function(){
         
         //Camera
