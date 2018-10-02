@@ -8,6 +8,12 @@
 *Run through fox holes sneaking past robot crocodiles*
 
 /Fox/ is a 2D proof of concept game built in 2014.  You play as a fox sneaking past enemy crocodiles using underground tunnels in order to save your brother.
+
+*NOTE*: This repository is nearly 5 years old and is unmaintained.  Any updates are purely to facilitate packaging the game into a new site.
+** Building
+In order to build a single Javascript file with ~yarn build~ or ~npm build~ can be used.
+
+This will generate ~game.js~ using [[https://babeljs.io/][Babel]] and [[https://www.npmjs.com/package/uglify-js][uglify-js]].
 ** Downloads
 Latest releases for Windows can be found [[https://github.com/woofers/fox-hole/releases][here]].
 ** Screenshots
