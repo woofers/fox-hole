@@ -4,7 +4,13 @@
   "description": "<div id=\"table-of-contents\"> <h2>Table of Contents</h2> <div id=\"text-table-of-contents\"> <ul> <li><a href=\"#sec-1\">Fox Hole</a> <ul> <li><a href=\"#sec-1-1\">Downloads</a></li> <li><a href=\"#sec-1-2\">Screenshots</a></li> <li><a href=\"#sec-1-3\">Acknowledgments</a></li> <li><a href=\"#sec-1-4\">Other Projects</a></li> </ul> </li> </ul> </div> </div>",
   "main": "js/game/load.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf bin",
+    "pre-build": "mkdir -p bin/build",
+    "babel": "yarn pre-build && babel src --out-dir bin/build && uglifyjs-folder bin/build > bin/game.js",
+    "clean-babel": "rm -rf bin/build",
+    "build-assets": "cp index.html bin/ && echo $PWD && cp -r assets bin/assets",
+    "build-lib": "mkdir -p bin/lib && cp -t bin/lib node_modules/Phaser/build/phaser.min.js node_modules/storejs/dist/store.js",
+    "build": "yarn babel && yarn clean-babel && yarn build-assets && yarn build-lib"
   },
   "repository": {
     "type": "git",
@@ -17,6 +23,7 @@
   },
   "homepage": "https://github.com/woofers/fox-hole#readme",
   "dependencies": {
+    "Phaser": "https://github.com/photonstorm/phaser/#2.0.5",
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "phaser": "^2.1.0",
@@ -24,9 +31,5 @@
     "storejs": "^1.0.2",
     "uglify-js": "^3.4.9",
     "uglifyjs-folder": "^1.5.1"
-  },
-  "scripts": {
-      "clean": "rm -rf build && rm game.js",
-      "build": "babel src --out-dir build && uglifyjs-folder build > game.js"
   }
 }

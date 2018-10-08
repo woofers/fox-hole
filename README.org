@@ -11,9 +11,11 @@
 
 *NOTE*: This repository is nearly 5 years old and is unmaintained.  Any updates are purely to facilitate packaging the game into a new site.
 ** Building
-In order to build a single Javascript file with ~yarn build~ or ~npm build~ can be used.
+First pull all libraries using ~yarn install~
 
-This will generate ~game.js~ using [[https://babeljs.io/][Babel]] and [[https://www.npmjs.com/package/uglify-js][uglify-js]].
+In order to build a single Javascript file with ~yarn build~ can be used.
+
+This will generate ~bin/game.js~ using [[https://babeljs.io/][Babel]] and [[https://www.npmjs.com/package/uglify-js][uglify-js]].
 ** Downloads
 Latest releases for Windows can be found [[https://github.com/woofers/fox-hole/releases][here]].
 ** Screenshots
