@@ -18,6 +18,13 @@ window.onload = function() {
 
   //Load Menu State
   game.state.start('Menu')
+
+  let resize = (e) => {
+    window.dispatchEvent(new Event('resize'))
+  }
+  document.addEventListener("fullscreenchange", resize, false)
+  document.addEventListener("webkitfullscreenchange", resize, false)
+  document.addEventListener("mozfullscreenchange", resize, false)
 }
 
 //Jaxson C. Van Doorn, 2014
