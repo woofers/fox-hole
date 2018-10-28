@@ -25,14 +25,12 @@ pauseMenu.prototype = {
       let fullscreenPause = key => {
         const isSelected = currentScreen === 2 && menuSelect === 2
         if (
-          !settings.fullscreen &&
+          isFullscreen === 'Off' &&
           isSelected &&
           !keyDebouncing[`${key}Pressed`]
         ) {
           gobalFunctions.prototype.gofull()
           keyDebouncing[`${key}Pressed`] = true
-          settings.fullscreenString = 'On'
-          settings.fullscreen = true
         }
       }
       let leftFullPause = () => fullscreenPause('left')
@@ -113,6 +111,7 @@ pauseMenu.prototype = {
       }
 
       //Settings
+      settings.fullscreenString = isFullscreen
       if (currentScreen == 2) {
         gobalFunctions.prototype.settingsText()
 
@@ -122,21 +121,17 @@ pauseMenu.prototype = {
 
         //Fullscreen
         if (menuSelect == 2) {
-          if (settings.fullscreen === true) {
+          if (isFullscreen === 'On') {
             //Left
             if (cursors.left.isDown && keyDebouncing.leftPressed === false) {
               keyDebouncing.leftPressed = true
-              settings.fullscreen = false
               gobalFunctions.prototype.fullExit()
-              settings.fullscreenString = 'Off'
             }
 
             //Right
             if (cursors.right.isDown && keyDebouncing.rightPressed === false) {
               keyDebouncing.rightPressed = true
-              settings.fullscreen = false
               gobalFunctions.prototype.fullExit()
-              settings.fullscreenString = 'Off'
             }
           }
         }

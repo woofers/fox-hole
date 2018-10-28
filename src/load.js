@@ -2,6 +2,7 @@
 
 //Set up Canvas
 var game = new Phaser.Game(1920, 1080, Phaser.AUTO, 'canvasdiv')
+var isFullscreen = 'Off'
 
 window.onload = function() {
   //Max Scale
@@ -21,6 +22,7 @@ window.onload = function() {
 
   let resize = (e) => {
     window.dispatchEvent(new Event('resize'))
+    isFullscreen = isFullscreen === 'Off' ? 'On' : 'Off'
   }
   document.addEventListener("fullscreenchange", resize, false)
   document.addEventListener("webkitfullscreenchange", resize, false)
