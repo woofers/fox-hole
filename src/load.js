@@ -3,8 +3,20 @@
 //Set up Canvas
 var game = new Phaser.Game(1920, 1080, Phaser.AUTO, 'canvasdiv')
 var isFullscreen = 'Off'
+var googleFonts = false
+
+WebFontConfig = {
+  active: () => {
+    game.time.events.add(Phaser.Timer.SECOND, game.state.states.Menu.createMenuText, this);
+    googleFonts = true
+  },
+  google: {
+    families: ['Didact+Gothic', 'Roboto:500']
+  }
+};
 
 window.onload = function() {
+
   //Max Scale
   game.scale.maxWidth = 1920
   game.scale.maxHeight = 1080

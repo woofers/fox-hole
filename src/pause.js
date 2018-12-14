@@ -86,6 +86,7 @@ pauseMenu.prototype = {
             keyDebouncing.enterPressed = true
 
             //Call Function To Exit
+            pauseMenu.prototype.textKill()
             chapter1.prototype.exit()
           }
         }
@@ -208,26 +209,22 @@ pauseMenu.prototype = {
     //Draw Selector 1
     text.selector1 = game.add.text(960, 525, 'Resume')
     text.selector1.anchor.setTo(0.5)
-    text.selector1.font = 'Arial Bold'
-    text.selector1.fontSize = 80
     text.selector1.fill = '#ffffff'
     text.selector1.fixedToCamera = true
 
     //Draw Selector 2
     text.selector2 = game.add.text(960, 690, 'Settings')
     text.selector2.anchor.setTo(0.5)
-    text.selector2.font = 'Arial'
-    text.selector2.fontSize = 60
     text.selector2.fill = '#ffffff'
     text.selector2.fixedToCamera = true
 
     //Draw Selector 3
     text.selector3 = game.add.text(960, 840, 'Save and Quit')
     text.selector3.anchor.setTo(0.5)
-    text.selector3.font = 'Arial'
-    text.selector3.fontSize = 60
     text.selector3.fill = '#ffffff'
     text.selector3.fixedToCamera = true
+
+    gobalFunctions.prototype.highlight1()
 
     text.loaded = true
   },

@@ -6,6 +6,9 @@ mainMenu = function(game) {}
 
 mainMenu.prototype = {
   preload: function() {
+
+    game.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+
     //Reset Varibles
     menuSelect = 1
     currentScreen = 1
@@ -26,6 +29,8 @@ mainMenu.prototype = {
 
     //Tell Game that the loading image has loaded
     loadedLoadingScreen = true
+
+    text.loaded = false
   },
 
   loadingScreenDisplay: function() {
@@ -72,10 +77,7 @@ mainMenu.prototype = {
     menu = game.add.sprite(0, 0, 'menuBg')
 
     //Draw Text
-    mainMenu.prototype.createMenuText()
-
-    //Load About Screen
-    mainMenu.prototype.toggleAbout()
+    if (googleFonts) mainMenu.prototype.createMenuText()
 
     //Controls
     cursors = game.input.keyboard.createCursorKeys()
@@ -105,32 +107,23 @@ mainMenu.prototype = {
   },
 
   createMenuText: function() {
-    //Draw Title
+    if (text.loaded) return;
     text.title = game.add.text(960, 240, 'FOX', titleStyle)
     text.title.anchor.setTo(0.5)
-
-    //Draw Selector 1
     text.selector1 = game.add.text(960, 525, 'Play')
     text.selector1.anchor.setTo(0.5)
-    text.selector1.font = 'Arial Bold'
-    text.selector1.fontSize = 80
     text.selector1.fill = '#ffffff'
-
-    //Draw Selector 2
     text.selector2 = game.add.text(960, 690, 'Settings')
     text.selector2.anchor.setTo(0.5)
-    text.selector2.font = 'Arial'
-    text.selector2.fontSize = 60
     text.selector2.fill = '#ffffff'
-
-    //Draw Selector 3
     text.selector3 = game.add.text(960, 840, '')
     text.selector3.anchor.setTo(0.5)
-    text.selector3.font = 'Arial'
-    text.selector3.fontSize = 60
     text.selector3.fill = '#ffffff'
-
+    gobalFunctions.prototype.highlight1()
     text.loaded = true
+
+    //Load About Screen
+    mainMenu.prototype.toggleAbout()
   },
 
   toggleAbout: function() {

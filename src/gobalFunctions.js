@@ -4,31 +4,44 @@ var gobalFunctions = {}
 
 gobalFunctions = function(game) {}
 
+const FONT = 'Didact Gothic'
+const BOLD_FONT = 'Didact Gothic'
+const TITLE_FONT = 'Roboto'
+
+const initFont = () => {
+  text.title.font = TITLE_FONT
+  text.title.fontSize = 250
+}
+
 gobalFunctions.prototype = {
+
   highlight1: function() {
-    text.selector1.font = 'Century Gothic Bold'
+    initFont()
+    text.selector1.font = BOLD_FONT
     text.selector1.fontSize = 80
-    text.selector2.font = 'Century Gothic'
+    text.selector2.font = FONT
     text.selector2.fontSize = 60
-    text.selector3.font = 'Century Gothic'
+    text.selector3.font = FONT
     text.selector3.fontSize = 60
   },
 
   highlight2: function() {
-    text.selector1.font = 'Century Gothic'
+    initFont()
+    text.selector1.font = FONT
     text.selector1.fontSize = 60
-    text.selector2.font = 'Century Gothic Bold'
+    text.selector2.font = BOLD_FONT
     text.selector2.fontSize = 80
-    text.selector3.font = 'Century Gothic'
+    text.selector3.font = FONT
     text.selector3.fontSize = 60
   },
 
   highlight3: function() {
-    text.selector1.font = 'Century Gothic'
+    initFont()
+    text.selector1.font = FONT
     text.selector1.fontSize = 60
-    text.selector2.font = 'Century Gothic'
+    text.selector2.font = FONT
     text.selector2.fontSize = 60
-    text.selector3.font = 'Century Gothic Bold'
+    text.selector3.font = BOLD_FONT
     text.selector3.fontSize = 80
   },
 

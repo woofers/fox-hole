@@ -367,7 +367,6 @@ chapter1.prototype = {
     chapter1.prototype.save()
 
     //Cleanup
-    pauseMenu.prototype.textKill()
     bg.kill()
     pauseMenuBg.kill()
     player.kill()
