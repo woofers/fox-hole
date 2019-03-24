@@ -22,6 +22,12 @@
     "type": "git",
     "url": "git+https://github.com/woofers/fox-hole.git"
   },
+  "keywords": [
+    "fox-hole",
+    "javascript",
+    "node-webkit",
+    "phaser"
+  ],
   "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
   "license": "UNLICENSED",
   "bugs": {
