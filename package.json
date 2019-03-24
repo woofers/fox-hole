@@ -5,11 +5,11 @@
   "main": "js/game/load.js",
   "scripts": {
     "clean": "rm -rf bin",
-    "pre-build": "mkdir -p bin/build",
-    "babel": "yarn pre-build && babel src --out-dir bin/build && uglifyjs-folder bin/build > bin/game.js",
-    "clean-babel": "rm -rf bin/build",
-    "build-assets": "cp index.html bin/ && echo $PWD && cp -r assets bin/assets",
-    "build-lib": "mkdir -p bin/lib && cp -t bin/lib node_modules/Phaser/build/phaser.min.js node_modules/storejs/dist/store.js",
+    "pre-build": "mkdir -p dist/build",
+    "babel": "yarn pre-build && babel src --out-dir dist/build && uglifyjs-folder dist/build > dist/game.js",
+    "clean-babel": "rm -rf dist/build",
+    "build-assets": "cp index.html dist/ && cp -r assets dist/assets",
+    "build-lib": "mkdir -p dist/lib && cp -t dist/lib node_modules/Phaser/build/phaser.min.js node_modules/storejs/dist/store.js",
     "build": "yarn babel && yarn clean-babel && yarn build-assets && yarn build-lib"
   },
   "repository": {
