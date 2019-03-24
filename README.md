@@ -28,7 +28,7 @@ First pull all libraries using `yarn install`
 
 In order to build a single Javascript file with `yarn build` can be used.
 
-This will generate `bin/game.js` using [Babel](https://babeljs.io/) and [uglify-js](https://www.npmjs.com/package/uglify-js).
+This will generate `dist/game.js` using [Babel](https://babeljs.io/) and [uglify-js](https://www.npmjs.com/package/uglify-js).
 
 
 <a id="orgb78ef48"></a>
