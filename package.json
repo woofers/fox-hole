@@ -22,8 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/woofers/fox-hole.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jaxson Van Doorn <jaxson.vandoorn@gmail.com>",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/woofers/fox-hole/issues"
   },
