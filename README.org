@@ -2,14 +2,20 @@
 #+TITLE:	Fox Hole
 #+AUTHOR:	Jaxson Van Doorn
 #+EMAIL:	jaxson.vandoorn@gmail.com
-#+OPTIONS:  num:nil
+#+OPTIONS:  num:nil toc:nil
 
 * Fox Hole
 *Run through fox holes sneaking past robot crocodiles*
 
 /Fox/ is a 2D proof of concept game built in 2014.  You play as a fox sneaking past enemy crocodiles using underground tunnels in order to save your brother.
 
+Built using [[https://phaser.io/][Phaser]].
+
+Art by [[https://www.instagram.com/suzukiavery/][Avery Suzuki]] and Sound Design by [[https://github.com/austinben][Ben Austin]] (See [[https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE][License]]).
+
 *NOTE*: This repository is nearly 5 years old and is unmaintained.  Any updates are purely to facilitate packaging the game into a new site.
+
+
 ** Building
 First pull all libraries using ~yarn install~
 
@@ -29,9 +35,3 @@ Latest releases for Windows can be found [[https://github.com/woofers/fox-hole/r
 #+NAME:    Screenshot 2
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
 [[./screenshots/2.png]]
-** Acknowledgments
-**** *Built using* [[https://phaser.io/][Phaser]]
-**** *Sound Design by* /Ben Austin/ (Some sounds found online.  See [[https://github.com/woofers/fox-hole/blob/master/assets/sfx/LICENSE][License]])
-**** *Art by* /Avery Suzuki/
-**** *Designed and Programed by* /Jaxson Van Doorn/
-**** *Copyright 2014-2017*, /Jaxson Van Doorn and Avery Suzuki/
