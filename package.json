@@ -1,6 +1,6 @@
 {
   "name": "fox-hole",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Run through fox holes sneaking past robot crocodiles",
   "main": "dist/game.js",
   "files": [
