@@ -39,9 +39,7 @@
     "babel-preset-es2015": "^6.24.1",
     "prettier": "^1.14.3",
     "uglify-js": "^3.4.9",
-    "uglifyjs-folder": "^1.5.1"
-  },
-  "dependencies": {
+    "uglifyjs-folder": "^1.5.1",
     "Phaser": "https://github.com/photonstorm/phaser/#2.0.5",
     "storejs": "^1.0.2"
   }
